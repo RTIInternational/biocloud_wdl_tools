@@ -9,9 +9,11 @@ task Hisat2_PE {
 
   # runtime values
   String docker = "quay.io/humancellatlas/secondary-analysis-hisat2:v0.2.2-2-2.1.0"
-  Int mem_gb = 32
-  Int cpu = 16
-  Int max_retries = 3
+  Int mem_gb = 64
+  Int cpu = 32
+  Int max_retries = 5
+  Int hisat_cpu = ceil(cpu/2)
+  Int samtools_cpu = ceil(cpu/2)
 
   meta {
     description: "HISAT2 alignment task will align paired-end fastq reads to reference genome."
@@ -71,9 +73,8 @@ task Hisat2_PE {
       --seed 12345 \
       -k 10 \
       --secondary \
-      -p ${cpu} -S >(samtools view -1 -h -o ${output_basename}_unsorted.bam)
-    samtools sort -@ ${cpu} -O bam -o "${output_basename}.bam" "${output_basename}_unsorted.bam"
-    samtools index "${output_basename}.bam"
+      -p ${hisat_cpu} | samtools sort -@ ${samtools_cpu} - > ${output_basename}.bam
+    samtools index ${output_basename}.bam
   }
 
   runtime {
@@ -100,9 +101,11 @@ task Hisat2_SE {
 
   # runtime values
   String docker = "quay.io/humancellatlas/secondary-analysis-hisat2:v0.2.2-2-2.1.0"
-  Int mem_gb = 32
-  Int cpu = 16
+  Int mem_gb = 64
+  Int cpu = 32
   Int max_retries = 3
+  Int hisat_cpu = ceil(cpu/2)
+  Int samtools_cpu = ceil(cpu/2)
 
   meta {
     description: "This HISAT2 alignment task will align single-end fastq reads to reference genome."
@@ -136,9 +139,8 @@ task Hisat2_SE {
       --seed 12345 \
       -k 10 \
       --secondary \
-      -p ${cpu} -S >(samtools view -1 -h -o ${output_basename}_unsorted.bam)
-    samtools sort -@ ${cpu} -O bam -o "${output_basename}.bam" "${output_basename}_unsorted.bam"
-    samtools index "${output_basename}.bam"
+      -p ${hisat_cpu} | samtools sort -@ ${samtools_cpu} - > ${output_basename}.bam
+    samtools index ${output_basename}.bam
   }
 
   runtime {
@@ -154,48 +156,5 @@ task Hisat2_SE {
     File met_file ="${output_basename}.hisat2.met.txt"
     File output_bam = "${output_basename}.bam"
     File bam_index = "${output_basename}.bam.bai"
-  }
-}
-
-task Hisat2_inspect_index{
-  File hisat2_ref
-  String ref_name
-
-  # runtime values
-  String docker =  "quay.io/humancellatlas/secondary-analysis-hisat2:v0.2.2-2-2.1.0"
-  Int mem_gb = 4
-  Int cpu = 1
-  Int max_retries = 3
-
-  meta {
-    description: "This task will test reference indexing files built for HISAT2 aligner."
-  }
-
-  parameter_meta {
-    hisat2_ref: "HISAT2 reference"
-    ref_name: "the basename of the index for the reference genome"
-    docker: "(optional) the docker image containing the runtime environment for this task"
-    mem_gb: "(optional) the amount of memory (MiB) to provision for this task"
-    cpu: "(optional) the number of cpus to provision for this task"
-    disk: "(optional) the amount of disk space (GiB) to provision for this task"
-    preemptible: "(optional) if non-zero, request a pre-emptible instance and allow for this number of preemptions before running the task on a non preemptible machine"
-  }
-
-  command {
-    set -e
-    tar --no-same-owner -xvf "${hisat2_ref}"
-    hisat2-inspect --ss --snp \
-       -s ${ref_name}/${ref_name} > hisat2_inspect.log
-  }
-
-  runtime {
-    docker: docker
-    memory: "${mem_gb} GiB"
-    cpu: cpu
-    maxRetries: max_retries
-  }
-
-  output {
-    File log_file ="hisat2_inspect.log"
   }
 }
