@@ -1,4 +1,4 @@
-import "rnaseq-pipeline/tools/fastqc.wdl" as FASTQC
+import "biocloud_wdl_tools/fastqc/fastqc.wdl" as FASTQC
 
 workflow test_fastqc{
     File fastq
