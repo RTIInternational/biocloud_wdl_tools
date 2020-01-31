@@ -9,7 +9,7 @@ task tsv_append{
 
 
     # Runtime environment
-    String docker = "rticode/tsv-utils:v1.4.4_9d57da3"
+    String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -49,7 +49,7 @@ task tsv_filter{
     String filter_string
 
     # Runtime environment
-    String docker = "rticode/tsv-utils:v1.4.4_9d57da3"
+    String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -97,7 +97,7 @@ task tsv_select{
 
 
     # Runtime environment
-    String docker = "rticode/tsv-utils:v1.4.4_9d57da3"
+    String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -149,7 +149,7 @@ task tsv_join{
     String output_filename
 
     # Runtime environment
-    String docker = "rticode/tsv-utils:v1.4.4_9d57da3"
+    String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
     Int cpu = 4
     Int mem_gb = ceil(size(tsv_filter_file, "GiB") * 2) + 4
     Int max_retries = 3
