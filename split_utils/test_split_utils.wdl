@@ -40,19 +40,25 @@ workflow test_split_utils{
     File vcf_gz
     File vcf_info_gz
     Int records_per_split = 10000
+    Int cpu = 4
+    Int mem_gb = 8
 
     call SPLIT.split_vcf as split_vcf{
         input:
             input_vcf = vcf,
             records_per_split = records_per_split,
-            output_basename = "test_split_vcf"
+            output_basename = "test_split_vcf",
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
     call SPLIT.split_vcf_info as split_info{
         input:
             input_vcf_info = vcf_info,
             records_per_split = records_per_split,
-            output_basename = "test_split_vcf"
+            output_basename = "test_split_vcf",
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
 
@@ -60,14 +66,18 @@ workflow test_split_utils{
         input:
             input_vcf = vcf_gz,
             records_per_split = records_per_split,
-            output_basename = "test_split_vcf"
+            output_basename = "test_split_vcf",
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
     call SPLIT.split_vcf_info as split_info_gz{
         input:
             input_vcf_info = vcf_info_gz,
             records_per_split = records_per_split,
-            output_basename = "test_split_vcf"
+            output_basename = "test_split_vcf",
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
     call SPLIT.split_vcf as split_vcf_nogzout{
@@ -75,7 +85,9 @@ workflow test_split_utils{
             input_vcf = vcf,
             records_per_split = records_per_split,
             output_basename = "test_split_vcf",
-            compress_outputs = false
+            compress_outputs = false,
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
     call SPLIT.split_vcf_info as split_info_nogzout{
@@ -83,7 +95,9 @@ workflow test_split_utils{
             input_vcf_info = vcf_info,
             records_per_split = records_per_split,
             output_basename = "test_split_vcf",
-            compress_outputs = false
+            compress_outputs = false,
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
     call SPLIT.split_vcf as split_vcf_gz_nogzout{
@@ -91,7 +105,9 @@ workflow test_split_utils{
             input_vcf = vcf_gz,
             records_per_split = records_per_split,
             output_basename = "test_split_vcf",
-            compress_outputs = false
+            compress_outputs = false,
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
     call SPLIT.split_vcf_info as split_info_gz_nogzout{
@@ -99,7 +115,9 @@ workflow test_split_utils{
             input_vcf_info = vcf_info_gz,
             records_per_split = records_per_split,
             output_basename = "test_split_vcf",
-            compress_outputs = false
+            compress_outputs = false,
+            cpu = cpu,
+            mem_gb = mem_gb
     }
 
     call array_wc as split_vcf_wc{
