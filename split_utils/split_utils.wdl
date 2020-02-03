@@ -17,10 +17,10 @@ task split_vcf{
         then
             # CASE: File is gzipped and needs to be decompressed on the fly (pigz for multithreaded)
             # Grab the header
-            pigz -p ${unzip_cpu} -d -k -c | -head -n 10000 | grep "^#" > header.txt
+            pigz -p ${unzip_cpu} -d -k -c ${input_vcf} | -head -n 10000 | grep "^#" > header.txt
 
             # Split records
-            pigz -p ${unzip_cpu} -d -k -c | grep -v "^#" | split -l ${records_per_split} - ${output_basename}.split.
+            pigz -p ${unzip_cpu} -d -k -c ${input_vcf} | grep -v "^#" | split -l ${records_per_split} - ${output_basename}.split.
 
         else
             # CASE: File is not gzipped and just do it normally
@@ -75,10 +75,10 @@ task split_vcf_info{
         then
             # CASE: File is gzipped and needs to be decompressed on the fly (pigz for multithreaded)
             # Grab the header
-            pigz -p ${unzip_cpu} -d -k -c | -head -n 1 > header.txt
+            pigz -p ${unzip_cpu} -d -k -c ${input_vcf_info} | -head -n 1 > header.txt
 
             # Split records
-            pigz -p ${unzip_cpu} -d -k -c | tail -n +2 | split -l ${records_per_split} - ${output_basename}.split.
+            pigz -p ${unzip_cpu} -d -k -c ${input_vcf_info} | tail -n +2 | split -l ${records_per_split} - ${output_basename}.split.
 
         else
             # CASE: File is not gzipped and just do it normally
