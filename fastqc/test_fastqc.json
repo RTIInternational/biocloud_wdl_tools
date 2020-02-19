@@ -1,3 +1,0 @@
-{
- "test_fastqc.fastq": "s3://rti-biocloud-test-data/test.R1.fq"
-}
