@@ -7,7 +7,7 @@ task make_gwas_summary_stats {
     String file_out_prefix
 
     # Runtime options
-    String docker = "rticode/"
+    String docker = "rtibiocloud/make_gwas_summary_stats:6ff1a37"
     Int cpu = 2
     Int mem_gb = 8
     Int max_retries = 3
