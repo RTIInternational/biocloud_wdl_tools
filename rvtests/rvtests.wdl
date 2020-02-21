@@ -109,7 +109,8 @@ task rvtests {
             ${"--numThread " + cpu }
     }
     output {
-        Array[File] outputs = glob( "${output_basename}*" )
+        Array[File] assoc_outputs = glob( "${output_basename}*.assoc" )
+        File log_file = "${output_basename}.log"
     }
 
     runtime {
