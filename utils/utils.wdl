@@ -84,3 +84,59 @@ task collect_files{
         File output_dir = "${output_dir_name}.tar.gz"
     }
 }
+
+task slice{
+    # Get 0-based slice of an array
+    # end_index is exclusive so it works more or less like python
+    Array[String] inputs
+    Int start_pos
+    Int end_pos
+    Int slice_size = end_pos - start_pos
+
+    # Make start pos 1-based because of how tail -N + works
+    Int actual_start_pos = start_pos + 1
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        tail -n +${actual_start_pos} ${write_lines(inputs)} | head -${slice_size}
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        Array[String] outputs = read_lines(stdout())
+    }
+}
+
+task flatten_string_array {
+
+    Array[Array[String]] array
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+    for line in $(echo ${sep=', ' array}) ; \
+    do echo $line | tr -d '"[],' ; done
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        Array[String]  flat_array = read_lines(stdout())
+    }
+}
