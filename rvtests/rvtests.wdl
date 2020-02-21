@@ -58,8 +58,8 @@ task rvtests {
 
     # Runtime attributes
     String docker = "rtibiocloud/rvtests:v2.1.0-8d966cb"
-    Int cpu = 4
-    Int mem_gb = 8
+    Int cpu = 1
+    Int mem_gb = 6
     Int max_retries = 3
 
     command {
