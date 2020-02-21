@@ -1,26 +1,31 @@
 task tsv_append{
     # TSV utility for concatenating multiple TSVs into one TSV while taking header into account
-    Array[File] tsv_inputs
+    File tsv_inputs_tarball
     String output_filename
     Boolean header = true
     Boolean track_source = false
     String? source_header
     String? delimiter
+    String tsv_dir = basename(tsv_inputs_tarball, ".tar.gz")
 
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
-    Int cpu = 4
-    Int mem_gb = 8
+    Int cpu = 2
+    Int mem_gb = 4
     Int max_retries = 3
 
     command <<<
+        # Unzip/decompress files to working directory
+        tar -xvzf ${tsv_inputs_tarball} -C ./
+
+        # Concat all files together
         tsv-append \
             ${"--source-header " + source_header} \
 		    ${true="--header" false="" header} \
 		    ${true="--track-source" false="" track_source} \
 		    ${"--delimiter '" + delimiter + "'"} \
-            ${sep=' ' tsv_inputs} > ${output_filename}
+            ${tsv_dir}/* > ${output_filename}
     >>>
 
     runtime {
@@ -50,8 +55,8 @@ task tsv_filter{
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
-    Int cpu = 4
-    Int mem_gb = 8
+    Int cpu = 2
+    Int mem_gb = 4
     Int max_retries = 3
 
     command <<<
@@ -98,8 +103,8 @@ task tsv_select{
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
-    Int cpu = 4
-    Int mem_gb = 8
+    Int cpu = 2
+    Int mem_gb = 4
     Int max_retries = 3
 
     command <<<
@@ -150,8 +155,8 @@ task tsv_join{
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
-    Int cpu = 4
-    Int mem_gb = ceil(size(tsv_filter_file, "GiB") * 2) + 4
+    Int cpu = 2
+    Int mem_gb = ceil(size(tsv_filter_file, "GiB") * 2) + 2
     Int max_retries = 3
 
     command <<<
