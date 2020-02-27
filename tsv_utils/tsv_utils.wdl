@@ -19,6 +19,11 @@ task tsv_append{
         # Unzip/decompress files to working directory
         tar -xvzf ${tsv_inputs_tarball} -C ./
 
+        # Unzip any/all gzipped files
+        if [ -f ${tsv_dir}/*.gz ]; then
+            gunzip ${tsv_dir}/*.gz
+        fi
+
         # Concat all files together
         tsv-append \
             ${"--source-header " + source_header} \
