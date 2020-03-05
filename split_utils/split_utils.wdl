@@ -7,7 +7,7 @@ task split_vcf{
 
     # Runtime environment
     String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-    Int cpu = 4
+    Int cpu = 8
     Int unzip_cpu = cpu - 1
     Int mem_gb = 8
     Int max_retries = 3
@@ -65,7 +65,7 @@ task split_vcf_info{
 
     # Runtime environment
     String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-    Int cpu = 4
+    Int cpu = 8
     Int unzip_cpu = cpu - 1
     Int mem_gb = 8
     Int max_retries = 3
