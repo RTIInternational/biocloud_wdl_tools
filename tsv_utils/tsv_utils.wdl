@@ -20,9 +20,11 @@ task tsv_append{
         tar -xvzf ${tsv_inputs_tarball} -C ./
 
         # Unzip any/all gzipped files
-        if [ -f ${tsv_dir}/*.gz ]; then
-            gunzip ${tsv_dir}/*.gz
-        fi
+        find ${tsv_dir}/ -name '*.gz' | while read file
+        do
+            echo "Unzipping $file"
+            gunzip $file
+        done
 
         # Concat all files together
         tsv-append \
