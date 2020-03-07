@@ -189,10 +189,22 @@ task combineKinship  {
     Int max_retries = 3
 
     command  {
+        # Apparently the logs have to be in the same damn directory as the kinship mats
+
+        # Copy kinship mats to working directory
+        for file in ${sep=" " kinship_matrices}; do
+            cp $file .
+        done
+
+        # Copy log files to working directory
+        for file in ${sep=" " vcf2kinship_logs}; do
+            cp $file .
+        done
+
         combineKinship \
             --out ${output_basename} \
             --thread ${cpu} \
-            ${sep=" " kinship_matrices}
+            ./*.kinship
     }
 
     output {
