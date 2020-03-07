@@ -158,14 +158,14 @@ task vcf2kinship  {
 
         # Hack because WDL doesn't allow optional output files
         touch ${output_basename}.kinship
-        touch ${output_basename}.xHemiKinship
+        touch ${output_basename}.xHemi.kinship
 
 
     }
 
     output {
         File kinship_matrix = "${output_basename}.kinship"
-        File xHemi_kinship_matrix = "${output_basename}.xHemiKinship"
+        File xHemi_kinship_matrix = "${output_basename}.xHemi.kinship"
     }
 
     runtime {
