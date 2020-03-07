@@ -166,6 +166,7 @@ task vcf2kinship  {
     output {
         File kinship_matrix = "${output_basename}.kinship"
         File xHemi_kinship_matrix = "${output_basename}.xHemi.kinship"
+        File kinship_log = "${output_basename}.vcf2kinship.log"
     }
 
     runtime {
@@ -178,6 +179,7 @@ task vcf2kinship  {
 
 task combineKinship  {
     Array[File] kinship_matrices
+    Array[File] vcf2kinship_logs
     String output_basename
 
     # Runtime attributes
