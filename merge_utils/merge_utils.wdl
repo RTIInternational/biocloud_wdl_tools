@@ -21,6 +21,6 @@ task merge_vcfs{
     }
 
     output{
-        File merged_vcf = "${output_filename"
+        File merged_vcf = "${output_filename}"
     }
 }
