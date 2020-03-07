@@ -140,3 +140,31 @@ task flatten_string_array {
         Array[String]  flat_array = read_lines(stdout())
     }
 }
+
+task remove_empty_files{
+    Array[File] input_files
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        for file in ${sep=' ' input_files}; do
+            if [ -s $file ];then
+                echo $file
+            fi
+        done
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        Array[String]  flat_array = read_lines(stdout())
+    }
+
+}
