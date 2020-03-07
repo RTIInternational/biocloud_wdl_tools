@@ -121,3 +121,82 @@ task rvtests {
     }
 
 }
+
+task vcf2kinship  {
+    File? inputVcf
+    File? pedfile
+    String? dosage
+    Boolean? xHemi
+    String? xLabel
+    Float? maxMiss
+    Float? minMAF
+    Float? minSiteQual
+
+    String output_basename
+    Boolean useBaldingNicols
+    Boolean useIBS
+
+    # Runtime attributes
+    String docker = "rtibiocloud/rvtests:v2.1.0-8d966cb"
+    Int cpu = 4
+    Int mem_gb = 8
+    Int max_retries = 3
+
+    command  {
+        vcf2kinship  ${"--inVcf " + inputVcf} \
+            ${"--ped " + pedfile} \
+            ${true="--bn" false="" useBaldingNicols} \
+            ${true="--ibs" false=""  useIBS} \
+            ${true="--xHemi" false="" xHemi} \
+            ${"--dosage " + dosage } \
+            ${"--xLabel " + xLabel } \
+            ${"--maxMiss " + maxMiss } \
+            ${"--minMAF " + maxMiss } \
+            ${"--minSiteQual " + minSiteQual } \
+            --thread ${cpu} \
+            --out ${output_basename}
+    }
+
+    output {
+        File kinship_matrix = "${output_basename}.kinship"
+        File? xHemi_kinship_matrix = "${output_basename}.xHemiKinship"
+        File kinship_log = "${output_basename}.log"
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+}
+
+task combineKinship  {
+    Array[File] kinship_matrices
+    String output_basename
+
+    # Runtime attributes
+    String docker = "rtibiocloud/rvtests:v2.1.0-8d966cb"
+    Int cpu = 16
+    Int mem_gb = 16
+    Int max_retries = 3
+
+    command  {
+        combineKinship \
+            --out ${output_basename} \
+            --thread ${cpu} \
+            ${sep=" " kinship_matrices}
+    }
+
+    output {
+        File kinship_matrix = "${output_basename}.kinship"
+        File combineKinship_log = "${output_basename}.log"
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+}
