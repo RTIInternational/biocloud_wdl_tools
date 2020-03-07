@@ -151,7 +151,7 @@ task vcf2kinship  {
             ${"--dosage " + dosage } \
             ${"--xLabel " + xLabel } \
             ${"--maxMiss " + maxMiss } \
-            ${"--minMAF " + maxMiss } \
+            ${"--minMAF " + minMAF } \
             ${"--minSiteQual " + minSiteQual } \
             --thread ${cpu} \
             --out ${output_basename}
