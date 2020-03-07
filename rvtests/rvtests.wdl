@@ -158,9 +158,8 @@ task vcf2kinship  {
     }
 
     output {
-        Array[File] outputs = glob("${output_basename}*")
-        File kinship_matrix = "${output_basename}.kinship"
-        File? xHemi_kinship_matrix = "${output_basename}.xHemiKinship"
+        Array[File] kinship_matrix = glob("${output_basename}.kinship")
+        Array[File] xHemi_kinship_matrix = glob("${output_basename}.xHemiKinship")
     }
 
     runtime {
