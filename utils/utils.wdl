@@ -164,7 +164,7 @@ task remove_empty_files{
     }
 
     output {
-        Array[String]  flat_array = read_lines(stdout())
+        Array[String]  non_empty_files = read_lines(stdout())
     }
 
 }
