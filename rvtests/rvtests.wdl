@@ -155,11 +155,15 @@ task vcf2kinship  {
             ${"--minSiteQual " + minSiteQual } \
             --thread ${cpu} \
             --out ${output_basename}
+
+        # Hack because WDL doesn't allow optional output files
+        touch ${output_basename}.kinship
+        touch ${output_basename}.xHemiKinship
     }
 
     output {
-        Array[File] kinship_matrix = glob("${output_basename}.kinship")
-        Array[File] xHemi_kinship_matrix = glob("${output_basename}.xHemiKinship")
+        File kinship_matrix = "${output_basename}.kinship"
+        File xHemi_kinship_matrix = "${output_basename}.xHemiKinship"
     }
 
     runtime {
