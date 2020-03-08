@@ -150,9 +150,10 @@ task remove_empty_files{
     Int mem_gb = 1
 
     command {
+        mkdir non_empty_files
         for file in ${sep=' ' input_files}; do
             if [ -s $file ];then
-                echo $file
+                cp $file non_empty_files
             fi
         done
     }
@@ -164,7 +165,7 @@ task remove_empty_files{
     }
 
     output {
-        Array[File]  non_empty_files = read_lines(stdout())
+        Array[File] non_empty_files = glob("non_empty_files/*")
     }
 
 }
