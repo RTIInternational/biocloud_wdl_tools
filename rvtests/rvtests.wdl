@@ -159,8 +159,6 @@ task vcf2kinship  {
         # Hack because WDL doesn't allow optional output files
         touch ${output_basename}.kinship
         touch ${output_basename}.xHemi.kinship
-
-
     }
 
     output {
