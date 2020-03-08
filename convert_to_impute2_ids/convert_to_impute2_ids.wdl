@@ -17,6 +17,7 @@ task convert_to_impute2_ids {
     String docker = "rtibiocloud/convert_to_1000g_ids:none_315130"
     Int cpu = 1
     Int mem_gb = 2
+    Int max_retries = 3
 
     command{
         set -e
@@ -38,6 +39,7 @@ task convert_to_impute2_ids {
         docker: docker
         cpu: cpu
         memory: "${mem_gb} GB"
+        maxRetries: max_retries
     }
 
     output {
