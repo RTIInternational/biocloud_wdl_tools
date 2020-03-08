@@ -1,4 +1,4 @@
-task filter_bed{
+task make_bed{
     File bed_in
     File bim_in
     File fam_in
