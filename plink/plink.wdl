@@ -3,7 +3,7 @@ task make_bed{
     File bim_in
     File fam_in
     String output_basename
-    String input_prefix = basename(bed_in, ".bed")
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
     # Filtering options by chr
     String? chr
@@ -134,11 +134,36 @@ task make_bed{
 
     command <<<
 
-        # Create soft-links to input files in wrk dir so you don't actually have to copy them
-        ln -s ${bed_in} ${input_prefix}.bed
-        ln -s ${bim_in} ${input_prefix}.bim
-        ln -s ${fam_in} ${input_prefix}.fam
+        # Get everything in same directory while preserving .gz extensions
+        # This is annoying but apparently necessary
+        # This is why it's dumb to make a program that requires everything be in the same directory
+        # The upside here is bed/bim/fam files will always be coerced to have same basename
+        # So you don't have to worry combining files from the same dataset that may have different inputs
 
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            ln -s ${bed_in} > ${input_prefix}.bed.gz
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} ${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            ln -s ${bim_in} > ${input_prefix}.bim.gz
+        else
+            ln -s ${bim_in} ${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            ln -s ${fam_in} > ${input_prefix}.fam.gz
+        else
+            ln -s ${fam_in} ${input_prefix}.fam
+        fi
+
+        # Now run plink2
         plink2 --bfile ${input_prefix} \
             --out ${output_basename} \
             --make-bed \
