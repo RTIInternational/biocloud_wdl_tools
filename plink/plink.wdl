@@ -119,6 +119,14 @@ task make_bed{
     Boolean? keep_founders
     Boolean? keep_nonfounders
 
+    # Other data management options
+    Boolean? sort_vars
+    String? sort_vars_mode
+
+    # Re-coding heterozygous haploids
+    Boolean set_hh_missing
+    Boolean? hh_missing_keep_dosage
+
     String docker = "rtibiocloud/plink:v2.0-8875c1e"
     Int cpu = 1
     Int mem_gb = 2
@@ -134,6 +142,7 @@ task make_bed{
         plink2 --bfile ${input_prefix} \
             --out ${output_basename} \
             --make-bed \
+            --threads ${cpu} \
             ${'--chr ' + chr} \
             ${'--not-chr ' + not_chr} \
             ${true='--allow-extra-chr' false='' allow_extra_chr} \
@@ -205,7 +214,9 @@ task make_bed{
             ${true='--remove-nosex' false="" remove_nosex} \
             ${true='--keep-founders' false="" keep_founders} \
             ${true='--keep-nonfounders' false="" keep_nonfounders} \
-            ${true='--nonfounders' false="" nonfounders}
+            ${true='--nonfounders' false="" nonfounders} \
+            ${true='--sort-vars' false="" sort_vars} ${sort_vars_mode} \
+            ${true='--set-hh-missing' false="" set_hh_missing} ${true='keep-dosage' false="" hh_missing_keep_dosage}
     >>>
 
     runtime {
