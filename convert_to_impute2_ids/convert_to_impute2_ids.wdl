@@ -8,10 +8,7 @@ task convert_to_impute2_ids {
     Int a1_col
     Int a2_col
     String chr
-    String output_basename
-    String? user_output_filename
-    String default_output_filename = "${output_basename}.impute2ID.txt"
-    String output_filename = select_first([user_output_filename, default_output_filename])
+    String output_filename
 
     # Runtime environment
     String docker = "rtibiocloud/convert_to_1000g_ids:none_315130"
