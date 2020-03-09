@@ -145,7 +145,7 @@ task make_bed{
         # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
-            ln -s ${bed_in} > plink_input/${input_prefix}.bed.gz
+            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
         else
             # Otherwise just create softlink with normal
             ln -s ${bed_in} plink_input/${input_prefix}.bed
@@ -153,14 +153,14 @@ task make_bed{
 
         # Bim file preprocessing
         if [[ ${bim_in} =~ \.gz$ ]]; then
-            ln -s ${bim_in} > plink_input/${input_prefix}.bim.gz
+            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
         else
             ln -s ${bim_in} plink_input/${input_prefix}.bim
         fi
 
         # Fam file preprocessing
         if [[ ${fam_in} =~ \.gz$ ]]; then
-            ln -s ${fam_in} > plink_input/${input_prefix}.fam.gz
+            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
         else
             ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
