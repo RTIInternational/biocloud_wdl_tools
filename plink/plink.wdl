@@ -124,7 +124,7 @@ task make_bed{
     String? sort_vars_mode
 
     # Re-coding heterozygous haploids
-    Boolean set_hh_missing
+    Boolean? set_hh_missing
     Boolean? hh_missing_keep_dosage
 
     String docker = "rtibiocloud/plink:v2.0-8875c1e"
