@@ -7,7 +7,7 @@ task convert_to_impute2_ids {
     Int pos_col
     Int a1_col
     Int a2_col
-    Int chr
+    String chr
     String output_basename
     String? user_output_filename
     String default_output_filename = "${output_basename}.impute2ID.txt"
