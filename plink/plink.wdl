@@ -281,3 +281,27 @@ task merge_beds{
         File plink_log = "${output_basename}.log"
     }
 }
+
+task remove_fam_phenotype{
+    File fam_in
+    String output_basename
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        perl -pe 's/\S+$/0/;' ${fam_in} > ${output_basename}.fam
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File fam_out = "${output_basename}.fam"
+    }
+}
