@@ -233,3 +233,51 @@ task make_bed{
         File plink_log = "${output_basename}.log"
     }
 }
+
+task merge_beds{
+    Array[File] bed_in
+    Array[File] bim_in
+    Array[File] fam_in
+    String output_basename
+
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 4
+    Int mem_gb = 8
+    Int max_retries = 3
+
+    command <<<
+        # Write bed files to file
+        for file in ${bed_in}; do
+            echo "$file" >> bed_files.txt
+
+        # Write bim files to file
+        for file in ${bim_in}; do
+            echo "$file" >> bim_files.txt
+
+        # Write fam files to file
+        for file in ${fam_in}; do
+            echo "$file" >> fam_files.txt
+
+        # Merge bed/bim/bam links into merge-list file
+        paste -d " " bed_files.txt bim_files.txt fam_files.txt > merge_list.txt
+
+        # Merge bed file
+        plink2 --make-bed \
+            --merge-list merge_list.txt \
+            --out ${output_basename} \
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File bed_out = "${output_basename}.bed"
+        File bim_out = "${output_basename}.bim"
+        File fam_out = "${output_basename}.fam"
+        File plink_log = "${output_basename}.log"
+    }
+}
