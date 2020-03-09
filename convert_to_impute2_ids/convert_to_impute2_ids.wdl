@@ -19,7 +19,7 @@ task convert_to_impute2_ids {
     command{
         set -e
 
-        /opt/code_docker_lib/convert_to_1000g_ids.pl \
+        /opt/convert_to_1000g_ids.pl \
             --file_in ${in_file} \
             --file_out ${output_filename} \
             --legend ${legend_file} \
