@@ -140,31 +140,33 @@ task make_bed{
         # The upside here is bed/bim/fam files will always be coerced to have same basename
         # So you don't have to worry combining files from the same dataset that may have different inputs
 
+        mkdir plink_input
+
         # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
-            ln -s ${bed_in} > ${input_prefix}.bed.gz
+            ln -s ${bed_in} > plink_input/${input_prefix}.bed.gz
         else
             # Otherwise just create softlink with normal
-            ln -s ${bed_in} ${input_prefix}.bed
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
         fi
 
         # Bim file preprocessing
         if [[ ${bim_in} =~ \.gz$ ]]; then
-            ln -s ${bim_in} > ${input_prefix}.bim.gz
+            ln -s ${bim_in} > plink_input/${input_prefix}.bim.gz
         else
-            ln -s ${bim_in} ${input_prefix}.bim
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
         fi
 
         # Fam file preprocessing
         if [[ ${fam_in} =~ \.gz$ ]]; then
-            ln -s ${fam_in} > ${input_prefix}.fam.gz
+            ln -s ${fam_in} > plink_input/${input_prefix}.fam.gz
         else
-            ln -s ${fam_in} ${input_prefix}.fam
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
 
         # Now run plink2
-        plink2 --bfile ${input_prefix} \
+        plink2 --bfile plink_input/${input_prefix} \
             --out ${output_basename} \
             --make-bed \
             --threads ${cpu} \
