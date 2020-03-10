@@ -276,14 +276,17 @@ task merge_beds{
         # Write bed files to file
         for file in ${sep=" " bed_in}; do
             echo "$file" >> bed_files.txt
+        done
 
         # Write bim files to file
         for file in ${sep=" " bim_in}; do
             echo "$file" >> bim_files.txt
+        done
 
         # Write fam files to file
         for file in ${sep=" " fam_in}; do
             echo "$file" >> fam_files.txt
+        done
 
         # Merge bed/bim/bam links into merge-list file
         paste -d " " bed_files.txt bim_files.txt fam_files.txt > merge_list.txt
