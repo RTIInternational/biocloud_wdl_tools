@@ -291,7 +291,7 @@ task merge_beds{
         # Merge bed file
         plink2 --make-bed \
             --merge-list merge_list.txt \
-            --out ${output_basename} \
+            --out ${output_basename}
     >>>
 
     runtime {
