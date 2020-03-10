@@ -292,7 +292,7 @@ task merge_beds{
         paste -d " " bed_files.txt bim_files.txt fam_files.txt > merge_list.txt
 
         # Merge bed file
-        plink2 --make-bed \
+        plink --make-bed \
             --merge-list merge_list.txt \
             --out ${output_basename}
     >>>
