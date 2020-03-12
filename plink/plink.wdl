@@ -641,7 +641,6 @@ task prune_ld_markers{
         plink --bfile plink_input/${input_prefix} \
             --${ld_type} ${window_size}${window_size_unit} ${step_size} ${r2_threshold} ${vif_threshold} \
             ${'--ld-xchr ' + x_chr_mode} \
-            --make-bed \
             --out ${output_basename}
     }
 
@@ -652,12 +651,8 @@ task prune_ld_markers{
     }
 
     output {
-        File bed_out = "${output_basename}.bed"
-        File bim_out = "${output_basename}.bim"
-        File fam_out = "${output_basename}.fam"
         File include_markers = "${output_basename}.prune.in"
         File exclude_markers = "${output_basename}.prune.out"
-        File plink_log = "${output_basename}.log"
     }
 
 }
