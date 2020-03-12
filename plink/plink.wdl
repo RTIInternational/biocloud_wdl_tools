@@ -278,7 +278,7 @@ task make_bed{
     Array[File]? extract
     Array[File]? exclude
     Boolean? range
-    String? range_opt = if(range) then "range" else ""
+    String? range_opt = if(defined(range) && range) then "range" else ""
 
     # Filtering by sample cluster
     File? keep_clusters
