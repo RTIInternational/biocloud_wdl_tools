@@ -668,8 +668,8 @@ task sex_check{
     File bed_in
     File bim_in
     File fam_in
-    Float female_max_f = 0.8
-    Float male_max_f = 0.2
+    Float female_max_f = 0.2
+    Float male_min_f = 0.8
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
@@ -681,6 +681,7 @@ task sex_check{
     Int mem_gb = 8
 
     command {
+        set -e
 
         mkdir plink_input
 
@@ -710,7 +711,7 @@ task sex_check{
         # Run sex check
         plink --bfile plink_input/${input_prefix} \
             ${'--update-sex ' + update_sex} \
-            --check-sex ${female_max_f} ${male_max_f} \
+            --check-sex ${female_max_f} ${male_min_f} \
             --out ${output_basename}
 
         # Rename output file
