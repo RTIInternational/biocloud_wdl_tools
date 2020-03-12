@@ -1,4 +1,4 @@
-task make_bed{
+task make_bed_plink2{
     File bed_in
     File bim_in
     File fam_in
@@ -261,6 +261,261 @@ task make_bed{
     }
 }
 
+task make_bed{
+    File bed_in
+    File bim_in
+    File fam_in
+    String output_basename
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+    Array[String] functions
+
+    # Sample filtering
+    File? keep_samples
+    File? remove_samples
+    File? keep_fam
+    File? remove_fam
+
+    # Site filtering by bed
+    Array[File]? extract
+    Array[File]? exclude
+    Boolean? range
+    String? range_opt = if(range) then "range" else ""
+
+    # Filtering by sample cluster
+    File? keep_clusters
+    Array[String]? keep_cluster_names
+    File? remove_clusters
+    Array[String]? remove_cluster_names
+
+    # Set gene set membership
+    Array[String]? gene
+    Boolean? gene_all
+
+    # Filter by attributes files
+    File? attrib
+    String? attrib_filter
+    File? attrib_indiv
+    String? attrib_indiv_filter
+
+    # Filtering options by chr
+    String? chr
+    String? not_chr
+    Boolean? allow_extra_chr
+    Boolean? autosome
+    Boolean? autosome_xy
+    Boolean? prune
+    Array[String]? extra_chrs
+
+    # Site type filtering
+    Boolean? snps_only
+    String? snps_only_type
+    String? from_id
+    String? to_id
+    Int? from_bp
+    Int? to_bp
+    Float? from_kb
+    Float? to_kb
+    Float? from_mb
+    Float? to_mb
+
+    # SNP-level filtering
+    String? snp
+    Int? window
+    String? exclude_snp
+    Array[String]? snps
+    Array[String]? exclude_snps
+
+    # Remove duplicates
+    Boolean? rm_dup
+    String? rm_dup_mode # error (default), retain-mismatch, exclude-mismatch, exclude-all, force-first
+
+    # Arbitrary thinning
+    Float? thin
+    Int? thin_count
+    Int? bp_space
+    Float? thin_indiv
+    Int? thin_indiv_count
+
+    # Phenotype/Covariate based
+    File? filter
+    Array[String]? filter_values
+    Int? mfilter
+
+    # Genotype filtering
+    Float? max_missing_geno_rate
+    Float? max_missing_ind_rate
+
+    # Allele and MAF filtering
+    Int? min_alleles
+    Int? max_alleles
+    Float? min_maf
+    Float? max_maf
+    String? maf_mode
+    Int? min_mac
+    Int? max_mac
+    String? mac_mode
+    Boolean? nonfounders
+    Boolean? maf_succ
+
+    # HWE filtering
+    Float? hwe_pvalue
+    String? hwe_mode
+
+    # Sex filters
+    Boolean? allow_no_sex
+    Boolean? must_have_sex
+    Boolean? filter_females
+    Boolean? filter_males
+    Boolean? filter_controls
+    Boolean? filter_cases
+
+    # Founder status
+    Boolean? filter_founders
+    Boolean? filter_nonfounders
+
+    # Other data management options
+    Boolean? sort_vars
+    String? sort_vars_mode
+
+    # Re-coding heterozygous haploids
+    Boolean? set_hh_missing
+    Boolean? split_x
+    Boolean? build_code
+    Boolean? merge_x
+    Boolean? no_fail
+
+    # Updating files
+    File? update_ids
+    File? update_parents
+    File? update_sex
+    Int? update_sex_n
+
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+
+        # Get everything in same directory while preserving .gz extensions
+        # This is annoying but apparently necessary
+        # This is why it's dumb to make a program that requires everything be in the same directory
+        # The upside here is bed/bim/fam files will always be coerced to have same basename
+        # So you don't have to worry combining files from the same dataset that may have different inputs
+
+        mkdir plink_input
+
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Now run plink2
+        plink --bfile plink_input/${input_prefix} \
+            --out ${output_basename} \
+            --make-bed \
+            --threads ${cpu} \
+            ${'--keep ' + keep_samples} \
+            ${'--remove ' + remove_samples} \
+            ${'--keep-fam ' + keep_fam} \
+            ${'--remove-fam ' + remove_fam} \
+            ${true='--extract' false="" extract} ${range_opt} ${extract} \
+            ${true='--exclude' false="" exclude} ${range_opt} ${exclude} \
+            ${'--keep-clusters ' + keep_clusters} \
+            ${'--remove-clusters ' + remove_clusters} \
+            ${true='--keep-cluster-names' false="" keep_cluster_names} ${sep=" " keep_cluster_names} \
+            ${true='--remove-cluster-names' false="" remove_cluster_names} ${sep=" " remove_cluster_names} \
+            ${true='--gene' false="" gene} ${sep=" " gene} \
+            ${true='--gene-all' false="" gene_all} \
+            ${true='--attrib' false="" attrib} ${attrib} ${attrib_filter} \
+            ${true='--attrib-indiv' false="" attrib_indiv} ${attrib_indiv} ${attrib_indiv_filter} \
+            ${'--chr ' + chr} \
+            ${'--not-chr ' + not_chr} \
+            ${true='--allow-extra-chr' false='' allow_extra_chr} ${extra_chrs}\
+            ${true='--autosome' false='' autosome} \
+            ${true='--autosome-xy' false='' autosome_xy} \
+            ${true='--snps-only' false='' snps_only} ${snps_only_type} \
+            ${'--from ' + from_id} \
+            ${'--to ' + to_id} \
+            ${'--snp ' + snp} \
+            ${'--window ' +  window} \
+            ${'--exclude-snp ' + exclude_snp} \
+            ${true='--snps' false="" snps} ${sep=", " snps} \
+            ${true='--exclude-snps' false="" exclude_snps} ${sep=", " exclude_snps} \
+            ${'--from-bp ' + from_bp} \
+            ${'--to-bp ' + to_bp} \
+            ${'--from-kb ' + from_kb} \
+            ${'--to-kb ' + to_kb} \
+            ${'--from-mb ' + from_mb} \
+            ${'--to-mb ' + to_mb} \
+            ${true='--rm-dup' false="" rm_dup} ${rm_dup_mode} \
+            ${'--thin ' + thin} \
+            ${'--thin-count ' + thin_count} \
+            ${'--thin-indiv ' + thin_indiv} \
+            ${'--thin-indiv-count ' + thin_indiv_count} \
+            ${'--bp-space ' + bp_space} \
+            ${true='--filter' false="" filter} ${filter} ${sep=" " filter_values} \
+            ${true='--mfilter' false="" mfilter} ${mfilter} \
+            ${'--geno ' + max_missing_geno_rate} \
+            ${'--mind ' + max_missing_ind_rate} \
+            ${true='--prune' false='' prune} \
+            ${'--min-alleles ' + min_alleles} \
+            ${'--max-alleles ' + max_alleles} \
+            ${'--maf ' + min_maf} ${maf_mode} \
+            ${'--max-maf ' + max_maf} ${maf_mode} \
+            ${'--mac ' + min_mac} ${mac_mode} \
+            ${'--max-mac ' + max_mac} ${mac_mode} \
+            ${true='--maf-succ' false="" maf_succ} \
+            ${'--hwe ' + hwe_pvalue} ${hwe_mode} \
+            ${true='--filter-females' false="" filter_females} \
+            ${true='--filter-males' false="" filter_males} \
+            ${true='--filter-cases' false="" filter_cases} \
+            ${true='--filter-controls' false="" filter_controls} \
+            ${true='--filter-founders' false="" filter_founders} \
+            ${true='--filter-nonfounders' false="" filter_nonfounders} \
+            ${true='--nonfounders' false="" nonfounders} \
+            ${true='--sort-vars' false="" sort_vars} ${sort_vars_mode} \
+            ${true='--set-hh-missing' false="" set_hh_missing} \
+            ${true='--split-x' false="" split_x} ${build_code} ${true='no-fail' false="" no_fail} \
+            ${true='--merge-x' false="" merge_x} ${true='no-fail' false="" no_fail} \
+            ${'--update-ids ' + update_ids} \
+            ${'--update-parents ' + update_parents} \
+            ${'--update-sex ' + update_sex} ${update_sex_n}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File bed_out = "${output_basename}.bed"
+        File bim_out = "${output_basename}.bim"
+        File fam_out = "${output_basename}.fam"
+        File plink_log = "${output_basename}.log"
+    }
+}
+
 task merge_beds{
     Array[File] bed_in
     Array[File] bim_in
@@ -334,4 +589,147 @@ task remove_fam_phenotype{
     output {
         File fam_out = "${output_basename}.fam"
     }
+}
+
+task prune_ld_markers{
+    File bed_in
+    File bim_in
+    File fam_in
+    String output_basename
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+
+    String ld_type
+    Int window_size
+    String? window_size_unit
+    Int? step_size
+    Float? r2_threshold
+    Float? vif_threshold
+    Int? x_chr_mode
+
+    # Runtime environment
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 4
+    Int mem_gb = 8
+
+    command {
+        mkdir plink_input
+
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Run sex check
+        plink --bfile plink_input/${input_prefix} \
+            --${ld_type} ${window_size}${window_size_unit} ${step_size} ${r2_threshold} ${vif_threshold} \
+            ${'--ld-xchr ' + x_chr_mode} \
+            --out ${output_basename}
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File include_markers = "${output_basename}.prune.in"
+        File exclude_markers = "${output_basename}.prune.out"
+        File plink_log = "${output_basename}.prune.log"
+    }
+
+}
+
+task sex_check{
+    File bed_in
+    File bim_in
+    File fam_in
+    String output_basename
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+
+    # Runtime environment
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 4
+    Int mem_gb = 8
+
+    command {
+
+        mkdir plink_input
+
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Split X and do ld pruning
+        plink --bfile plink_input/${input_prefix} \
+            --split-x \
+            --
+            --out ${output_basename} \
+
+        # Run sex check
+        plink --bfile plink_input/${input_prefix} \
+            --check-sex \
+            --out ${output_basename}
+
+        # Rename output file
+        perl -lane 'print join("\t",@F);' ${output_basename}.sexcheck > ${output_basename}.sexcheck.all.tsv
+
+        # Extract subjects failing sex check
+        head -n 1 ${output_basename}.sexcheck.all.tsv > ${output_basename}.sexcheck.problems.tsv
+        grep PROBLEM ${output_basename}.sexcheck.all.tsv >> ${output_basename}.sexcheck.problems.tsv
+
+        # Create remove list
+        tail -n +2 ${output_basename}.sexcheck.problems.tsv |
+        perl -lane 'print join("\t", $F[0], $F[1]);' > ${output_basename}.sexcheck.remove.tsv
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File plink_sex_check_output = "${output_basename}.sexcheck.all.tsv"
+        File sex_check_problems = "${output_basename}.sexcheck.problems.tsv"
+        File samples_to_remove = "${output_basename}.sexcheck.remove.tsv"
+    }
+
 }
