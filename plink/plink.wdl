@@ -281,6 +281,8 @@ task make_bed{
     Boolean? exclude_range
     String? extract_range_opt = if(defined(extract_range) && extract_range) then "range" else ""
     String? exclude_range_opt = if(defined(exclude_range) && exclude_range) then "range" else ""
+    String extract_prefix = if(defined(extract)) then "--extract" else ""
+    String exclude_prefix = if(defined(exclude)) then "--exclude" else ""
 
     # Filtering by sample cluster
     File? keep_clusters
@@ -440,8 +442,8 @@ task make_bed{
             ${'--remove ' + remove_samples} \
             ${'--keep-fam ' + keep_fam} \
             ${'--remove-fam ' + remove_fam} \
-            ${true='--extract' false="" extract} ${extract_range_opt} ${extract} \
-            ${true='--exclude' false="" exclude} ${exclude_range_opt} ${exclude} \
+            ${extract_prefix} ${extract_range_opt} ${extract} \
+            ${exclude_prefix} ${exclude_range_opt} ${exclude} \
             ${'--keep-clusters ' + keep_clusters} \
             ${'--remove-clusters ' + remove_clusters} \
             ${true='--keep-cluster-names' false="" keep_cluster_names} ${sep=" " keep_cluster_names} \
