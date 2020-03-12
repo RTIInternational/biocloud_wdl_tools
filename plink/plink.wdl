@@ -277,8 +277,10 @@ task make_bed{
     # Site filtering by bed
     Array[File]? extract
     Array[File]? exclude
-    Boolean? range
-    String? range_opt = if(defined(range) && range) then "range" else ""
+    Boolean? extract_range
+    Boolean? exclude_range
+    String? extract_range_opt = if(defined(extract_range) && extract_range) then "range" else ""
+    String? exclude_range_opt = if(defined(exclude_range) && exclude_range) then "range" else ""
 
     # Filtering by sample cluster
     File? keep_clusters
@@ -381,7 +383,9 @@ task make_bed{
     Boolean? split_x
     Boolean? build_code
     Boolean? merge_x
-    Boolean? no_fail
+    Boolean? split_no_fail
+    Boolean? merge_no_fail
+
 
     # Updating files
     File? update_ids
@@ -436,8 +440,8 @@ task make_bed{
             ${'--remove ' + remove_samples} \
             ${'--keep-fam ' + keep_fam} \
             ${'--remove-fam ' + remove_fam} \
-            ${true='--extract' false="" extract} ${range_opt} ${extract} \
-            ${true='--exclude' false="" exclude} ${range_opt} ${exclude} \
+            ${true='--extract' false="" extract} ${extract_range_opt} ${extract} \
+            ${true='--exclude' false="" exclude} ${exclude_range_opt} ${exclude} \
             ${'--keep-clusters ' + keep_clusters} \
             ${'--remove-clusters ' + remove_clusters} \
             ${true='--keep-cluster-names' false="" keep_cluster_names} ${sep=" " keep_cluster_names} \
@@ -493,8 +497,8 @@ task make_bed{
             ${true='--nonfounders' false="" nonfounders} \
             ${true='--sort-vars' false="" sort_vars} ${sort_vars_mode} \
             ${true='--set-hh-missing' false="" set_hh_missing} \
-            ${true='--split-x' false="" split_x} ${build_code} ${true='no-fail' false="" no_fail} \
-            ${true='--merge-x' false="" merge_x} ${true='no-fail' false="" no_fail} \
+            ${true='--split-x' false="" split_x} ${build_code} ${true='no-fail' false="" split_no_fail} \
+            ${true='--merge-x' false="" merge_x} ${true='no-fail' false="" merge_no_fail} \
             ${'--update-ids ' + update_ids} \
             ${'--update-parents ' + update_parents} \
             ${'--update-sex ' + update_sex} ${update_sex_n}
