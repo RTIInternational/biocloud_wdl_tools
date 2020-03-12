@@ -275,8 +275,8 @@ task make_bed{
     File? remove_fam
 
     # Site filtering by bed
-    Array[File]? extract
-    Array[File]? exclude
+    File? extract
+    File? exclude
     Boolean? extract_range
     Boolean? exclude_range
     String? extract_range_opt = if(defined(extract_range) && extract_range) then "range" else ""
