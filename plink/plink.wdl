@@ -666,8 +666,12 @@ task sex_check{
     File bed_in
     File bim_in
     File fam_in
+    Float female_max_f = 0.8
+    Float male_max_f = 0.2
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+
+    File? update_sex
 
     # Runtime environment
     String docker = "rtibiocloud/plink:v1.9-9e70778"
@@ -701,15 +705,10 @@ task sex_check{
             ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
 
-        # Split X and do ld pruning
-        plink --bfile plink_input/${input_prefix} \
-            --split-x \
-            --
-            --out ${output_basename} \
-
         # Run sex check
         plink --bfile plink_input/${input_prefix} \
-            --check-sex \
+            ${'--update-sex ' + update_sex} \
+            --check-sex ${female_max_f} ${male_max_f} \
             --out ${output_basename}
 
         # Rename output file
