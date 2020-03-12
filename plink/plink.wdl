@@ -600,6 +600,7 @@ task prune_ld_markers{
 
     String ld_type
     Int window_size
+    Float? maf
     String? window_size_unit
     Int? step_size
     Float? r2_threshold
@@ -641,6 +642,7 @@ task prune_ld_markers{
         plink --bfile plink_input/${input_prefix} \
             --${ld_type} ${window_size}${window_size_unit} ${step_size} ${r2_threshold} ${vif_threshold} \
             ${'--ld-xchr ' + x_chr_mode} \
+            ${'--maf ' + maf} \
             --out ${output_basename}
     }
 
