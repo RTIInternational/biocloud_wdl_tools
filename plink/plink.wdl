@@ -381,7 +381,7 @@ task make_bed{
     # Re-coding heterozygous haploids
     Boolean? set_hh_missing
     Boolean? split_x
-    Boolean? build_code
+    String? build_code
     Boolean? merge_x
     Boolean? split_no_fail
     Boolean? merge_no_fail
