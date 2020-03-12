@@ -267,7 +267,6 @@ task make_bed{
     File fam_in
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
-    Array[String] functions
 
     # Sample filtering
     File? keep_samples
