@@ -661,7 +661,6 @@ task prune_ld_markers{
         File include_markers = "${output_basename}.prune.in"
         File exclude_markers = "${output_basename}.prune.out"
     }
-
 }
 
 task sex_check{
@@ -737,5 +736,5 @@ task sex_check{
         File sex_check_problems = "${output_basename}.sexcheck.problems.tsv"
         File samples_to_remove = "${output_basename}.sexcheck.remove.tsv"
     }
-
 }
+
