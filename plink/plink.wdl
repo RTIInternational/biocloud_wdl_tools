@@ -621,6 +621,7 @@ task prune_ld_markers{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
+    String? chr
     String ld_type
     Int window_size
     Float? maf
@@ -666,6 +667,7 @@ task prune_ld_markers{
             --${ld_type} ${window_size}${window_size_unit} ${step_size} ${r2_threshold} ${vif_threshold} \
             ${'--ld-xchr ' + x_chr_mode} \
             ${'--maf ' + maf} \
+            ${'--chr ' + chr} \
             --out ${output_basename}
     }
 
