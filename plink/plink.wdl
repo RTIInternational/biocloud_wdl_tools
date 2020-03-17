@@ -271,6 +271,10 @@ task make_bed{
     # Strand flipping
     File? flip
 
+    # Missingness filters
+    Float? geno
+    Float? mind
+
     # Sample filtering
     File? keep_samples
     File? remove_samples
@@ -506,7 +510,9 @@ task make_bed{
             ${'--update-ids ' + update_ids} \
             ${'--update-parents ' + update_parents} \
             ${'--update-sex ' + update_sex} ${update_sex_n} \
-            ${'--flip ' + flip}
+            ${'--flip ' + flip} \
+            ${'--geno ' + geno} \
+            ${'--mind ' + mind}
     >>>
 
     runtime {
