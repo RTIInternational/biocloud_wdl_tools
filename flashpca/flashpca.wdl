@@ -78,7 +78,9 @@ task flashpca{
             ${'--precision ' + precision} \
             ${true='--verbose' false="" verbose} \
             ${true='--notime' false="" notime} \
-            ${true='--check' false="" check}
+            ${true='--check' false="" check} \
+            --outload loadings.txt \
+            --outmeansd meansd.txt
     }
 
     runtime {
@@ -92,5 +94,7 @@ task flashpca{
         File pcs = "pcs.txt"
         File eigenvalues = "eigenvalues.txt"
         File pve = "pve.txt"
+        File loadings = "loadings.txt"
+        File meansd = "meansd.txt"
     }
 }
