@@ -596,7 +596,7 @@ task merge_two_beds{
     command <<<
 
         mkdir plink_input
-        
+
         # Create softlinks for bed A
         ln -s ${bed_in_a} plink_input/${input_prefix_a}.bed
         ln -s ${bim_in_a} plink_input/${input_prefix_a}.bim
@@ -674,7 +674,10 @@ task prune_ld_markers{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
+    # Region filtering
     String? chr
+    File? exclude_regions
+
     String ld_type
     Int window_size
     Float? maf
@@ -721,6 +724,7 @@ task prune_ld_markers{
             ${'--ld-xchr ' + x_chr_mode} \
             ${'--maf ' + maf} \
             ${'--chr ' + chr} \
+            ${'--exclude range ' + exclude_regions} \
             --out ${output_basename}
     }
 
