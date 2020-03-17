@@ -5,7 +5,7 @@ task flashpca{
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
     Int? ndim
-    String standx    # Standardization for genotypes (binom2 | binom)
+    String? standx    # Standardization for genotypes (binom2 | binom)
     String? standy   # Standardization for phenotypes (sd | binom2)
     Int? div         # Whether to divide eigenvalues by p, n-1, or none (p|n1|none)
     Int? tol         # Tolerance for PCA iterations
@@ -66,7 +66,7 @@ task flashpca{
             ${true='--batch' false="" batch} \
             ${'--pheno ' + pheno} \
             ${'--ndim ' + ndim} \
-            --standx ${standx} \
+            ${'--standx ' + standx} \
             ${'--standy ' + standy} \
             ${'--div ' + div} \
             ${'--tol ' + tol} \
