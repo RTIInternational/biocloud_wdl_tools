@@ -528,8 +528,6 @@ task merge_beds{
     Array[File] bed_in
     Array[File] bim_in
     Array[File] fam_in
-    Int? merge_mode
-    Boolean ignore_errors = false
     String output_basename
 
     String docker = "rtibiocloud/plink:v1.9-9e70778"
@@ -559,6 +557,60 @@ task merge_beds{
         # Merge bed file
         plink --make-bed \
             --merge-list merge_list.txt \
+            --out ${output_basename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File bed_out = "${output_basename}.bed"
+        File bim_out = "${output_basename}.bim"
+        File fam_out = "${output_basename}.fam"
+        File plink_log = "${output_basename}.log"
+    }
+}
+
+task merge_two_beds{
+    File bed_in_a
+    File bed_in_b
+    File bim_in_a
+    File bim_in_b
+    File fam_in_a
+    File fam_in_b
+    String input_prefix_a = basename(sub(bed_in_a, "\\.gz$", ""), ".bed")
+    String input_prefix_b = basename(sub(bed_in_b, "\\.gz$", ""), ".bed")
+    Int? merge_mode
+    Boolean ignore_errors = false
+    String output_basename
+
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 4
+    Int mem_gb = 8
+    Int max_retries = 3
+
+    command <<<
+
+
+        # Create softlinks for bed A
+        ln -s ${bed_in_a} plink_input/${input_prefix_a}.bed
+        ln -s ${bim_in_a} plink_input/${input_prefix_a}.bim
+        ln -s ${fam_in_a} plink_input/${input_prefix_a}.fam
+
+        # Create softlinks for bed B
+        ln -s ${bed_in_b} plink_input/${input_prefix_b}.bed
+        ln -s ${bim_in_b} plink_input/${input_prefix_b}.bim
+        ln -s ${fam_in_b} plink_input/${input_prefix_b}.fam
+
+
+        # Merge bed file
+        plink --make-bed \
+            --bfile ${input_prefix_a} \
+            --bmerge ${input_prefix_b} \
             ${'--merge-mode ' + merge_mode} \
             --out ${output_basename}
 
