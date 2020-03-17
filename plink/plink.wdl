@@ -667,6 +667,30 @@ task remove_fam_phenotype{
     }
 }
 
+task remove_fam_pedigree{
+    File fam_in
+    String output_basename
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command <<<
+        awk '{$1=$2; $3="0"; $4="0"; print}' ${fam_in} > ${output_basename}.fam
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File fam_out = "${output_basename}.fam"
+    }
+}
+
 task prune_ld_markers{
     File bed_in
     File bim_in
