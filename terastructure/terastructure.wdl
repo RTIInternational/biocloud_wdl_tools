@@ -77,7 +77,7 @@ task terastructure{
     output {
         File admixture_proportions = "theta.txt"
         File validation = "validation.txt"
-        File log_files = glob("*-${label}/*")
+        Array[File] log_files = glob("*-${label}/*")
     }
 
 }
