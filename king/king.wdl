@@ -141,7 +141,7 @@ task king{
     }
 
     output {
-        File samples_to_keep = "${output_basename}unrelated.txt"
+        File unrelated_samples = "${output_basename}unrelated.txt"
         File related_samples = "${output_basename}unrelated_toberemoved.txt"
         Array[File] accessory_files = glob("${output_basename}*")
     }
