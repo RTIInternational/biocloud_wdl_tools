@@ -20,6 +20,8 @@ task terastructure{
     command<<<
         set -e
 
+        mkdir plink_input
+
         # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
@@ -44,14 +46,19 @@ task terastructure{
         fi
 
         # Count individuals and loci to be used
-        num_indiv=$(wc -l ${input_prefix}.fam | cut -d" " -f 1)
-        num_loci=$(wc -l ${input_prefix}.bim | cut -d" " -f 1)
+        num_indiv=$(wc -l plink_input/${input_prefix}.fam | cut -d" " -f 1)
+        num_loci=$(wc -l plink_input/${input_prefix}.bim | cut -d" " -f 1)
+
+        echo "Num indiv: $num_indiv"
+        echo "Num loci: $num_loci"
 
         # Calculate report frequency as a percentage of the number of SNPs
         # This is basically just awk magic for CEIL(num_snps * rfreq_perc)
         rfreq=$(echo | awk -v var="$num_loci" '{print int(var*${rfreq_perc})}')
 
-        terastructure -file ${input_prefix}.bed \
+        echo "Rfreq: $rfreq"
+
+        terastructure -file plink_input/${input_prefix}.bed \
             -n $num_indiv \
             -l $num_loci \
             -k ${k} \
@@ -65,7 +72,11 @@ task terastructure{
 
         # Move output files to working directory
         # Do this because terastruct makes random directory names with label appended to end
-        mv ./*-${label}/* ./
+        mv ./*-${label}/theta.txt
+        mv ./*-${label}/validation.txt
+        mkdir logs
+        mv ./*-${label}/ logs
+        tar czvf terastructure_logs.tar.gz logs
     >>>
 
     runtime {
@@ -77,7 +88,7 @@ task terastructure{
     output {
         File admixture_proportions = "theta.txt"
         File validation = "validation.txt"
-        Array[File] log_files = glob("*-${label}/*")
+        File log_dir = "terastructure_logs.tar.gz"
     }
 
 }
