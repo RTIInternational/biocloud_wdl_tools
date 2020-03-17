@@ -141,7 +141,33 @@ task king{
     }
 
     output {
-        Array[File] output_files = glob("${output_basename}*")
+        File samples_to_keep = "${output_basename}unrelated.txt"
+        File related_samples = "${output_basename}unrelated_toberemoved.txt"
+        Array[File] accessory_files = glob("${output_basename}*")
+    }
+}
+
+task king_samples_to_ids{
+    File king_samples_in
+    String output_filename
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command <<<
+        perl -lane 'if($F[0] =~ KING){print join("\t", split(/->/, $F[1]))}
+                    else{print;}' ${king_samples_in} > ${output_filename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
     }
 
+    output {
+        File king_samples_out = "${output_filename}"
+    }
 }
