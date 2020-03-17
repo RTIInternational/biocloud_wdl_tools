@@ -609,8 +609,8 @@ task merge_two_beds{
 
         # Merge bed file
         plink --make-bed \
-            --bfile ${input_prefix_a} \
-            --bmerge ${input_prefix_b} \
+            --bfile plink_input/${input_prefix_a} \
+            --bmerge plink_input/${input_prefix_b} \
             ${'--merge-mode ' + merge_mode} \
             --out ${output_basename}
 
