@@ -268,6 +268,9 @@ task make_bed{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
+    # Strand flipping
+    File? flip
+
     # Sample filtering
     File? keep_samples
     File? remove_samples
@@ -401,7 +404,6 @@ task make_bed{
     Int max_retries = 3
 
     command <<<
-
         # Get everything in same directory while preserving .gz extensions
         # This is annoying but apparently necessary
         # This is why it's dumb to make a program that requires everything be in the same directory
@@ -503,7 +505,8 @@ task make_bed{
             ${true='--merge-x' false="" merge_x} ${true='no-fail' false="" merge_no_fail} \
             ${'--update-ids ' + update_ids} \
             ${'--update-parents ' + update_parents} \
-            ${'--update-sex ' + update_sex} ${update_sex_n}
+            ${'--update-sex ' + update_sex} ${update_sex_n} \
+            ${'--flip ' + flip}
     >>>
 
     runtime {
@@ -525,6 +528,8 @@ task merge_beds{
     Array[File] bed_in
     Array[File] bim_in
     Array[File] fam_in
+    Int? merge_mode
+    Boolean ignore_errors = false
     String output_basename
 
     String docker = "rtibiocloud/plink:v1.9-9e70778"
@@ -554,7 +559,19 @@ task merge_beds{
         # Merge bed file
         plink --make-bed \
             --merge-list merge_list.txt \
+            ${'--merge-mode ' + merge_mode} \
             --out ${output_basename}
+
+        # Touch to create null missnp file for successful merge
+        touch ${output_basename}.missnp
+
+        # If ignore errors touch files to create null outputs so task doesn't error out
+        if [[ '${ignore_errors}' == 'true' ]];
+        then
+            touch ${output_basename}.bed
+            touch ${output_basename}.bim
+            touch ${output_basename}.fam
+        fi
     >>>
 
     runtime {
@@ -569,6 +586,7 @@ task merge_beds{
         File bim_out = "${output_basename}.bim"
         File fam_out = "${output_basename}.fam"
         File plink_log = "${output_basename}.log"
+        File missnp_out = "${output_basename}.missnp"
     }
 }
 
