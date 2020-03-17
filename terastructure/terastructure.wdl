@@ -72,8 +72,8 @@ task terastructure{
 
         # Move output files to working directory
         # Do this because terastruct makes random directory names with label appended to end
-        mv ./*-${label}/theta.txt
-        mv ./*-${label}/validation.txt
+        mv ./*-${label}/theta.txt ./
+        mv ./*-${label}/validation.txt ./
         mkdir logs
         mv ./*-${label}/ logs
         tar czvf terastructure_logs.tar.gz logs
