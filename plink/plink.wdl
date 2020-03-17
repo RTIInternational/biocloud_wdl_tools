@@ -595,7 +595,8 @@ task merge_two_beds{
 
     command <<<
 
-
+        mkdir plink_input
+        
         # Create softlinks for bed A
         ln -s ${bed_in_a} plink_input/${input_prefix_a}.bed
         ln -s ${bim_in_a} plink_input/${input_prefix_a}.bim
