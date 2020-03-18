@@ -1,28 +1,28 @@
-task convert_to_1000g_ids {
-    File sumstats_file
-    File legend_file_1000g
+task convert_to_impute2_ids {
+    File in_file
+    File legend_file
     Int contains_header = 1
     Int id_col
     Int chr_col
     Int pos_col
     Int a1_col
     Int a2_col
-    Int chr
-    String output_filename = basename(sumstats_file, ".txt") + ".phase3ID.txt"
+    String chr
+    String output_filename
 
-    # Runtime options
-    String docker = "rticode/convert_to_1000g_ids:fe710d550c9ff0d100d0b7c37db580362488e8fc"
-    Int cpu = 2
-    Int mem_gb = 8
+    # Runtime environment
+    String docker = "rtibiocloud/convert_to_1000g_ids:none_315130"
+    Int cpu = 1
+    Int mem_gb = 2
     Int max_retries = 3
 
     command{
         set -e
 
-        /opt/code_docker_lib/convert_to_1000g_ids.pl \
-            --file_in ${sumstats_file} \
+        /opt/convert_to_1000g_ids.pl \
+            --file_in ${in_file} \
             --file_out ${output_filename} \
-            --legend ${legend_file_1000g} \
+            --legend ${legend_file} \
             --file_in_header ${contains_header} \
             --file_in_id_col ${id_col} \
             --file_in_chr_col ${chr_col} \
@@ -42,6 +42,4 @@ task convert_to_1000g_ids {
     output {
         File output_file = "${output_filename}"
     }
-
-
 }

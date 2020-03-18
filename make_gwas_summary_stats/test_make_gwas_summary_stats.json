@@ -1,0 +1,6 @@
+{
+  "test_make_gwas_summary_stats.rvtests_sumstats_file": "s3://rti-biocloud-test-data/sumstats/gabc_chr22.rvtests.sumstats.txt.gz",
+  "test_make_gwas_summary_stats.info_file": "s3://rti-biocloud-test-data/vcfs/chr22.info",
+  "test_make_gwas_summary_stats.info_file_gz": "s3://rti-biocloud-test-data/vcfs/chr22.info.gz",
+  "test_make_gwas_summary_stats.pop_maf_file": "s3://rti-biocloud-ref/ref_panels/1000g/phase3/2.0.0/pop_mafs/eur/chr22.tsv.gz"
+}

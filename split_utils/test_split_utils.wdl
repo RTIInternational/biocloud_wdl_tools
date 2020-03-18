@@ -3,7 +3,7 @@ import "biocloud_wdl_tools/split_utils/split_utils.wdl" as SPLIT
 task array_wc{
     Array[File] inputs
     # Runtime environment
-    String docker = "rtibiocloud/pigz_v2.4_8d966cb"
+    String docker = "rtibiocloud/pigz:v2.4-8d966cb"
     Int cpu = 4
     Int mem_gb = 8
 
@@ -35,22 +35,12 @@ task array_wc{
 
 
 workflow test_split_utils{
-    File vcf
     File vcf_info
     File vcf_gz
     File vcf_info_gz
     Int records_per_split = 10000
     Int cpu = 4
     Int mem_gb = 8
-
-    call SPLIT.split_vcf as split_vcf{
-        input:
-            input_vcf = vcf,
-            records_per_split = records_per_split,
-            output_basename = "test_split_vcf",
-            cpu = cpu,
-            mem_gb = mem_gb
-    }
 
     call SPLIT.split_vcf_info as split_info{
         input:
@@ -76,16 +66,6 @@ workflow test_split_utils{
             input_vcf_info = vcf_info_gz,
             records_per_split = records_per_split,
             output_basename = "test_split_vcf",
-            cpu = cpu,
-            mem_gb = mem_gb
-    }
-
-    call SPLIT.split_vcf as split_vcf_nogzout{
-        input:
-            input_vcf = vcf,
-            records_per_split = records_per_split,
-            output_basename = "test_split_vcf",
-            compress_outputs = false,
             cpu = cpu,
             mem_gb = mem_gb
     }
@@ -120,11 +100,6 @@ workflow test_split_utils{
             mem_gb = mem_gb
     }
 
-    call array_wc as split_vcf_wc{
-        input:
-            inputs = split_vcf.split_vcfs
-    }
-
     call array_wc as split_info_wc{
         input:
             inputs = split_info.split_vcf_infos
@@ -138,11 +113,6 @@ workflow test_split_utils{
     call array_wc as split_info_gz_wc{
         input:
             inputs = split_info_gz.split_vcf_infos
-    }
-
-    call array_wc as split_vcf_nogzout_wc{
-        input:
-            inputs = split_vcf_nogzout.split_vcfs
     }
 
     call array_wc as split_info_nogzout_wc{
@@ -161,20 +131,16 @@ workflow test_split_utils{
     }
 
     output{
-        Array[File] split_vcfs = split_vcf.split_vcfs
         Array[File] split_infos = split_info.split_vcf_infos
         Array[File] split_gz_vcfs = split_vcf_gz.split_vcfs
         Array[File] split_gz_infos = split_info_gz.split_vcf_infos
-        Array[File] split_vcfs_nogzout = split_vcf_nogzout.split_vcfs
         Array[File] split_infos_nogzout = split_info_nogzout.split_vcf_infos
         Array[File] split_gz_vcfs_nogzout = split_vcf_gz_nogzout.split_vcfs
         Array[File] split_gz_infos_nogzout = split_info_gz_nogzout.split_vcf_infos
 
-        Array[String] split_vcfs_wc = split_vcf_wc.wcs
         Array[String] split_infos_wc = split_info_wc.wcs
         Array[String] split_gz_vcfs_wc = split_vcf_gz_wc.wcs
         Array[String] split_gz_infos_wc = split_info_gz_wc.wcs
-        Array[String] split_vcfs_nogzout_wc = split_vcf_nogzout_wc.wcs
         Array[String] split_infos_nogzout_wc = split_info_nogzout_wc.wcs
         Array[String] split_gz_vcfs_nogzout_wc = split_vcf_gz_nogzout_wc.wcs
         Array[String] split_gz_infos_nogzout_wc = split_info_gz_nogzout_wc.wcs

@@ -9,7 +9,7 @@ task split_vcf{
     String docker = "rtibiocloud/pigz:v2.4-8d966cb"
     Int cpu = 8
     Int unzip_cpu = cpu - 1
-    Int mem_gb = 12
+    Int mem_gb = 8
     Int max_retries = 3
 
     command <<<
@@ -17,7 +17,7 @@ task split_vcf{
         then
             # CASE: File is gzipped and needs to be decompressed on the fly (pigz for multithreaded)
             # Grab the header
-            pigz -p ${unzip_cpu} -d -k -c ${input_vcf} | -head -n 10000 | grep "^#" > header.txt
+            pigz -p ${unzip_cpu} -d -k -c ${input_vcf} | head -n 10000 | grep "^#" > header.txt
 
             # Split records
             pigz -p ${unzip_cpu} -d -k -c ${input_vcf} | grep -v "^#" | split -l ${records_per_split} - ${output_basename}.split.
@@ -37,9 +37,9 @@ task split_vcf{
             # Add header to each split (with optional output compression)
             if [[ '${compress_outputs}' == 'true' ]]
             then
-                cat header $i | pigz -p ${cpu} -c > $i.vcf.gz
+                cat header.txt $i | pigz -p ${cpu} -c > $i.vcf.gz
             else
-                cat header $i > $i.vcf
+                cat header.txt $i > $i.vcf
             fi
         done
     >>>
@@ -67,7 +67,7 @@ task split_vcf_info{
     String docker = "rtibiocloud/pigz:v2.4-8d966cb"
     Int cpu = 8
     Int unzip_cpu = cpu - 1
-    Int mem_gb = 12
+    Int mem_gb = 8
     Int max_retries = 3
 
     command <<<
@@ -75,7 +75,7 @@ task split_vcf_info{
         then
             # CASE: File is gzipped and needs to be decompressed on the fly (pigz for multithreaded)
             # Grab the header
-            pigz -p ${unzip_cpu} -d -k -c ${input_vcf_info} | -head -n 1 > header.txt
+            pigz -p ${unzip_cpu} -d -k -c ${input_vcf_info} | head -n 1 > header.txt
 
             # Split records
             pigz -p ${unzip_cpu} -d -k -c ${input_vcf_info} | tail -n +2 | split -l ${records_per_split} - ${output_basename}.split.
@@ -95,9 +95,9 @@ task split_vcf_info{
             # Add header to each split (with optional output compression)
             if [[ '${compress_outputs}' == 'true' ]]
             then
-                cat header $i | pigz -p ${cpu} -c > $i.info.gz
+                cat header.txt $i | pigz -p ${cpu} -c > $i.info.gz
             else
-                cat header $i > $i.info
+                cat header.txt $i > $i.info
             fi
         done
     >>>
