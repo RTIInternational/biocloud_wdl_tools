@@ -141,8 +141,7 @@ task king{
     }
 
     output {
-        File unrelated_samples = "${output_basename}unrelated.txt"
-        File related_samples = "${output_basename}unrelated_toberemoved.txt"
+        Array[File] outputs = glob("${output_basename}*")
     }
 }
 
@@ -308,5 +307,83 @@ task king_samples_to_ids{
 
     output {
         File king_samples_out = "${output_filename}"
+    }
+}
+
+task kinship{
+    File bed_in
+    File bim_in
+    File fam_in
+    File? bed_in_pair
+    File? bim_in_pair
+    File? fam_in_pair
+    String output_basename
+
+    # Get input prefixes
+    Boolean do_paired_kinship = defined(bed_in_pair)
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+    String input_prefix_pair = if(do_paired_kinship) then basename(sub(bed_in_pair, "\\.gz$", ""), ".bed") else ""
+    #String kinship_prefix = if(do_paired_kinship) then "plink_input/${input_prefix},plink_input/${input_prefix_pair}" else "plink_input/${input_prefix}"
+
+    # Relatedness inference parameter
+    Int? degree
+
+    # Optoinal string to specify chrX label
+    String? sexchr
+
+    # Runtime environment
+    String docker = "rtibiocloud/king:v2.24-f0eeb5c"
+    Int cpu = 1
+    Int mem_gb = 2
+
+    command {
+        set -e
+        mkdir plink_input
+
+        # Put everything in same directory
+        ln -s ${bed_in} plink_input/${input_prefix}.bed
+        ln -s ${bim_in} plink_input/${input_prefix}.bim
+        ln -s ${fam_in} plink_input/${input_prefix}.fam
+
+        if [[ '${do_paired_kinship}' == 'true' ]]
+        then
+        # Run with projection N option with two files
+
+            # Move paired files to directory also
+            ln -s ${bed_in_pair} plink_input/${input_prefix_pair}.bed
+            ln -s ${bim_in_pair} plink_input/${input_prefix_pair}.bim
+            ln -s ${fam_in_pair} plink_input/${input_prefix_pair}.fam
+
+            # Calculate size of projection (num samples in first input)
+            proj=$(wc -l plink_input/${input_prefix}.fam | cut -d" " -f1)
+
+            # Run KING kinship
+            king -b plink_input/${input_prefix},plink_input/${input_prefix_pair} \
+                --kinship \
+                ${'--degree ' + degree} \
+                --cpus ${cpu} \
+                --proj $proj \
+                ${'--sexchr ' + sexchr} \
+                --prefix ${output_basename}
+        else
+            # Run KING kinship normally on a single file
+            king -b ${input_prefix} \
+                --kinship \
+                ${'--degree ' + degree} \
+                --cpus ${cpu} \
+                ${'--sexchr ' + sexchr} \
+                --prefix ${output_basename}
+        fi
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File kinship_output = "${output_basename}.kin0"
+        Array[File] other_files = glob("${output_basename}*")
     }
 }
