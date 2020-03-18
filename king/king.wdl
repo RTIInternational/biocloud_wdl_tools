@@ -143,9 +143,140 @@ task king{
     output {
         File unrelated_samples = "${output_basename}unrelated.txt"
         File related_samples = "${output_basename}unrelated_toberemoved.txt"
-        Array[File] accessory_files = glob("*")
     }
 }
+
+task related{
+    File bed_in
+    File bim_in
+    File fam_in
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+    String output_basename
+
+    # Relatedness inference parameter
+    Int? degree
+
+    # Optoinal string to specify chrX label
+    String? sexchr
+
+    # Runtime environment
+    String docker = "rtibiocloud/king:v2.24-f0eeb5c"
+    Int cpu = 1
+    Int mem_gb = 2
+
+    command {
+        mkdir plink_input
+
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Run KING
+        king -b plink_input/${input_prefix}.bed \
+            --bim plink_input/${input_prefix}.bim \
+            --fam plink_input/${input_prefix}.fam \
+            --prefix ${output_basename} \
+            --related \
+            --cpus ${cpu} \
+            ${'--degree ' + degree} \
+            ${'--sexchr ' + sexchr}
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File unrelated_samples = "${output_basename}unrelated.txt"
+        File related_samples = "${output_basename}unrelated_toberemoved.txt"
+    }
+}
+
+task duplicate{
+    File bed_in
+    File bim_in
+    File fam_in
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+    String output_basename
+
+    # Optoinal string to specify chrX label
+    String? sexchr
+
+    # Runtime environment
+    String docker = "rtibiocloud/king:v2.24-f0eeb5c"
+    Int cpu = 1
+    Int mem_gb = 2
+
+    command {
+        mkdir plink_input
+
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Run KING
+        king -b plink_input/${input_prefix}.bed \
+            --bim plink_input/${input_prefix}.bim \
+            --fam plink_input/${input_prefix}.fam \
+            --prefix ${output_basename} \
+            --duplicate \
+            --cpus ${cpu} \
+            ${'--sexchr ' + sexchr}
+
+        touch ${output_basename}.con
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File duplicate_samples = "${output_basename}.con"
+    }
+}
+
 
 task king_samples_to_ids{
     File king_samples_in
