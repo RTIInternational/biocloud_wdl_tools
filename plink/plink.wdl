@@ -683,9 +683,10 @@ task remove_fam_pedigree{
     Int mem_gb = 1
 
     command <<<
+        set -e
         # Zero out the mother/father id and remove family with line count
         awk '{$1=NR; $3=0; $4=0; print}' ${fam_in} > ${output_basename}.fam
-        
+
         # Create mapping file for restoring family id later
         awk '{print NR,$2,$1,$2}' ${fam_in} > ${output_basename}.idmap.fam
     >>>
