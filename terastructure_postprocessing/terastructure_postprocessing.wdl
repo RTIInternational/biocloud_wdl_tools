@@ -21,7 +21,7 @@ task terastructure_postprocess{
             --ref_pop_type ${ref_pop_type} \
             --out_prefix ${output_basename} \
             ${'--sample_dataset_xref ' + sample_study_groups} \
-            --ancestry-definition "${sep=' --ancestry-definition "' ancestry_definitions}"
+            --ancestry-definition "${sep='" --ancestry-definition "' ancestry_definitions}"
     }
 
     runtime {
