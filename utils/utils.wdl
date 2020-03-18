@@ -167,5 +167,27 @@ task remove_empty_files{
     output {
         Array[File] non_empty_files = glob("non_empty_files/*")
     }
+}
 
+task wc{
+    File input_file
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        wc -l ${input_file} | cut -d" " -f1
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        Int num_lines = read_int(stdout())
+    }
 }
