@@ -143,7 +143,7 @@ task king{
     output {
         File unrelated_samples = "${output_basename}unrelated.txt"
         File related_samples = "${output_basename}unrelated_toberemoved.txt"
-        Array[File] accessory_files = glob("${output_basename}*")
+        Array[File] accessory_files = glob("*")
     }
 }
 
