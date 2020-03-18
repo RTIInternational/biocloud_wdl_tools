@@ -114,13 +114,19 @@ task split_vcf_info{
     }
 }
 
-task split_n_equal_chunks{
+task split_file{
     # Utility for splitting a VCF info file into chunks of N variants
     File input_file
-    Int num_chunks
     String output_basename
     String output_extension
     Boolean compress_outputs = false
+
+    # Define either num lines per split or total number of equal-sized splits
+    # Options are technically mutally exclusive but I don't have the logic in WDL to enforce
+    Int? num_splits
+    Int? lines_per_split
+    Boolean make_equal_splits = defined(num_splits)
+    Boolean invalid_args = !defined(num_splits) && !defined(lines_per_split)
 
     # Runtime environment
     String docker = "rtibiocloud/pigz:v2.4-8d966cb"
@@ -131,13 +137,24 @@ task split_n_equal_chunks{
 
     command <<<
         set -e
-        # Get number of lines in filie
-        lines=$(wc -l ${input_file} | cut -d" " -f1)
-        echo "Detected $lines lines in file..."
 
-        # Compute number of lines per split
-        records_per_split=$(awk -v var=$lines 'BEGIN{print int(var/${num_chunks})}')
-        echo "Creating ${num_chunks} with at minimum $records_per_split lines per file..."
+        # Error out if user didn't choose either option (num_splits or lines_per_split)
+        if [[ '${invalid_args}' == 'true' ]]
+        then
+            echo "You must define either num_splits for lines_per_split!"
+            exit 1
+
+        if [[ '${make_equal_splits}' == 'true' ]]
+        then
+            # Get number of lines in filie
+            lines=$(wc -l ${input_file} | cut -d" " -f1)
+            echo "Detected $lines lines in file..."
+
+            # Compute number of lines per split
+            records_per_split=$(awk -v var=$lines 'BEGIN{print int(var/${num_splits})}')
+            echo "Creating ${num_splits} split files with at minimum $records_per_split lines per file..."
+        else
+            records_per_split=${lines_per_split}
 
         if [[ ${input_file} =~ \.gz$ ]]
         then
@@ -158,7 +175,6 @@ task split_n_equal_chunks{
             then
                 pigz -p ${cpu} $file
             fi
-
         done
     >>>
 
