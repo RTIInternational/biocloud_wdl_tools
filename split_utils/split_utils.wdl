@@ -113,3 +113,63 @@ task split_vcf_info{
         Array[File] split_vcf_infos = glob("${output_basename}.split.*.info*")
     }
 }
+
+task split_n_equal_chunks{
+    # Utility for splitting a VCF info file into chunks of N variants
+    File input_file
+    Int num_chunks
+    String output_basename
+    String output_extension
+    Boolean compress_outputs = false
+
+    # Runtime environment
+    String docker = "rtibiocloud/pigz:v2.4-8d966cb"
+    Int cpu = 2
+    Int unzip_cpu = cpu - 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+        set -e
+        # Get number of lines in filie
+        lines=$(wc -l ${input_file} | cut -d" " -f1)
+        echo "Detected $lines lines in file..."
+
+        # Compute number of lines per split
+        records_per_split=$(awk -v var=$lines 'BEGIN{print int(var/${num_chunks})}')
+        echo "Creating ${num_chunks} with at minimum $records_per_split lines per file..."
+
+        if [[ ${input_file} =~ \.gz$ ]]
+        then
+            # Split file with decompression
+            pigz -p ${unzip_cpu} -d -k -c ${input_file} | \
+            split --additional-suffix=${output_extension} -l $records_per_split - ${output_basename}.split.
+        else
+            # Split file without decompression
+            split --additional-suffix=${output_extension} -l $records_per_split ${input_file} ${output_basename}.split.
+        fi
+
+        # Optionally compress split files
+        for i in ${output_basename}.split.*
+        do
+            wc -l $file
+
+            if [[ '${compress_outputs}' == 'true' ]]
+            then
+                pigz -p ${cpu} $file
+            fi
+
+        done
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        Array[File] output_files = glob("${output_basename}.split.*")
+    }
+}
