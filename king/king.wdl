@@ -165,6 +165,7 @@ task unrelated{
     Int mem_gb = 2
 
     command {
+        set -e
         mkdir plink_input
 
         # Bed file preprocessing
@@ -199,6 +200,9 @@ task unrelated{
             --cpus ${cpu} \
             ${'--degree ' + degree} \
             ${'--sexchr ' + sexchr}
+
+        # Touch to make sure unrelated file always appears
+        touch ${output_basename}unrelated_toberemoved.txt
     }
 
     runtime {
@@ -208,6 +212,9 @@ task unrelated{
     }
 
     output {
+        # This is stupid but for some reason the unrelated command doesn't append a "." after prefix on output files
+        # No other KING commands are like this so it's likely an oversight but you might want to include a "."
+        # In your prefix for prettier output filenames
         File unrelated_samples = "${output_basename}unrelated.txt"
         File related_samples = "${output_basename}unrelated_toberemoved.txt"
     }
@@ -229,6 +236,7 @@ task duplicate{
     Int mem_gb = 2
 
     command {
+        set -e
         mkdir plink_input
 
         # Bed file preprocessing
