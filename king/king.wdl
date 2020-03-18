@@ -146,7 +146,7 @@ task king{
     }
 }
 
-task related{
+task unrelated{
     File bed_in
     File bim_in
     File fam_in
@@ -195,7 +195,7 @@ task related{
             --bim plink_input/${input_prefix}.bim \
             --fam plink_input/${input_prefix}.fam \
             --prefix ${output_basename} \
-            --related \
+            --unrelated \
             --cpus ${cpu} \
             ${'--degree ' + degree} \
             ${'--sexchr ' + sexchr}
