@@ -1,7 +1,7 @@
 task terastructure_postprocess{
     File theta
-    File data_fam
-    File ref_psam
+    File fam
+    File psam
     String ref_pop_type
     Array[String] ancestry_definitions
     String dataset_label
@@ -16,8 +16,8 @@ task terastructure_postprocess{
     command {
         Rscript /opt/terastructure_postprocessing.R \
             --theta ${theta} \
-            --fam ${data_fam} \
-            --psam ${ref_psam} \
+            --fam ${fam} \
+            --psam ${psam} \
             --ref_pop_type ${ref_pop_type} \
             --out_prefix ${output_basename} \
             ${'--sample_dataset_xref ' + sample_study_groups} \
