@@ -390,7 +390,7 @@ task kinship{
     }
 }
 
-task kinship_to_sample_list{
+task kinship_to_plink_sample_list{
     File duplicate_samples_in
     String output_filename
 
