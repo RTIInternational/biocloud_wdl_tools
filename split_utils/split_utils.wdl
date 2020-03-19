@@ -143,6 +143,7 @@ task split_file{
         then
             echo "You must define either num_splits for lines_per_split!"
             exit 1
+        fi
 
         if [[ '${make_equal_splits}' == 'true' ]]
         then
@@ -155,6 +156,7 @@ task split_file{
             echo "Creating ${num_splits} split files with at minimum $records_per_split lines per file..."
         else
             records_per_split=${lines_per_split}
+        fi
 
         if [[ ${input_file} =~ \.gz$ ]]
         then
