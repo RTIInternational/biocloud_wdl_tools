@@ -322,7 +322,7 @@ task kinship{
     # Get input prefixes
     Boolean do_paired_kinship = defined(bed_in_pair)
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
-    String input_prefix_pair = if(do_paired_kinship) then basename(sub(bed_in_pair, "\\.gz$", ""), ".bed") else ""
+    String input_prefix_pair = if(do_paired_kinship) then basename(sub(select_first([bed_in_pair]), "\\.gz$", ""), ".bed") else ""
     #String kinship_prefix = if(do_paired_kinship) then "plink_input/${input_prefix},plink_input/${input_prefix_pair}" else "plink_input/${input_prefix}"
 
     # Relatedness inference parameter
