@@ -367,7 +367,9 @@ task kinship{
                 --prefix ${output_basename}
         else
             # Run KING kinship normally on a single file
-            king -b plink_input/${input_prefix} \
+            king -b plink_input/${input_prefix}.bed \
+                --bim plink_input/${input_prefix}.bim \
+                --fam plink_input/${input_prefix}.fam \
                 --kinship \
                 ${'--degree ' + degree} \
                 --cpus ${cpu} \
