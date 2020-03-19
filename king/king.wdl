@@ -422,7 +422,7 @@ task prune_related_samples{
     String? output_delim
 
     # Runtime environment
-    String docker = "rtibiocloud/process_king_kinship:eb1c987"
+    String docker = "rtibiocloud/process_king_kinship:43217c0"
     Int cpu = 1
     Int mem_gb = 1
 
