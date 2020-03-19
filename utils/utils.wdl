@@ -191,3 +191,28 @@ task wc{
         Int num_lines = read_int(stdout())
     }
 }
+
+task cut{
+    File input_file
+    String args
+    String output_filename
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        cut ${args} ${input_file} > ${output_filename}
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File output_file = "${output_filename}"
+    }
+}
