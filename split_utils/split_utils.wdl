@@ -152,7 +152,7 @@ task split_file{
             echo "Detected $lines lines in file..."
 
             # Compute number of lines per split
-            records_per_split=$(awk -v var=$lines 'BEGIN{print int(var/${num_splits})}')
+            records_per_split=$(awk -v var=$lines 'BEGIN{print int(var/${num_splits})+1}')
             echo "Creating ${num_splits} split files with at minimum $records_per_split lines per file..."
         else
             records_per_split=${lines_per_split}
@@ -171,11 +171,11 @@ task split_file{
         # Optionally compress split files
         for i in ${output_basename}.split.*
         do
-            wc -l $file
+            wc -l $i
 
             if [[ '${compress_outputs}' == 'true' ]]
             then
-                pigz -p ${cpu} $file
+                pigz -p ${cpu} $i
             fi
         done
     >>>
