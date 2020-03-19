@@ -410,6 +410,6 @@ task kinship_to_plink_sample_list{
     }
 
     output {
-        File duplicate_sample_out = "${output_filename}"
+        File sample_list = "${output_filename}"
     }
 }
