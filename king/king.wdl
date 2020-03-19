@@ -413,3 +413,33 @@ task kinship_to_plink_sample_list{
         File sample_list = "${output_filename}"
     }
 }
+
+task prune_related_samples{
+    File kinship_in
+    String output_basename
+
+    # Optionally specify output file delimiter. Supported options: ["space", "tab", "comma"]
+    String? output_delim
+
+    # Runtime environment
+    String docker = "rtibiocloud/process_king_kinship:eb1c987"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command <<<
+        Rscript /opt/process_king_kinship.R --kinship ${kinship_in} \
+            --output_basename ${output_basename} \
+            ${'--output_delim ' + output_delim}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File related_samples = "${output_basename}.related.remove"
+        File annotated_kinship_out = "${output_basename}.annotated.k0"
+    }
+}
