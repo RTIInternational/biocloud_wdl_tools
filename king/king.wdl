@@ -427,7 +427,8 @@ task prune_related_samples{
     Int mem_gb = 1
 
     command <<<
-        Rscript /opt/process_king_kinship.R --kinship ${kinship_in} \
+        Rscript /opt/process_king_kinship.R \
+            --kinship ${kinship_in} \
             --output_basename ${output_basename} \
             ${'--output_delim ' + output_delim}
     >>>
