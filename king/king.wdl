@@ -389,3 +389,27 @@ task kinship{
         Array[File] other_files = glob("${output_basename}*")
     }
 }
+
+task kinship_to_sample_list{
+    File duplicate_samples_in
+    String output_filename
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        tail -n +2 ${duplicate_samples_in} | cut -f 3,4 > ${output_filename}
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File duplicate_sample_out = "${output_filename}"
+    }
+}
