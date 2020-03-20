@@ -880,3 +880,67 @@ task contains_chr{
     }
 }
 
+task get_excess_homo_samples{
+    Array[File] bed_in
+    Array[File] bim_in
+    Array[File] fam_in
+    String output_basename
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+    Float min_he
+    Float max_he
+
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+        set -e
+        mkdir plink_input
+
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Get expected heterozygosity for each sample
+        plink --bfile plink_input/${input_prefix} \
+            --het \
+            --threads ${cpu} \
+            --out ${output_basename}
+
+        # Get list of outlier samples that need to be removed
+        perl -lane 'if ($F[5] < ${min_he} || $F[5] > ${min_he}) { print $F[0]." ".$F[1]; }' > ${output_basename}.remove
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File homo_report = "${output_basename}.het"
+        File excess_homos = "${output_basename}.remove"
+    }
+}
+
