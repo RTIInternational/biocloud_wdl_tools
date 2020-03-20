@@ -216,3 +216,36 @@ task cut{
         File output_file = "${output_filename}"
     }
 }
+
+task get_file_union{
+    # Takes a list of files and outputs the union of lines in each file with no duplicates
+    Array[File] input_files
+    String output_filename
+
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+        set -e
+        for file in ${sep=" " input_files}
+        do
+            cat $file >> all_files.txt
+        done
+
+        # Dedup merged file
+        sort all_files.txt | uniq > ${output_filename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File output_file = "${output_filename}"
+    }
+}
