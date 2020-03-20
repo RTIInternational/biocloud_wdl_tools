@@ -861,7 +861,7 @@ task contains_chr{
     Int mem_gb = 1
 
     command {
-        cut -f1 ${bim_in} | sort | unique | grep '^${chr}$' > results.txt
+        cut -f1 ${bim_in} | sort | uniq | grep '^${chr}$' > results.txt
         if [ -s results.txt ]; then
             echo "true"
         else
