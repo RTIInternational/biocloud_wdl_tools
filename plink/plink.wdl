@@ -659,7 +659,15 @@ task remove_fam_phenotype{
     Int mem_gb = 1
 
     command {
-        perl -pe 's/\S+$/0/;' ${fam_in} > ${output_basename}.fam
+        set -e
+        # Gunzip if necessary
+        input=${fam_in}
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            gunzip -c ${fam_in} > fam.txt
+            input=fam.txt
+        fi
+
+        perl -pe 's/\S+$/0/;' "$input" > ${output_basename}.fam
     }
 
     runtime {
