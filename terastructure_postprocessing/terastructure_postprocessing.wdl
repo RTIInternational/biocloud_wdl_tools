@@ -9,7 +9,7 @@ task terastructure_postprocess{
     File? sample_study_groups
 
     # Runtime environment
-    String docker = "rtibiocloud/terastructure_postprocessing:v1-462a765"
+    String docker = "rtibiocloud/terastructure_postprocessing:v1-2372b2f"
     Int cpu = 2
     Int mem_gb = 4
 
