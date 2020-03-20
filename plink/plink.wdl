@@ -851,3 +851,32 @@ task sex_check{
     }
 }
 
+task contains_chr{
+    File bim_in
+    String chr
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        cut -f1 ${bim_in} | sort | unique | grep '^${chr}$' > results.txt
+        if [ -s results.txt ]; then
+            echo "true"
+        else
+            echo "false"
+        fi
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        Boolean contains = read_boolean(stdout())
+    }
+}
+
