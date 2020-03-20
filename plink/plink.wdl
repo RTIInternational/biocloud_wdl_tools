@@ -562,6 +562,7 @@ task merge_beds{
 
         # Merge bed file
         plink --make-bed \
+            --threads ${cpu} \
             --merge-list merge_list.txt \
             --out ${output_basename}
     >>>
@@ -619,7 +620,8 @@ task merge_two_beds{
             --bfile plink_input/${input_prefix_a} \
             --bmerge plink_input/${input_prefix_b} \
             ${'--merge-mode ' + merge_mode} \
-            --out ${output_basename}
+            --out ${output_basename} \
+            --threads ${cpu}
 
         # Touch to create null missnp file for successful merge
         touch ${output_basename}.missnp
@@ -769,7 +771,8 @@ task prune_ld_markers{
             ${'--maf ' + maf} \
             ${'--chr ' + chr} \
             ${'--exclude range ' + exclude_regions} \
-            --out ${output_basename}
+            --out ${output_basename} \
+            --threads ${cpu}
     }
 
     runtime {
@@ -832,7 +835,8 @@ task sex_check{
         plink --bfile plink_input/${input_prefix} \
             ${'--update-sex ' + update_sex} \
             --check-sex ${female_max_f} ${male_min_f} \
-            --out ${output_basename}
+            --out ${output_basename} \
+            --threads ${cpu}
 
         # Rename output file
         perl -lane 'print join("\t",@F);' ${output_basename}.sexcheck > ${output_basename}.sexcheck.all.tsv
