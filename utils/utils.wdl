@@ -178,7 +178,12 @@ task wc{
     Int mem_gb = 1
 
     command {
-        wc -l ${input_file} | cut -d" " -f1
+        if [[ ${input_file} =~ \.gz$ ]]
+        then
+            gunzip -c ${input_file} | wc -l | cut -d" " -f1
+        else
+            wc -l ${input_file} | cut -d" " -f1
+        fi
     }
 
     runtime {
