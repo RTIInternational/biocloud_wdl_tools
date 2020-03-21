@@ -804,8 +804,6 @@ task sex_check{
     Int mem_gb = 8
 
     command {
-        set -e
-
         mkdir plink_input
 
         # Bed file preprocessing
