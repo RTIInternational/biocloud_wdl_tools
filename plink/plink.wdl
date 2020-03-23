@@ -845,7 +845,7 @@ task sex_check{
 
         # Create remove list
         tail -n +2 ${output_basename}.sexcheck.problems.tsv |
-        perl -lane 'print join("\t", $F[0], $F[1]);' > ${output_basename}.sexcheck.remove.tsv
+        perl -lane 'print join(" ", $F[0], $F[1]);' > ${output_basename}.sexcheck.remove.tsv
     }
 
     runtime {
