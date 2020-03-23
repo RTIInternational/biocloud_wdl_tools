@@ -845,7 +845,7 @@ task sex_check{
 
         # Create remove list
         tail -n +2 ${output_basename}.sexcheck.problems.tsv |
-        perl -lane 'print join(" ", $F[0], $F[1]);' > ${output_basename}.sexcheck.remove.tsv
+        perl -lane 'print join(" ", $F[0], $F[1]);' > ${output_basename}.sexcheck.remove
     }
 
     runtime {
@@ -857,7 +857,7 @@ task sex_check{
     output {
         File plink_sex_check_output = "${output_basename}.sexcheck.all.tsv"
         File sex_check_problems = "${output_basename}.sexcheck.problems.tsv"
-        File samples_to_remove = "${output_basename}.sexcheck.remove.tsv"
+        File samples_to_remove = "${output_basename}.sexcheck.remove"
     }
 }
 
