@@ -254,3 +254,31 @@ task get_file_union{
         File output_file = "${output_filename}"
     }
 }
+
+task replace_chr{
+    # Replace all occurances of a character in a file with another
+    File input_file
+    String output_filename
+    String char
+    String new_char
+
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+        sed 's/${char}/${new_char}/g' ${input_file} > ${output_filename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File output_file = "${output_filename}"
+    }
+}
