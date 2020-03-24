@@ -9,7 +9,7 @@ task terastructure_postprocess{
     File? sample_study_groups
 
     # Runtime environment
-    String docker = "rtibiocloud/terastructure_postprocessing:v1-2372b2f"
+    String docker = "rtibiocloud/terastructure_postprocessing:v1-37ef274"
     Int cpu = 2
     Int mem_gb = 4
 
@@ -31,9 +31,11 @@ task terastructure_postprocess{
     }
 
     output {
-        Array[File] triangle_plots  = glob("${output_basename}*triangle.png")
+        Array[File] triangle_plots  = glob("${output_basename}*.png")
         Array[File] ancestry_thetas = glob("${output_basename}*theta.tsv")
         Array[File] ancestry_samples = glob("${output_basename}*keep")
+        File misclassified_ref_samples = "${output_basename}_ref_misclassified.txt"
+        File unclassified_samples = "${output_basename}_study_unclassified.txt"
     }
 }
 
