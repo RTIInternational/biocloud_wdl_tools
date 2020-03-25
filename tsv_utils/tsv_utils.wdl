@@ -102,7 +102,7 @@ task tsv_select{
     # TSV utility for selecting/re-ordering columns (similar to cut but allows re-ordering)
     File tsv_input
     String output_filename
-    String fields
+    Array[String] fields
     Boolean header = true
     String? delimiter
     String rest = "none"  # Location for remaining fields (none|first|last)
@@ -127,7 +127,7 @@ task tsv_select{
         tsv-select \
 		    ${true="--header" false="" header} \
 		    ${"--delimiter '" + delimiter + "'"} \
-		    --fields ${fields} \
+		    --fields ${sep=" " fields} \
 		    --rest ${rest} \
             $input_file > ${output_filename}
     >>>
