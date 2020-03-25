@@ -302,3 +302,34 @@ task raise_error{
         File err_msg = "err_msg.txt"
     }
 }
+
+task cat{
+    # Replace all occurances of a character in a file with another
+    Array[File] input_files
+    String output_filename
+    Boolean input_gzipped = false
+
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+        if [[ '${input_gzipped}' == 'true' ]]; then
+            zcat ${sep=" " input_files} > ${output_filename}
+        else
+            cat ${sep=" " input_files} > ${output_filename}
+        fi
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File output_file = "${output_filename}"
+    }
+}
