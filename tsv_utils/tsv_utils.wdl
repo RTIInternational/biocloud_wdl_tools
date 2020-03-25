@@ -127,7 +127,7 @@ task tsv_select{
         tsv-select \
 		    ${true="--header" false="" header} \
 		    ${"--delimiter '" + delimiter + "'"} \
-		    --fields ${sep=" " fields} \
+		    --fields ${sep="," fields} \
 		    --rest ${rest} \
             $input_file > ${output_filename}
     >>>
