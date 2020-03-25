@@ -287,7 +287,7 @@ task raise_error{
     # General module for stopping a pipeline with a custom error message
     String msg
     command <<<
-        echo '${msg}'
+        echo '${msg}' > err_msg.txt
         exit 1
     >>>
 
@@ -299,6 +299,6 @@ task raise_error{
     }
 
     output{
-        Array[String] msg_out = read_lines(stdout())
+        File err_msg = "err_msg.txt"
     }
 }
