@@ -299,6 +299,6 @@ task raise_error{
     }
 
     output{
-        String msg_out = read_lines(stdout())
+        Array[String] msg_out = read_lines(stdout())
     }
 }
