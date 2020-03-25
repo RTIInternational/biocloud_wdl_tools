@@ -286,20 +286,19 @@ task replace_chr{
 task raise_error{
     # General module for stopping a pipeline with a custom error message
     String msg
-    String docker = "ubuntu:18.04"
     command <<<
         echo '${msg}'
         exit 1
     >>>
 
     runtime {
-        docker: docker
+        docker: "ubuntu:18.04"
         cpu: 1
         memory: "500 MB"
         maxRetries: 1
     }
 
     output{
-        String msg_out = readlines(stdout())
+        String msg_out = read_lines(stdout())
     }
 }
