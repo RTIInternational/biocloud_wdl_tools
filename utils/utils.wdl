@@ -282,3 +282,24 @@ task replace_chr{
         File output_file = "${output_filename}"
     }
 }
+
+task raise_error{
+    # General module for stopping a pipeline with a custom error message
+    String msg
+    String docker = "ubuntu:18.04"
+    command <<<
+        echo '${msg}'
+        exit 1
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: 1
+        memory: "500 MB"
+        maxRetries: 1
+    }
+
+    output{
+        String msg_out = readlines(stdout())
+    }
+}
