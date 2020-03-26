@@ -6,7 +6,7 @@ task gzip{
 
     String docker = "rtibiocloud/pigz:v2.4_b243f9"
     Int cpu = 1
-    Int mem_gb = 2
+    Int mem_gb = 1
     Int max_retries = 3
 
     command <<<
@@ -33,7 +33,7 @@ task gunzip{
 
     String docker = "rtibiocloud/pigz:v2.4_b243f9"
     Int cpu = 1
-    Int mem_gb = 2
+    Int mem_gb = 1
     Int max_retries = 3
 
     command <<<
