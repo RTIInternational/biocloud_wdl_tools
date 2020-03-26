@@ -333,3 +333,33 @@ task cat{
         File output_file = "${output_filename}"
     }
 }
+
+task get_file_extension{
+    # Get a file extension
+    # Optionally get more than just the last file extension using fields to determine how many extensions to grab
+    String input_file
+    Int fields = 1
+
+    command <<<
+        echo ${input_file} | awk -F '\.' \
+            '{
+                extension = ""
+                i = NF
+                while((i > NF-${fields}) && (substr($i, 1, 1) ~ /[A-Za-z]/)){
+                    extension="." $i extension
+                    i--
+                }
+                print extension
+            }'
+    >>>
+
+    runtime {
+        docker: "ubuntu:18.04"
+        cpu: 1
+        memory: "100 MB"
+    }
+
+    output{
+        String extension = read_string(stdout())
+    }
+}
