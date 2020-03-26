@@ -16,7 +16,7 @@ task terastructure_merger{
             --template_fam ${template_fam} \
             --fam ${fam} \
             --theta ${theta} \
-            --output_filename ${output_filename} \
+            --output_filename ${output_filename}
     }
 
     runtime {
