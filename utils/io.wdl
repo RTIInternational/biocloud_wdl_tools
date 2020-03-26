@@ -10,7 +10,7 @@ task gzip{
     Int max_retries = 3
 
     command <<<
-        pigz -ck - ${cpu} ${input_file} > ${output_filename}
+        pigz -ck -p${cpu} ${input_file} > ${output_filename}
     >>>
 
     runtime {
@@ -37,7 +37,7 @@ task gunzip{
     Int max_retries = 3
 
     command <<<
-        unpigz -ck - ${cpu} ${input_file} > ${output_filename}
+        unpigz -ck -p${cpu} ${input_file} > ${output_filename}
     >>>
 
     runtime {
