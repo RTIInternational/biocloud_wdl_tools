@@ -148,7 +148,12 @@ task split_file{
         if [[ '${make_equal_splits}' == 'true' ]]
         then
             # Get number of lines in filie
-            lines=$(wc -l ${input_file} | cut -d" " -f1)
+            if [[ ${input_file} =~ \.gz$ ]];then
+                lines=$(pigz -p ${unzip_cpu} -dkc ${input_file} | wc -l | cut -d" " -f1)
+            else
+                lines=$(wc -l ${input_file} | cut -d" " -f1)
+            fi
+
             echo "Detected $lines lines in file..."
 
             # Compute number of lines per split
