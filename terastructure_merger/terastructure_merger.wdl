@@ -26,6 +26,6 @@ task terastructure_merger{
     }
 
     output {
-        File theta_out  = glob("${output_filename}")
+        File theta_out  = "${output_filename}"
     }
 }
