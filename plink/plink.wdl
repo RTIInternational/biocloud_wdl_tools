@@ -315,6 +315,11 @@ task make_bed{
     Boolean? autosome_xy
     Boolean? prune
     Array[String]? extra_chrs
+    Array[String]? chrs
+    Array[String]? not_chrs
+
+    String chrs_prefix = if(defined(chrs)) then "--chr" else ""
+    String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
     # Site type filtering
     Boolean? snps_only
@@ -460,6 +465,8 @@ task make_bed{
             ${true='--attrib-indiv' false="" attrib_indiv} ${attrib_indiv} ${attrib_indiv_filter} \
             ${'--chr ' + chr} \
             ${'--not-chr ' + not_chr} \
+            ${chrs_prefix} ${sep=", " chrs} \
+            ${not_chrs_prefix} ${sep=", " not_chrs} \
             ${true='--allow-extra-chr' false='' allow_extra_chr} ${extra_chrs}\
             ${true='--autosome' false='' autosome} \
             ${true='--autosome-xy' false='' autosome_xy} \
@@ -871,7 +878,12 @@ task contains_chr{
     Int mem_gb = 1
 
     command {
-        cut -f1 ${bim_in} | sort | uniq | grep '^${chr}$' > results.txt
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} | cut -f1 | sort | uniq | grep '^${chr}$' > results.txt
+        else
+            cut -f1 ${bim_in} | sort | uniq | grep '^${chr}$' > results.txt
+        fi
+
         if [ -s results.txt ]; then
             echo "true"
         else
