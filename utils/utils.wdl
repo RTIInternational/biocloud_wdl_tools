@@ -363,3 +363,34 @@ task get_file_extension{
         String extension = read_string(stdout())
     }
 }
+
+task array_contains{
+    # Return true if array contains an exact match, false otherwise
+    Array[String] input_array
+    String query
+
+    command<<<
+        set -e
+        contains=0
+        for i in ${sep=" " input_array};do
+            if [[ "${query}" == "$i" ]];then
+                echo "true"
+                contains=1
+            fi
+        done
+        if [ $contains -eq 0 ];then
+            echo "false"
+        fi
+    >>>
+
+    runtime {
+        docker: "ubuntu:18.04"
+        cpu: 1
+        memory: "100 MB"
+    }
+
+    output{
+        Boolean contains = read_boolean(stdout())
+    }
+
+}
