@@ -402,7 +402,7 @@ task make_bed{
     File? update_sex
     Int? update_sex_n
 
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -419,7 +419,7 @@ task make_bed{
         # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
-            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+            unpigz -p ${cpu} -c ${bed_in} > plink_input/${input_prefix}.bed
         else
             # Otherwise just create softlink with normal
             ln -s ${bed_in} plink_input/${input_prefix}.bed
@@ -427,14 +427,14 @@ task make_bed{
 
         # Bim file preprocessing
         if [[ ${bim_in} =~ \.gz$ ]]; then
-            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+            unpigz -p ${cpu} -c ${bim_in} > plink_input/${input_prefix}.bim
         else
             ln -s ${bim_in} plink_input/${input_prefix}.bim
         fi
 
         # Fam file preprocessing
         if [[ ${fam_in} =~ \.gz$ ]]; then
-            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
         else
             ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
