@@ -1054,40 +1054,6 @@ task get_samples_missing_chr{
     }
 }
 
-task contains_chr{
-    File bim_in
-    String chr
-
-    # Runtime environment
-    String docker = "ubuntu:18.04"
-    Int cpu = 1
-    Int mem_gb = 1
-
-    command {
-        if [[ ${bim_in} =~ \.gz$ ]]; then
-            gunzip -c ${bim_in} | cut -f1 | sort | uniq | grep '^${chr}$' > results.txt
-        else
-            cut -f1 ${bim_in} | sort | uniq | grep '^${chr}$' > results.txt
-        fi
-
-        if [ -s results.txt ]; then
-            echo "true"
-        else
-            echo "false"
-        fi
-    }
-
-    runtime {
-        docker: docker
-        cpu: cpu
-        memory: "${mem_gb} GB"
-    }
-
-    output {
-        Boolean contains = read_boolean(stdout())
-    }
-}
-
 task get_bim_chrs{
     # Returns a list chrs in a bim file in the order they appear
     File bim_in
