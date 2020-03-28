@@ -1092,7 +1092,7 @@ task hardy{
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
     Float hwe_pvalue = 0.0
-    String hwe_mode
+    String? hwe_mode
     Boolean? filter_females
     Array[String]? chrs
     String chrs_prefix = if(defined(chrs)) then "--chr" else ""
