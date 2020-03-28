@@ -1141,7 +1141,7 @@ task hardy{
         # Filter auto hardy file if present
         if [ -f ${output_basename}.hardy ];then
             perl -lane 'if(($. > 1) && ($F[9] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hardy >> ${output_basename}.remove
-        ]
+        fi
 
         # Touch chrX and norm .hardy files so we can expect them both. One will probably be empty if you're subsetting by chr
         touch ${output_basename}.hardy.x
