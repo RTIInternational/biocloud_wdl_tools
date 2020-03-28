@@ -5,12 +5,20 @@ task make_bed_plink2{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
+    # Strand flipping
+    File? flip
+
     # Filtering options by chr
     String? chr
     String? not_chr
     Boolean? allow_extra_chr
     Boolean? autosome
     Boolean? autosome_par
+    Array[String]? chrs
+    Array[String]? not_chrs
+
+    String chrs_prefix = if(defined(chrs)) then "--chr" else ""
+    String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
     # Sample filtering
     File? keep_samples
@@ -80,8 +88,8 @@ task make_bed_plink2{
     String? remove_cat_pheno
 
     # Genotype filtering
-    Float? max_missing_geno_rate
-    Float? max_missing_ind_rate
+    Float? geno
+    Float? mind
 
     # Allele and MAF filtering
     Int? min_alleles
@@ -127,7 +135,15 @@ task make_bed_plink2{
     Boolean? set_hh_missing
     Boolean? hh_missing_keep_dosage
 
-    String docker = "rtibiocloud/plink:v2.0-8875c1e"
+    Boolean? split_x
+    Boolean? merge_x
+    String? build_code
+    Boolean? split_no_fail
+    Boolean? merge_no_fail
+
+
+
+    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -145,7 +161,7 @@ task make_bed_plink2{
         # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
-            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+            unpigz -p ${cpu} -c ${bed_in} > plink_input/${input_prefix}.bed
         else
             # Otherwise just create softlink with normal
             ln -s ${bed_in} plink_input/${input_prefix}.bed
@@ -153,14 +169,14 @@ task make_bed_plink2{
 
         # Bim file preprocessing
         if [[ ${bim_in} =~ \.gz$ ]]; then
-            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+            unpigz -p ${cpu} -c ${bim_in} > plink_input/${input_prefix}.bim
         else
             ln -s ${bim_in} plink_input/${input_prefix}.bim
         fi
 
         # Fam file preprocessing
         if [[ ${fam_in} =~ \.gz$ ]]; then
-            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
         else
             ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
@@ -175,6 +191,8 @@ task make_bed_plink2{
             ${true='--allow-extra-chr' false='' allow_extra_chr} \
             ${true='--autosome' false='' autosome} \
             ${true='--autosome-par' false='' autosome_par} \
+            ${chrs_prefix} ${sep=", " chrs} \
+            ${not_chrs_prefix} ${sep=", " not_chrs} \
             ${'--keep ' + keep_samples} \
             ${'--remove ' + remove_samples} \
             ${'--keep-fam ' + keep_fam} \
@@ -221,8 +239,6 @@ task make_bed_plink2{
             ${'--remove-cats ' + remove_cats} \
             ${true='--remove-cat-names' false= '' remove_cat_names} ${sep=" " remove_cat_names} \
             ${'-remove-cat-pheno ' + remove_cat_pheno} \
-            ${'--geno ' + max_missing_geno_rate} \
-            ${'--mind ' + max_missing_ind_rate} \
             ${'--min-alleles ' + min_alleles} \
             ${'--max-alleles ' + max_alleles} \
             ${'--maf ' + min_maf} ${maf_mode} \
@@ -244,6 +260,11 @@ task make_bed_plink2{
             ${true='--nonfounders' false="" nonfounders} \
             ${true='--sort-vars' false="" sort_vars} ${sort_vars_mode} \
             ${true='--set-hh-missing' false="" set_hh_missing} ${true='keep-dosage' false="" hh_missing_keep_dosage}
+            ${'--flip ' + flip} \
+            ${'--geno ' + geno} \
+            ${'--mind ' + mind} \
+            ${true='--split-par' false="" split_x} ${build_code} ${true='no-fail' false="" split_no_fail} \
+            ${true='--merge-par' false="" merge_x} ${true='no-fail' false="" merge_no_fail}
     >>>
 
     runtime {
@@ -950,7 +971,7 @@ task get_excess_homo_samples{
             --out ${output_basename}
 
         # Get list of outlier samples that need to be removed
-        perl -lane 'if ($F[5] < ${min_he} || $F[5] > ${min_he}) { print $F[0]." ".$F[1]; }' > ${output_basename}.remove
+        perl -lane 'if ($F[5] < ${min_he} || $F[5] > ${min_he}) { print $F[0]." ".$F[1]; }' ${output_basename}.het > ${output_basename}.remove
     >>>
 
     runtime {
@@ -1030,5 +1051,141 @@ task get_samples_missing_chr{
 
     output{
         File samples = "${output_basename}.samples_missing.chr${chr}.txt"
+    }
+}
+
+task contains_chr{
+    File bim_in
+    String chr
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} | cut -f1 | sort | uniq | grep '^${chr}$' > results.txt
+        else
+            cut -f1 ${bim_in} | sort | uniq | grep '^${chr}$' > results.txt
+        fi
+
+        if [ -s results.txt ]; then
+            echo "true"
+        else
+            echo "false"
+        fi
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        Boolean contains = read_boolean(stdout())
+    }
+}
+
+task get_bim_chrs{
+    # Returns a list chrs in a bim file in the order they appear
+    File bim_in
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command <<<
+        # Can't just use cut/sort/uniq bc we need chrs in order and strings like MT would efff that up by forcing alphabetical sorting
+        # Solution here is just to scan the file with awk and print every time it sees a new chr
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            gunzip -c ${bim_in} | awk '{if(!($1 in arr)){print $1};arr[$1]++}'
+        else
+           cat ${bim_in} | awk '{if(!($1 in arr)){print $1};arr[$1]++}'
+        fi
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        Array[String] chrs = read_lines(stdout())
+    }
+}
+
+task hardy{
+    File bed_in
+    File bim_in
+    File fam_in
+    String output_basename
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+
+    Float hwe_pvalue = 0.0
+    String hwe_mode
+    Boolean? filter_females
+    Array[String]? chrs
+    String chrs_prefix = if(defined(chrs)) then "--chr" else ""
+
+
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+        set -e
+        mkdir plink_input
+
+        # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            unpigz -p ${cpu} -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            unpigz -p ${cpu} -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Get expected heterozygosity for each sample
+        plink --bfile plink_input/${input_prefix} \
+            --hardy \
+            --threads ${cpu} \
+            --out ${output_basename} \
+            ${true='--filter-females' false="" filter_females} \
+            ${chrs_prefix} ${sep=", " chrs}
+
+
+        # Filter file
+        perl -lane 'if(($. > 1) && ($F[9] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hwe > ${output_basename}.remove
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File remove = "${output_basename}.remove"
+        File hwe_report = "${output_basename}.hwe"
     }
 }
