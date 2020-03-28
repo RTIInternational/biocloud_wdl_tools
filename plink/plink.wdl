@@ -245,7 +245,7 @@ task make_bed{
             ${true='--keep-nonfounders' false="" filter_nonfounders} \
             ${true='--nonfounders' false="" nonfounders} \
             ${true='--sort-vars' false="" sort_vars} ${sort_vars_mode} \
-            ${true='--set-hh-missing' false="" set_hh_missing} ${true='keep-dosage' false="" hh_missing_keep_dosage}
+            ${true='--set-hh-missing' false="" set_hh_missing} ${true='keep-dosage' false="" hh_missing_keep_dosage} \
             ${'--flip ' + flip} \
             ${'--geno ' + geno} \
             ${'--mind ' + mind} \
