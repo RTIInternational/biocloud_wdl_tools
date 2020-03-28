@@ -961,7 +961,7 @@ task get_excess_homo_samples{
             --out ${output_basename}
 
         # Get list of outlier samples that need to be removed
-        perl -lane 'if ($F[5] < ${min_he} || $F[5] > ${min_he}) { print $F[0]." ".$F[1]; }' ${output_basename}.het > ${output_basename}.remove
+        perl -lane 'if ($F[5] < ${min_he} || $F[5] > ${max_he}) { print $F[0]." ".$F[1]; }' ${output_basename}.het > ${output_basename}.remove
     >>>
 
     runtime {
