@@ -735,6 +735,9 @@ task prune_ld_markers{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
+    # Auto-force compatibility between plink1.9 and plink2.0 chr codes
+    String output_chr = "26"
+
     # Region filtering
     String? chr
     File? exclude_regions
@@ -749,17 +752,17 @@ task prune_ld_markers{
     Int? x_chr_mode
 
     # Runtime environment
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
     Int cpu = 4
     Int mem_gb = 8
 
     command {
         mkdir plink_input
 
-        # Bed file preprocessing
+       # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
-            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+            unpigz -p ${cpu} -c ${bed_in} > plink_input/${input_prefix}.bed
         else
             # Otherwise just create softlink with normal
             ln -s ${bed_in} plink_input/${input_prefix}.bed
@@ -767,27 +770,27 @@ task prune_ld_markers{
 
         # Bim file preprocessing
         if [[ ${bim_in} =~ \.gz$ ]]; then
-            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+            unpigz -p ${cpu} -c ${bim_in} > plink_input/${input_prefix}.bim
         else
             ln -s ${bim_in} plink_input/${input_prefix}.bim
         fi
 
         # Fam file preprocessing
         if [[ ${fam_in} =~ \.gz$ ]]; then
-            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
         else
             ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
 
         # Prune ld
-        plink --bfile plink_input/${input_prefix} \
+        plink2 --bfile plink_input/${input_prefix} \
             --${ld_type} ${window_size}${window_size_unit} ${step_size} ${r2_threshold} ${vif_threshold} \
-            ${'--ld-xchr ' + x_chr_mode} \
             ${'--maf ' + maf} \
             ${'--chr ' + chr} \
             ${'--exclude range ' + exclude_regions} \
             --out ${output_basename} \
-            --threads ${cpu}
+            --threads ${cpu} \
+            --output-chr ${output_chr}
     }
 
     runtime {
@@ -821,10 +824,10 @@ task sex_check{
     command {
         mkdir plink_input
 
-        # Bed file preprocessing
+       # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
-            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+            unpigz -p ${cpu} -c ${bed_in} > plink_input/${input_prefix}.bed
         else
             # Otherwise just create softlink with normal
             ln -s ${bed_in} plink_input/${input_prefix}.bed
@@ -832,14 +835,14 @@ task sex_check{
 
         # Bim file preprocessing
         if [[ ${bim_in} =~ \.gz$ ]]; then
-            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+            unpigz -p ${cpu} -c ${bim_in} > plink_input/${input_prefix}.bim
         else
             ln -s ${bim_in} plink_input/${input_prefix}.bim
         fi
 
         # Fam file preprocessing
         if [[ ${fam_in} =~ \.gz$ ]]; then
-            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
         else
             ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
@@ -928,10 +931,10 @@ task get_excess_homo_samples{
         set -e
         mkdir plink_input
 
-        # Bed file preprocessing
+       # Bed file preprocessing
         if [[ ${bed_in} =~ \.gz$ ]]; then
             # Append gz tag to let plink know its gzipped input
-            gunzip -c ${bed_in} > plink_input/${input_prefix}.bed
+            unpigz -p ${cpu} -c ${bed_in} > plink_input/${input_prefix}.bed
         else
             # Otherwise just create softlink with normal
             ln -s ${bed_in} plink_input/${input_prefix}.bed
@@ -939,14 +942,14 @@ task get_excess_homo_samples{
 
         # Bim file preprocessing
         if [[ ${bim_in} =~ \.gz$ ]]; then
-            gunzip -c ${bim_in} > plink_input/${input_prefix}.bim
+            unpigz -p ${cpu} -c ${bim_in} > plink_input/${input_prefix}.bim
         else
             ln -s ${bim_in} plink_input/${input_prefix}.bim
         fi
 
         # Fam file preprocessing
         if [[ ${fam_in} =~ \.gz$ ]]; then
-            gunzip -c ${fam_in} > plink_input/${input_prefix}.fam
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
         else
             ln -s ${fam_in} plink_input/${input_prefix}.fam
         fi
@@ -1078,6 +1081,9 @@ task hardy{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
+    # Auto-force compatibility between plink1.9 and plink2.0 chr codes
+    String output_chr = "26"
+
     Float hwe_pvalue = 0.0
     String? hwe_mode
     Boolean? filter_females
@@ -1085,7 +1091,7 @@ task hardy{
     String chrs_prefix = if(defined(chrs)) then "--chr" else ""
 
 
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1118,16 +1124,24 @@ task hardy{
         fi
 
         # Get expected heterozygosity for each sample
-        plink --bfile plink_input/${input_prefix} \
+        plink2 --bfile plink_input/${input_prefix} \
             --hardy \
             --threads ${cpu} \
             --out ${output_basename} \
-            ${true='--filter-females' false="" filter_females} \
-            ${chrs_prefix} ${sep=", " chrs}
+            ${true='--keep-females' false="" filter_females} \
+            ${chrs_prefix} ${sep=", " chrs} \
+            --output-chr ${output_chr}
 
 
-        # Filter file
-        perl -lane 'if(($. > 1) && ($F[9] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hwe > ${output_basename}.remove
+        # Filter chrX file if present
+        if [ -f ${output_basename}.hardy.x ];then
+            perl -lane 'if(($. > 1) && ($F[13] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hardy > ${output_basename}.remove
+        fi
+
+        # Filter auto hardy file if present
+        if [ -f ${output_basename}.hardy ];then
+            perl -lane 'if(($. > 1) && ($F[9] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hardy >> ${output_basename}.remove
+        ]
     >>>
 
     runtime {
