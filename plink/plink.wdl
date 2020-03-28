@@ -1135,7 +1135,7 @@ task hardy{
 
         # Filter chrX file if present
         if [ -f ${output_basename}.hardy.x ];then
-            perl -lane 'if(($. > 1) && ($F[13] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hardy > ${output_basename}.remove
+            perl -lane 'if(($. > 1) && ($F[13] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hardy.x > ${output_basename}.remove
         fi
 
         # Filter auto hardy file if present
