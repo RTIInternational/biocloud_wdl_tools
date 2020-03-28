@@ -1,4 +1,4 @@
-task make_bed_plink2{
+task make_bed{
     File bed_in
     File bim_in
     File fam_in
@@ -269,7 +269,7 @@ task make_bed_plink2{
     }
 }
 
-task make_bed{
+task make_bed_plink1{
     File bed_in
     File bim_in
     File fam_in
