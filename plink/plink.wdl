@@ -1142,6 +1142,10 @@ task hardy{
         if [ -f ${output_basename}.hardy ];then
             perl -lane 'if(($. > 1) && ($F[9] < ${hwe_pvalue})){print $F[1];};' ${output_basename}.hardy >> ${output_basename}.remove
         ]
+
+        # Touch chrX and norm .hardy files so we can expect them both. One will probably be empty if you're subsetting by chr
+        touch ${output_basename}.hardy.x
+        touch ${output_basename}.hardy
     >>>
 
     runtime {
@@ -1153,6 +1157,7 @@ task hardy{
 
     output{
         File remove = "${output_basename}.remove"
-        File hwe_report = "${output_basename}.hwe"
+        File hwe_report = "${output_basename}.hardy"
+        File hwe_chrX_report = "${output_basename}.hardy.x"
     }
 }
