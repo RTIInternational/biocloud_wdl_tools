@@ -750,6 +750,7 @@ task prune_ld_markers{
     Float? r2_threshold
     Float? vif_threshold
     Int? x_chr_mode
+    Boolean? bad_ld
 
     # Runtime environment
     String docker = "rtibiocloud/plink:v2.0-4d3bad3"
@@ -790,6 +791,7 @@ task prune_ld_markers{
             ${'--exclude range ' + exclude_regions} \
             --out ${output_basename} \
             --threads ${cpu} \
+            ${true='--bad-ld' false='' bad_ld} \
             --output-chr ${output_chr}
     }
 
