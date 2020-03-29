@@ -139,38 +139,34 @@ task split_file{
         set -e
 
         # Error out if user didn't choose either option (num_splits or lines_per_split)
-        if [[ '${invalid_args}' == 'true' ]]
-        then
+        if [[ '${invalid_args}' == 'true' ]]; then
             echo "You must define either num_splits for lines_per_split!"
             exit 1
         fi
 
-        if [[ '${make_equal_splits}' == 'true' ]]
-        then
-            # Get number of lines in filie
-            if [[ ${input_file} =~ \.gz$ ]];then
-                lines=$(pigz -p ${unzip_cpu} -dkc ${input_file} | wc -l | cut -d" " -f1)
+        if [[ '${make_equal_splits}' == 'true' ]]; then
+
+            echo "Creating ${num_splits} equal file splits (remainder will appear in last file)..."
+
+            if [[ ${input_file} =~ \.gz$ ]]; then
+                # Split file with decompression
+                pigz -p ${unzip_cpu} -d -k -c ${input_file} | \
+                split --additional-suffix=${output_extension} -n ${num_splits} - ${output_basename}.split.
             else
-                lines=$(wc -l ${input_file} | cut -d" " -f1)
+                # Split file without decompression
+                split --additional-suffix=${output_extension} -n ${num_splits} ${input_file} ${output_basename}.split.
             fi
 
-            echo "Detected $lines lines in file..."
-
-            # Compute number of lines per split
-            records_per_split=$(awk -v var=$lines 'BEGIN{print int(var/${num_splits})+1}')
-            echo "Creating ${num_splits} split files with at minimum $records_per_split lines per file..."
         else
-            records_per_split=${lines_per_split}
-        fi
-
-        if [[ ${input_file} =~ \.gz$ ]]
-        then
-            # Split file with decompression
-            pigz -p ${unzip_cpu} -d -k -c ${input_file} | \
-            split --additional-suffix=${output_extension} -l $records_per_split - ${output_basename}.split.
-        else
-            # Split file without decompression
-            split --additional-suffix=${output_extension} -l $records_per_split ${input_file} ${output_basename}.split.
+            echo "Creating file splits with ${lines_per_split} lines per file..."
+            if [[ ${input_file} =~ \.gz$ ]]; then
+                # Split file with decompression
+                pigz -p ${unzip_cpu} -d -k -c ${input_file} | \
+                split --additional-suffix=${output_extension} -l ${lines_per_split} - ${output_basename}.split.
+            else
+                # Split file without decompression
+                split --additional-suffix=${output_extension} -l ${lines_per_split} ${input_file} ${output_basename}.split.
+            fi
         fi
 
         # Optionally compress split files
