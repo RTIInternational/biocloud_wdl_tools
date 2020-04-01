@@ -1163,3 +1163,62 @@ task hardy{
         File hwe_chrX_report = "${output_basename}.hardy.x"
     }
 }
+
+task recode_to_ped{
+    File bed_in
+    File bim_in
+    File fam_in
+    String output_basename
+    String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
+
+    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+        set -e
+        mkdir plink_input
+
+       # Bed file preprocessing
+        if [[ ${bed_in} =~ \.gz$ ]]; then
+            # Append gz tag to let plink know its gzipped input
+            unpigz -p ${cpu} -c ${bed_in} > plink_input/${input_prefix}.bed
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bed_in} plink_input/${input_prefix}.bed
+        fi
+
+        # Bim file preprocessing
+        if [[ ${bim_in} =~ \.gz$ ]]; then
+            unpigz -p ${cpu} -c ${bim_in} > plink_input/${input_prefix}.bim
+        else
+            ln -s ${bim_in} plink_input/${input_prefix}.bim
+        fi
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Get expected heterozygosity for each sample
+        plink --bfile plink_input/${input_prefix} \
+            --recode \
+            --out ${output_basename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File ped_out = "${output_basename}.ped"
+        File map_out = "${output_basename}.map"
+        File log_file = "${output_basename}.log"
+    }
+}
