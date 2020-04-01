@@ -63,7 +63,7 @@ task ped2structure{
     Int mem_gb = 16
 
     command<<<
-        ped2structure.py --ped ${ped_in} \
+        python /opt/ped2structure.py --ped ${ped_in} \
             ${pop_file_prefix} ${sep=" " pop_files} \
             --output ${output_filename} \
             -vvv
