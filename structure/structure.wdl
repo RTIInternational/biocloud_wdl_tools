@@ -7,7 +7,6 @@ task structure{
 
     Int k
     Int numloci
-    Int numinds
     Int? seed
     Int default_seed = 1523031945
     Int actual_seed = select_first([seed, default_seed])
