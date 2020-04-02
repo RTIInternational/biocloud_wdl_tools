@@ -392,5 +392,27 @@ task array_contains{
     output{
         Boolean contains = read_boolean(stdout())
     }
+}
 
+task append_column{
+    # Add a additional column to text file where every entry will be 'value'
+    File input_file
+    String value
+    String output_filename
+    String OFS = "\t"
+    String F = "\t"
+
+    command<<<
+        awk -F '${F}' -v OFS='${OFS}' '{ $(NF+1) = "${value}"; print }' ${input_file} > ${output_filename}
+    >>>
+
+    runtime {
+        docker: "ubuntu:18.04"
+        cpu: 1
+        memory: "100 MB"
+    }
+
+    output{
+        File output_file = "${output_filename}"
+    }
 }
