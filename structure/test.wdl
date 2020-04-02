@@ -6,11 +6,20 @@ workflow test_struct_params{
 
     call STRUCT.make_structure_param_files{
         input:
-            markernames = 0,
-            pop_flag = 1,
-            use_pop_info = 1,
-            burnin = 100000,
-            numreps = 20000000
+            markernames = 1,
+            pop_flag = 2,
+            use_pop_info = 3,
+            pop_data = 4,
+            burnin = 5,
+            numreps = 6,
+            label = 7,
+            randomize = 8,
+            extracols = 9,
+            phased = 10,
+            phaseinfo = 11,
+            noadmix = 12,
+            linkage = 13,
+            locprior = 14
     }
 
     output{
