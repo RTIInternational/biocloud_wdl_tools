@@ -3,6 +3,7 @@ task make_structure_param_files{
     Int pop_flag
     Int pop_data
     Int use_pop_info
+    Int pfrompopflagonly
     Int label = 1
     Int randomize = 0
     Int burnin = 10000
@@ -82,6 +83,9 @@ task make_structure_param_files{
         # Update extraparams with whether to use location as a prior
         echo "Updating locprior..."
         sed -i 's/#define LOCPRIOR\s*[0|1]/#define LOCPRIOR      ${locprior}/g' extraparams
+
+        echo "Updating pfrompopflagonly..."
+        sed -i 's/#define PFROMPOPFLAGONLY\s*[0|1]/#define PFROMPOPFLAGONLY      ${pfrompopflagonly}/g' extraparams
     >>>
 
     runtime {
@@ -105,7 +109,7 @@ task structure{
 
     Int k
     Int numloci
-    
+
     Int? seed
     Int default_seed = 1523031945
     Int actual_seed = select_first([seed, default_seed])
@@ -156,7 +160,7 @@ task ped2structure{
     String? ref_delim = "space"
 
     # Runtime environment
-    String docker = "rtibiocloud/ped2structure:v1-acd2ae7"
+    String docker = "rtibiocloud/ped2structure:v1.0-c3278c6"
     Int cpu = 1
     Int mem_gb = 2
 
