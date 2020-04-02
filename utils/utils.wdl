@@ -399,11 +399,16 @@ task append_column{
     File input_file
     String value
     String output_filename
-    String OFS = "\t"
-    String F = "\t"
+
+    # Optionally handle different input/output separators
+    # Default is whitespace that awk will detect and output using the same separator
+    String? OFS
+    String? F
+    String f_arg = if(defined(F)) then "-F '${F}'" else ""
+    String ofs_arg = if(defined(OFS)) then "-v OFS='${OFS}'" else ""
 
     command<<<
-        awk -F '${F}' -v OFS='${OFS}' '{ $(NF+1) = "${value}"; print }' ${input_file} > ${output_filename}
+        awk ${f_arg} ${ofs_arg} '{ $(NF+1) = "${value}"; print }' ${input_file} > ${output_filename}
     >>>
 
     runtime {
