@@ -1,6 +1,7 @@
 task make_structure_param_files{
     Int markernames
     Int pop_flag
+    Int pop_data
     Int use_pop_info
     Int label = 1
     Int randomize = 0
@@ -29,6 +30,9 @@ task make_structure_param_files{
         # Update mainparams to indicate popflag in use
         echo "Updating popflag..."
         sed -i 's/#define POPFLAG\s*[0|1]/#define POPFLAG   ${pop_flag}/g' mainparams
+
+        echo "Updating popdata..."
+        sed -i 's/#define POPDATA\s*[0|1]/#define POPDATA   ${pop_data}/g' mainparams
 
         # Update mainparams to indicate whether header row
         echo "Updating markernames..."
