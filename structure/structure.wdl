@@ -1,12 +1,112 @@
+task make_structure_param_files{
+    Int markernames
+    Int pop_flag
+    Int use_pop_info
+    Int label = 1
+    Int randomize = 0
+    Int burnin = 10000
+    Int numreps = 20000
+    Int extracols = 0
+    Int phased = 0
+    Int phaseinfo = 0
+    Int noadmix = 0
+    Int linkage = 0
+    Int locprior = 0
+
+    # Runtime environment
+    String docker = "rtibiocloud/structure:v2.3.4-f2d7e82"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command <<<
+        set -e
+
+        mkdir output
+        cp /opt/data/mainparams mainparams
+        cp /opt/data/extraparams extraparams
+
+        #### UPDATE MAINPARAMS
+        # Update mainparams to indicate popflag in use
+        echo "Updating popflag..."
+        sed -i 's/#define POPFLAG\s*[0|1]/#define POPFLAG   ${pop_flag}/g' mainparams
+
+        # Update mainparams to indicate whether header row
+        echo "Updating markernames..."
+        sed -i 's/#define MARKERNAMES\s*[0|1]/#define MARKERNAMES      ${markernames}/g' mainparams
+
+        # Update mainparams to indicate whether header row
+        echo "Updating label..."
+        sed -i 's/#define LABEL\s*[0|1]/#define LABEL      ${label}/g' mainparams
+
+        # Update burn-in
+        echo "Updating burnin..."
+        sed -i 's/#define BURNIN\s*[0-9]*/#define BURNIN    ${burnin}/g' mainparams
+
+        # Update numreps
+        echo "Updating numreps..."
+        sed -i 's/#define NUMREPS\s*[0-9]*/#define NUMREPS   ${numreps}/g' mainparams
+
+        # Update phased
+        echo "Updating phased..."
+        sed -i 's/#define PHASED\s*[0|1]/#define PHASED           ${phased}/g' mainparams
+
+        # Update extracols
+        echo "Updating extracols..."
+        sed -i 's/#define EXTRACOLS\s*[0|1]/#define EXTRACOLS ${extracols}/g' mainparams
+
+        # Update phaseinfo
+        echo "Updating phaseinfo..."
+        sed -i 's/#define PHASEINFO\s*[0|1]/#define PHASEINFO        ${phaseinfo}/g' mainparams
+
+        #### UPDATE EXTRAPARAMS
+        # Update whether to use pop_info
+        echo "Updating usepopinfo..."
+        sed -i 's/#define USEPOPINFO\s*[0|1]/#define USEPOPINFO      ${use_pop_info}/g' extraparams
+
+        # Update extraparams to not randomize seed
+        echo "Updating randomize..."
+        sed -i 's/#define RANDOMIZE\s*[0|1]/#define RANDOMIZE      ${randomize}/g' extraparams
+
+        # Update extraparams with whether to use admixture model
+        echo "Updating noadmix..."
+        sed -i 's/#define NOADMIX\s*[0|1]/#define NOADMIX      ${noadmix}/g' extraparams
+
+        # Update extraparams with whether to use linkage model
+        echo "Updating linkage..."
+        sed -i 's/#define LINKAGE\s*[0|1]/#define LINKAGE      ${linkage}/g' extraparams
+
+        # Update extraparams with whether to use location as a prior
+        echo "Updating locprior..."
+        sed -i 's/#define LOCPRIOR\s*[0|1]/#define LOCPRIOR      ${locprior}/g' extraparams
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File mainparams_out = "mainparams"
+        File extraparams_out = "extraparams"
+    }
+}
+
 task structure{
     File input_file
-    File mainparams = "/opt/data/mainparams"
-    File extraparams = "/opt/data/extraparams"
+    File mainparams
+    File extraparams
     File? stratparams
     String output_basename
 
     Int k
     Int numloci
+    Int pop_flag
+    Int header_row
+    Int use_pop_info
+    Int burnin = 10000
+    Int numreps = 20000
+
     Int? seed
     Int default_seed = 1523031945
     Int actual_seed = select_first([seed, default_seed])
@@ -43,6 +143,8 @@ task structure{
 
     output {
         File theta_out = "structure_output/${output_basename}_f"
+        File actual_mainparams = "actual_mainparams"
+        File actual_extraparams = "actual_extraparams"
     }
 }
 
