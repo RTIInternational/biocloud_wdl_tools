@@ -143,8 +143,6 @@ task structure{
 
     output {
         File theta_out = "structure_output/${output_basename}_f"
-        File actual_mainparams = "actual_mainparams"
-        File actual_extraparams = "actual_extraparams"
     }
 }
 
