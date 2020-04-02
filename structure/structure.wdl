@@ -153,22 +153,23 @@ task structure{
 task ped2structure{
     # Utility for converting ped file to STRUCTURE-formatted input
     File ped_in
-
-    # List of files containing ids for populations you want to use for structure
-    # Original use-case is sample ids for each reference populations inlcuded to STRUCTURE initializes with pop information
-    Array[File]? pop_files
     String output_filename
 
-    String pop_file_prefix = if(defined(pop_files)) then "--pop-files" else ""
+    # Optional file of reference samples that should have pop info and pop_flag set
+    File? ref_samples
+    Int? ref_pop_col = 2
+    String? ref_delim = "space"
 
     # Runtime environment
-    String docker = "rtibiocloud/ped2structure:v1.0-7ae2a15"
-    Int cpu = 8
-    Int mem_gb = 16
+    String docker = "rtibiocloud/ped2structure:v1-acd2ae7"
+    Int cpu = 1
+    Int mem_gb = 2
 
     command<<<
         python /opt/ped2structure.py --ped ${ped_in} \
-            ${pop_file_prefix} ${sep=" " pop_files} \
+            ${'--ref-samples ' + ref_samples} \
+            ${'--ref-pop-col ' + ref_pop_col} \
+            ${'--ref-delim ' + ref_delim} \
             --output ${output_filename} \
             -vvv
     >>>
