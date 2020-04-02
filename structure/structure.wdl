@@ -105,12 +105,7 @@ task structure{
 
     Int k
     Int numloci
-    Int pop_flag
-    Int header_row
-    Int use_pop_info
-    Int burnin = 10000
-    Int numreps = 20000
-
+    
     Int? seed
     Int default_seed = 1523031945
     Int actual_seed = select_first([seed, default_seed])
