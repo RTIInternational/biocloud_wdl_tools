@@ -40,7 +40,7 @@ task structure_postprocess{
 
     output {
         Array[File] triangle_plots  = glob("${output_basename}*.png")
-        Array[File] ancestry_proportions = glob("${output_basename}*theta.tsv")
+        Array[File] ancestry_proportions = glob("${output_basename}*admix.tsv")
         Array[File] ancestry_samples = glob("${output_basename}*keep")
         File unclassified_samples = "${output_basename}_unclassified.txt"
     }
