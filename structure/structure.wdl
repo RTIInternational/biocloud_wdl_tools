@@ -187,7 +187,6 @@ task ped2structure{
 task parse_ancestry_proportions{
     # Utility for converting ped file to STRUCTURE-formatted input
     File structure_output
-    File structure_input
     String output_filename
 
     # Runtime environment
@@ -212,17 +211,12 @@ task parse_ancestry_proportions{
               # This is ugly as shit but it grabs the slice from 5:end, then concats with a delim
               $data = join " ", splice @F,5;
 
-              # Dont filter ancestry proportions if no pop_ids specified
+              # Add STRUCTURE pop label
+              $data = $F[3]." ".$data;
               print $data."\n";
           }
           s/\s+//g;
-          if ($_ eq "") { $in=0; }' ${structure_output} > ancestry.txt
-
-        # Get sample ids from structure input file (make unique bc 2 lines for each sample)
-        cut -d" " -f1,2 ${structure_input} | uniq > ids.txt
-
-        # Paste together into single file
-        paste -d" " ids.txt ancestry.txt > ${output_filename}
+          if ($_ eq "") { $in=0; }' ${structure_output} > ${output_filename}
     >>>
 
     runtime {
