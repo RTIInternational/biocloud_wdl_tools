@@ -184,10 +184,11 @@ task ped2structure{
     }
 }
 
-task parse_ancestry_proportions{
+task parse_structure_output{
     # Utility for converting ped file to STRUCTURE-formatted input
     File structure_output
     String output_filename
+    String delim = " "
 
     # Runtime environment
     String docker = "ubuntu:18.04"
@@ -207,12 +208,28 @@ task parse_ancestry_proportions{
               # Split on whitespace
               @F=split /\s+/;
 
-              # Grab all admixture proportions (index 5 to the end)
-              # This is ugly as shit but it grabs the slice from 5:end, then concats with a delim
-              $data = join " ", splice @F,5;
+              if ($F[6] =~ m/\|/){
+                # Case: Handle ref samples with pipes in admix proportions
+                # Count total number of pops
+                @pop_count = (join " ", @F) =~ /\|/g;
+                $num_pops = @pop_count;
+                # Set the corresponding admix proportion for sample to 1.000, rest to 0.000
+                $pop = $F[3];
+                @pop_freqs = ("0.000") x $num_pops;
+                $pop_freqs[($pop-1)] = "1.000";
+                $data = join "${delim}", @pop_freqs;
+              }
+              else{
+                # Case: normal samples with actual admix proportions
+                # Grab all admixture proportions (index 5 to the end)
+                $data = join "${delim}", splice @F, 5;
+              }
+
+              # Remove parentheses from missing data pct
+              $F[2] =~ y/()//d;
 
               # Add STRUCTURE pop label
-              $data = $F[3]." ".$data;
+              $data = $F[0]."${delim}".$F[1]."${delim}".$F[3]."${delim}".$data;
               print $data."\n";
           }
           s/\s+//g;
