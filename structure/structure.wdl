@@ -182,6 +182,56 @@ task ped2structure{
     output {
         File structure_input = "${output_filename}"
     }
+}
 
+task parse_ancestry_proportions{
+    # Utility for converting ped file to STRUCTURE-formatted input
+    File structure_output
+    File structure_input
+    String output_filename
 
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command<<<
+        set -e
+
+        # Parse ancestry proportions from structure output
+        perl -ne '
+          if (/%Miss/) {$in=1;}
+          if ($in==1 && !/Label/ && !/^\s+$/) {
+              # Remove leading spaces
+              s/^\s+//g;
+
+              # Split on whitespace
+              @F=split /\s+/;
+
+              # Grab all admixture proportions (index 5 to the end)
+              # This is ugly as shit but it grabs the slice from 5:end, then concats with a delim
+              $data = join " ", splice @F,5;
+
+              # Dont filter ancestry proportions if no pop_ids specified
+              print $data."\n";
+          }
+          s/\s+//g;
+          if ($_ eq "") { $in=0; }' ${structure_output} > ancestry.txt
+
+        # Get sample ids from structure input file (make unique bc 2 lines for each sample)
+        cut -d" " -f1,2 ${structure_input} | uniq > ids.txt
+
+        # Paste together into single file
+        paste -d" " ids.txt ancestry.txt > ${output_filename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File admix_out = "${output_filename}"
+    }
 }
