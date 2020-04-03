@@ -229,7 +229,7 @@ task parse_structure_output{
               $F[2] =~ y/()//d;
 
               # Add STRUCTURE pop label
-              $data = $F[0]."${delim}".$F[1]."${delim}".$F[3]."${delim}".$data;
+              $data = $F[0]."${delim}".$F[1]."${delim}".$F[2]." ".$F[3]."${delim}".$data;
               print $data."\n";
           }
           s/\s+//g;
