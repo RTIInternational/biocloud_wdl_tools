@@ -17,7 +17,7 @@ task structure_postprocess{
 
     # This can sometimes get you into trouble but WTH we're gunna scale the memory based on the size of the files
     # It would be a shame if a really large job failed here because the user overlooked the amount of mem to this random R script
-    Int mem_gb = max([1,ceil(size(parsed_structure_output, "GB") + size(fam, "GB") + size(psam, "GB"))]) + 1
+    Int mem_gb = ceil(size(parsed_structure_output, "GB") + size(fam, "GB") + size(psam, "GB")) + 1
 
     command {
         Rscript /opt/structure_postprocessing.R \
