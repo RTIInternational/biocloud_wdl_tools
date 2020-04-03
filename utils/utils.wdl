@@ -421,3 +421,31 @@ task append_column{
         File output_file = "${output_filename}"
     }
 }
+
+task paste{
+    Array[File] input_files
+    String? delim
+    Boolean? s
+    String output_filename
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command {
+        paste ${'-d ' + delim} \
+            ${true='-s' false='' s} \
+            ${sep=" " input_files} > ${output_filename}
+    }
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output {
+        File output_file = "${output_filename}"
+    }
+}
