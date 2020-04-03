@@ -145,7 +145,7 @@ task structure{
     }
 
     output {
-        File theta_out = "structure_output/${output_basename}_f"
+        File structure_out = "structure_output/${output_basename}_f"
     }
 }
 
@@ -243,6 +243,6 @@ task parse_structure_output{
     }
 
     output {
-        File admix_out = "${output_filename}"
+        File structure_out = "${output_filename}"
     }
 }
