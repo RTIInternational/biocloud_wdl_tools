@@ -127,6 +127,9 @@ task structure{
         # Count number of individuals
         num_inds=$(wc -l ${input_file} | perl -lane 'print $F[0]/2;')
 
+        # Create symlink for input bc STRUCTURE is stoopid and will throw a buffer error for long cromwell paths
+        ln -s ${input_file} structure.in
+
         structure -K ${k} \
             -m ${mainparams} \
             ${'-e ' + extraparams} \
@@ -134,7 +137,7 @@ task structure{
             -L ${numloci} \
             -N $num_inds \
             -D ${default_seed} \
-            -i ${input_file} \
+            -i structure.in \
             -o structure_output/${output_basename}
     >>>
 
