@@ -119,9 +119,6 @@ task structure{
     Int cpu = 8
     Int mem_gb = 16
 
-    # Dynamically adjust memory if input file is bigger than current mem
-    Int real_mem_gb = if(size(input_file, "GB") + 1 > mem_gb) then ceil(size(input_file, "GB")) + 1 else mem_gb
-
     command <<<
         set -e
 
@@ -144,7 +141,7 @@ task structure{
     runtime {
         docker: docker
         cpu: cpu
-        memory: "${real_mem_gb} GB"
+        memory: "${mem_gb} GB"
     }
 
     output {
