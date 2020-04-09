@@ -27,7 +27,8 @@ workflow test_convert_variant_ids{
                 ref_deletion_allele = ".",
                 output_filename = "${output_basename}.${chr}.bim",
                 cpu = cpu,
-                mem_gb = mem_gb
+                mem_gb = mem_gb,
+                rescue_rsids = true
         }
     }
 
