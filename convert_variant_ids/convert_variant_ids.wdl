@@ -12,15 +12,15 @@ task convert_variant_ids {
     String in_missing_allele
     String in_deletion_allele
     String ref_deletion_allele
-    Int? start
-    Int? end
+    Int chunk_size = 5000000
+    Boolean? rescue_rsids
+
     String? output_compression
     String output_filename
-    Int chunk_size = 5000000
     String log_filename = "${output_filename}.log"
 
     # Runtime environment
-    String docker = "rtibiocloud/convert_variant_ids:v1.0-f698938"
+    String docker = "rtibiocloud/convert_variant_ids:v1.0-07f0b44"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -30,8 +30,6 @@ task convert_variant_ids {
             --in_file ${in_file} \
             --ref ${ref} \
             --chr ${chr} \
-            ${'--start ' + start} \
-            ${'--end ' + end} \
             --in_header ${in_header} \
             --in_sep ${in_sep} \
             --in_id_col ${in_id_col} \
@@ -45,7 +43,8 @@ task convert_variant_ids {
             --out_file ${output_filename} \
             --log_file ${log_filename} \
             ${'--out_compression ' + output_compression} \
-            --chunk_size ${chunk_size}
+            --chunk_size ${chunk_size} \
+            ${true="--rescue_rsids" false="" rescue_rsids}
     }
 
     runtime{
