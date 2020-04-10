@@ -471,6 +471,6 @@ task array_equals{
     }
 
     output{
-        Boolean contains = read_boolean(stdout())
+        Boolean is_equal = read_boolean(stdout())
     }
 }
