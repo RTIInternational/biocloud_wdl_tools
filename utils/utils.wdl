@@ -449,3 +449,28 @@ task paste{
         File output_file = "${output_filename}"
     }
 }
+
+task array_equals{
+    # Return true if two arrays contain same values in same order
+    Array[String] array_a
+    Array[String] array_b
+
+    command<<<
+        diff ${write_lines(array_a)} ${write_lines(array_b)} > compare.txt
+        if [ -s compare.txt ];then
+            echo "false"
+        else
+            echo "true"
+        fi
+    >>>
+
+    runtime {
+        docker: "ubuntu:18.04"
+        cpu: 1
+        memory: "100 MB"
+    }
+
+    output{
+        Boolean contains = read_boolean(stdout())
+    }
+}
