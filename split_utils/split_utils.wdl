@@ -151,10 +151,10 @@ task split_file{
             if [[ ${input_file} =~ \.gz$ ]]; then
                 # Split file with decompression
                 pigz -p ${unzip_cpu} -d -k -c ${input_file} | \
-                split --additional-suffix=${output_extension} -n ${num_splits} - ${output_basename}.split.
+                split --additional-suffix=${output_extension} -n l/${num_splits} - ${output_basename}.split.
             else
                 # Split file without decompression
-                split --additional-suffix=${output_extension} -n ${num_splits} ${input_file} ${output_basename}.split.
+                split --additional-suffix=${output_extension} -n l/${num_splits} ${input_file} ${output_basename}.split.
             fi
 
         else
