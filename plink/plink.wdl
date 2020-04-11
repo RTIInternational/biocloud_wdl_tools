@@ -551,7 +551,7 @@ task merge_beds{
     Array[File] fam_in
     String output_basename
 
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -610,7 +610,7 @@ task merge_two_beds{
     Boolean ignore_errors = false
     String output_basename
 
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -819,7 +819,7 @@ task sex_check{
     File? update_sex
 
     # Runtime environment
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
     Int cpu = 4
     Int mem_gb = 8
 
@@ -924,7 +924,7 @@ task get_excess_homo_samples{
     Float min_he
     Float max_he
 
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -987,7 +987,7 @@ task get_samples_missing_chr{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1171,7 +1171,7 @@ task recode_to_ped{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-    String docker = "rtibiocloud/plink:v1.9-9e70778"
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
