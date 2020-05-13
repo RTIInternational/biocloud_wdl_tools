@@ -7,7 +7,7 @@ task make_gwas_summary_stats {
     String file_out_prefix
 
     # Runtime options
-    String docker = "rtibiocloud/make_gwas_summary_stats:319872f"
+    String docker = "rtibiocloud/make_gwas_summary_stats:none_ea93119"
     Int cpu = 1
     Int mem_gb = ceil(size(file_in_summary_stats, "GB") + size(file_in_info, "GB") + size(file_in_pop_mafs, "GB")) + 5
     Int max_retries = 3
