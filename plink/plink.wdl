@@ -1232,8 +1232,8 @@ task convert_bgen_to_vcf {
     String input_prefix = basename(sub(bgen_in, "\\.gz$", ""), ".bgen")
 
     String docker = "rtibiocloud/plink:v2.0-4d3bad3"
-    Int cpu = 16
-    Int mem_gb = 4
+    Int cpu
+    Int mem_gb
     Int max_retries = 3
 
     command <<<
