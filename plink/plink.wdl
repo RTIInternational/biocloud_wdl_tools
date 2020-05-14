@@ -1222,3 +1222,57 @@ task recode_to_ped{
         File log_file = "${output_basename}.log"
     }
 }
+
+task convert_bgen_to_vcf {
+    File bgen_in
+    File sample_in
+    String ref_alt_mode
+    String vcf_dosage
+    String output_basename
+    String input_prefix = basename(sub(bgen_in, "\\.gz$", ""), ".bgen")
+
+    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
+    Int cpu = 16
+    Int mem_gb = 4
+    Int max_retries = 3
+
+    command <<<
+        set -e
+        mkdir plink_input
+
+       # Bgen file preprocessing
+        if [[ ${bgen_in} =~ \.gz$ ]]; then
+            # Unzip
+            unpigz -p ${cpu} -c ${bgen_in} > plink_input/${input_prefix}.bgen
+        else
+            # Otherwise just create softlink with normal
+            ln -s ${bgen_in} plink_input/${input_prefix}.bgen
+        fi
+
+        # Sample file preprocessing
+        if [[ ${sample_in} =~ \.gz$ ]]; then
+            unpigz -p ${cpu} -c ${sample_in} > plink_input/${input_prefix}.sample
+        else
+            ln -s ${sample_in} plink_input/${input_prefix}.sample
+        fi
+
+        # Convert
+        plink \
+            --bgen plink_input/${input_prefix}.bgen ref_alt_mode \
+            --sample plink_input/${input_prefix}.sample \
+            --export vcf bgz vcf_dosage \
+            --out ${output_basename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File vcf_out = "${output_basename}.vcf.gz"
+        File log_file = "${output_basename}.log"
+    }
+}
