@@ -34,7 +34,7 @@ task generate_gwas_plots{
     # Runtime options
     String docker = "rtibiocloud/generate_gwas_plots:6ce5e03"
     Int cpu = 1
-    Int mem_gb = 12
+    Int mem_gb = 16
     Int max_retries = 3
 
     command<<<
