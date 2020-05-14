@@ -1257,7 +1257,7 @@ task convert_bgen_to_vcf {
         fi
 
         # Convert
-        plink \
+        plink2 \
             --bgen plink_input/${input_prefix}.bgen ${ref_alt_mode} \
             --sample plink_input/${input_prefix}.sample \
             --export vcf bgz vcf_dosage=${vcf_dosage} \
