@@ -43,10 +43,10 @@ task convert_variant_ids {
             --ref ${ref} \
             --ref_deletion_allele "${ref_deletion_allele}" \
             --ref_chunk_size ${ref_chunk_size} \
-            --out_file ${output_filename} \
-            --log_file ${log_filename} \
             ${'--out_compression ' + output_compression} \
-            ${true="--rescue_rsids" false="" rescue_rsids}
+            ${true="--rescue_rsids" false="" rescue_rsids} \
+            --out_file ${output_filename} \
+            --log_file ${log_filename}
     }
 
     runtime{
