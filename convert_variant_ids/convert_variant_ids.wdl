@@ -21,7 +21,7 @@ task convert_variant_ids {
     String log_filename = "${output_filename}.log"
 
     # Runtime environment
-    String docker = "rtibiocloud/convert_variant_ids:v1_256206d"
+    String docker = "rtibiocloud/convert_variant_ids:v1_8e7cd0b"
     Int cpu = 1
     Int mem_gb = 4
     Int max_retries = 3
