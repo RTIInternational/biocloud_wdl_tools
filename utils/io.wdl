@@ -1,7 +1,7 @@
 task gzip{
     File input_file
     String? user_filename
-    String default_filename = "${input_file}.gz"
+    String default_filename = basename(input_file) + ".gz"
     String output_filename = select_first([user_filename, default_filename])
 
     String docker = "rtibiocloud/pigz:v2.4_b243f9"
