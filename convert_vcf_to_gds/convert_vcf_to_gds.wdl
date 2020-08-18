@@ -3,7 +3,7 @@ task convert_vcf_to_gds {
     String out_file
 
     # Runtime environment
-    String docker = "rtibiocloud/convert_vcf_to_gds:v1_5229b61"
+    String docker = "rtibiocloud/convert_vcf_to_gds:v1_276fc5b"
     Int cpu = 1
     Int mem_gb = 8
     Int max_retries = 3
