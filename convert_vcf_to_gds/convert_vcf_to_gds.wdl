@@ -9,7 +9,7 @@ task convert_vcf_to_gds {
     Int max_retries = 3
 
     command{
-        /opt/generate_gwas_plots.R \
+        /opt/convert_vcf_to_gds.R \
             --in ${in_file} \
             --out ${out_file}
     }
