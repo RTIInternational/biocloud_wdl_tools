@@ -11,7 +11,6 @@ task convert_bgen_to_gds {
 
     # Runtime environment
     String docker = "rtibiocloud/convert_bgen_to_gds:v1_ea21a9b"
-    Int cpu = ${parallel}
     Int mem_gb = 8
     Int max_retries = 3
 
@@ -30,7 +29,7 @@ task convert_bgen_to_gds {
 
     runtime{
         docker: docker
-        cpu: cpu
+        cpu: ${parallel}
         memory: "${mem_gb} GB"
         maxRetries: max_retries
     }
