@@ -16,20 +16,20 @@ task convert_bgen_to_gds {
 
     command{
         /opt/convert_bgen_to_gds.R \
-            --in-bgen ${in_bgen} \
-            --out-gds ${out_gds} \
-            --storage-option ${storage_option} \
-            --float-type ${float_type} \
-            --geno ${geno} \
-            --dosage ${dosage} \
-            --prob ${prob} \
-            --optimize ${optimize} \
-            --parallel ${parallel}
+            --in-bgen in_bgen \
+            --out-gds out_gds \
+            --storage-option storage_option \
+            --float-type float_type \
+            --geno geno \
+            --dosage dosage \
+            --prob prob \
+            --optimize optimize \
+            --parallel parallel
     }
 
     runtime{
         docker: docker
-        cpu: ${parallel}
+        cpu: parallel
         memory: "${mem_gb} GB"
         maxRetries: max_retries
     }
