@@ -10,7 +10,7 @@ task convert_bgen_to_gds {
     Int parallel = 8
 
     # Runtime environment
-    String docker = "rtibiocloud/convert_bgen_to_gds:v1_ea21a9b"
+    String docker = "rtibiocloud/convert_bgen_to_gds:v1_7e345e3"
     Int mem_gb = 8
     Int max_retries = 3
 
