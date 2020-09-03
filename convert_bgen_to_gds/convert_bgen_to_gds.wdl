@@ -18,8 +18,8 @@ task convert_bgen_to_gds {
         /opt/convert_bgen_to_gds.R \
             --in-bgen in_bgen \
             --out-gds out_gds \
-            --storage-option storage_option \
-            --float-type float_type \
+            --storage-option "${storage_option}" \
+            --float-type "${float_type}" \
             --geno geno \
             --dosage dosage \
             --prob prob \
