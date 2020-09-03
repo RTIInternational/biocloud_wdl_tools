@@ -3,10 +3,10 @@ task convert_bgen_to_gds {
     String out_gds
     String storage_option = "LZMA_RA"
     String float_type = "double"
-    String geno = "FALSE"
-    String dosage = "FALSE"
-    String prob = "FALSE"
-    String optimize = "FALSE"
+    String geno = false
+    String dosage = false
+    String prob = false
+    String optimize = false
     Int parallel = 8
 
     # Runtime environment
@@ -20,10 +20,10 @@ task convert_bgen_to_gds {
             --out-gds ${out_gds} \
             --storage-option "${storage_option}" \
             --float-type "${float_type}" \
-            --geno ${geno} \
-            --dosage ${dosage} \
-            --prob ${prob} \
-            --optimize ${optimize} \
+            ${true="--geno" false="" geno} \
+            ${true="--dosage" false="" dosage} \
+            ${true="--prob" false="" prob} \
+            ${true="--optimize" false="" optimize} \
             --parallel ${parallel}
     }
 
