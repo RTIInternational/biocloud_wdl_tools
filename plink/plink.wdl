@@ -1093,6 +1093,8 @@ task hardy{
     Array[String]? chrs
     String chrs_prefix = if(defined(chrs)) then "--chr" else ""
 
+    File? keep_samples
+    File? remove_samples
 
     String docker = "rtibiocloud/plink:v2.0-4d3bad3"
     Int cpu = 1
@@ -1134,6 +1136,8 @@ task hardy{
             ${true='--keep-females' false="" filter_females} \
             ${true='--nonfounders' false="" nonfounders} \
             ${chrs_prefix} ${sep=", " chrs} \
+            ${'--keep ' + keep_samples} \
+            ${'--remove ' + remove_samples} \
             --output-chr ${output_chr}
 
 
