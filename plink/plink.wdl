@@ -1089,6 +1089,7 @@ task hardy{
     Float hwe_pvalue = 0.0
     String? hwe_mode
     Boolean? filter_females
+    Boolean? nonfounders
     Array[String]? chrs
     String chrs_prefix = if(defined(chrs)) then "--chr" else ""
 
@@ -1131,6 +1132,7 @@ task hardy{
             --threads ${cpu} \
             --out ${output_basename} \
             ${true='--keep-females' false="" filter_females} \
+            ${true='--nonfounders' false="" nonfounders} \
             ${chrs_prefix} ${sep=", " chrs} \
             --output-chr ${output_chr}
 
