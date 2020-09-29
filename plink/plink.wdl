@@ -1282,3 +1282,45 @@ task convert_bgen_to_vcf {
         File log_file = "${output_basename}.log"
     }
 }
+
+task make_founders{
+    File fam_in
+    String output_basename
+    String input_prefix = basename(sub(fam_in, "\\.gz$", ""), ".fam")
+    Boolean require_2_missing = true
+    Boolean first = false
+
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    Int cpu = 1
+    Int mem_gb = 1
+    Int max_retries = 3
+
+    command <<<
+        set -e
+        mkdir plink_input
+
+        # Fam file preprocessing
+        if [[ ${fam_in} =~ \.gz$ ]]; then
+            unpigz -p ${cpu} -c ${fam_in} > plink_input/${input_prefix}.fam
+        else
+            ln -s ${fam_in} plink_input/${input_prefix}.fam
+        fi
+
+        # Get expected heterozygosity for each sample
+        plink --fam plink_input/${input_prefix}.fam \
+            --make-just-fam \
+            --make-founders ${true="require-2-missing" false="" require_2_missing} ${true="first" false="" first} \
+            --out ${output_basename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File fam_out = "${output_basename}.fam"
+    }
+}
