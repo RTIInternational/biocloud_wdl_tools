@@ -1,7 +1,7 @@
 task genesis {
     File fileInGeno
     File fileInPheno
-    String out
+    String outBaseName
     String genoFormat   # Options: gds
     String pheno        # Column name in phenotype file
     String covars       # Comma-delimited column names in phenotype file
@@ -24,12 +24,12 @@ task genesis {
 	        --covars ${covars} \
             --family ${family} \
             ${ "--gxe " + gxE } \
-            --out "${out}.assoc.tsv" \
+            --out "${outBaseName}.assoc.tsv" \
 		    ${true="--gzip" false="" gzip}
     }
 
     output {
-        File assoc_file = "${out}.assoc.tsv"
+        File assoc_file = "${outBaseName}.assoc.tsv"
     }
 
     runtime {
