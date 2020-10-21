@@ -18,7 +18,7 @@ task genesis {
     Int max_retries = 3
 
     command {
-        genesis.R \
+        /opt/genesis.R \
             --in-geno ${fileInGeno} \
             --in-geno-format ${genoFormat} \
 	        --in-pheno ${fileInPheno} \
