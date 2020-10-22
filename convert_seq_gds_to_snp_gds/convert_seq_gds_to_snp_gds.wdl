@@ -8,6 +8,7 @@ task convert_seq_gds_to_snp_gds {
     # Runtime environment
     String docker = "rtibiocloud/convert_seq_gds_to_snp_gds:v1_3e0e0c9"
     Int mem_gb = 8
+    Int cpu = 1
     Int max_retries = 3
 
     command{
@@ -21,7 +22,7 @@ task convert_seq_gds_to_snp_gds {
 
     runtime{
         docker: docker
-        cpu: parallel
+        cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
     }
