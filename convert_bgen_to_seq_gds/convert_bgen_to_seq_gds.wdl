@@ -1,4 +1,4 @@
-task convert_bgen_to_gds {
+task convert_bgen_to_seq_gds {
     File in_bgen
     String out_gds
     String storage_option = "LZMA_RA"
@@ -10,12 +10,12 @@ task convert_bgen_to_gds {
     Int parallel = 8
 
     # Runtime environment
-    String docker = "rtibiocloud/convert_bgen_to_gds:v1_7e345e3"
+    String docker = "rtibiocloud/convert_bgen_to_seq_gds:v1_c3bbaef"
     Int mem_gb = 8
     Int max_retries = 3
 
     command{
-        /opt/convert_bgen_to_gds.R \
+        /opt/convert_bgen_to_seq_gds.R \
             --in-bgen ${in_bgen} \
             --out-gds ${out_gds} \
             --storage-option "${storage_option}" \
