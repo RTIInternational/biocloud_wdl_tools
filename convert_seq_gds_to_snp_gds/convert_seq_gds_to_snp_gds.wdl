@@ -15,7 +15,7 @@ task convert_seq_gds_to_snp_gds {
         /opt/convert_seq_gds_to_snp_gds.R \
             --in-seq-gds ${in_seq_gds} \
             --out-seq-gds ${out_snp_gds} \
-            --storage-option "${storage_option}" \
+            --compress-geno "${compress_geno}" \
             ${true="--optimize" false="" optimize} \
             ${true="--dosage" false="" dosage}
     }
