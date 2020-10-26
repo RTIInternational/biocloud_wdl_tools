@@ -31,7 +31,7 @@ task genesis {
     }
 
     output {
-        File assoc_file = ${fileOut}
+        File assoc_file = fileOut
     }
 
     runtime {
