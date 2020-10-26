@@ -12,7 +12,7 @@ task genesis {
     String covarsPrefix = if defined(covars) then "--covars "  else ""
 
     # Runtime attributes
-    String docker = "rtibiocloud/genesis:v3.11_aeebf78"
+    String docker = "rtibiocloud/genesis:v3.11_ec2ec2e"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -26,12 +26,12 @@ task genesis {
             ${covarsPrefix} ${sep="," covars} \
             --family ${family} \
             ${ "--gxe " + gxE } \
-            --out fileOut \
+            --out ${fileOut} \
 		    ${true="--gzip" false="" gzip}
     }
 
     output {
-        File assoc_file = fileOut
+        File assoc_file = ${fileOut}
     }
 
     runtime {
