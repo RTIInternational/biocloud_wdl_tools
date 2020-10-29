@@ -984,6 +984,7 @@ task get_samples_missing_chr{
     File bim_in
     File fam_in
     String chr
+    Float missing_threshold = 1.00
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
@@ -1030,10 +1031,9 @@ task get_samples_missing_chr{
             --out ${output_basename}
 
         # Parse out any indiduals with 100% missing call rates on a given SNP
-        tail -n +2 ${output_basename}.imiss | awk '{ OFS="\t" } { if($6==1){ print $1,$2 } }' > ${output_basename}.samples_missing.chr${chr}.txt
+        tail -n +2 ${output_basename}.imiss | awk '{ OFS="\t" } { if($6>=${missing_threshold}){ print $1,$2 } }' > ${output_basename}.samples_missing.chr${chr}.txt
 
     >>>
-
     runtime {
         docker: docker
         cpu: cpu
@@ -1042,7 +1042,9 @@ task get_samples_missing_chr{
     }
 
     output{
-        File samples = "${output_basename}.samples_missing.chr${chr}.txt"
+        File missing_samples = "${output_basename}.samples_missing.chr${chr}.txt"
+        File sample_missing_report = "${output_basename}.imiss"
+        File site_missing_report = "${output_basename}.lmiss"
     }
 }
 
