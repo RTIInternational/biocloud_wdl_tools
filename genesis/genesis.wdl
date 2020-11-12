@@ -12,7 +12,7 @@ task genesis {
     String covarsPrefix = if defined(covars) then "--covars "  else ""
 
     # Runtime attributes
-    String docker = "rtibiocloud/genesis:v3.11_c67cdbf"
+    String docker = "rtibiocloud/genesis:v3.11_4677baa"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
