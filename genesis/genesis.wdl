@@ -1,6 +1,7 @@
 task genesis {
     File fileInGeno
     File fileInPheno
+    File fileInVariantList
     String fileOut
     String genoFormat       # Options: gds
     String pheno            # Column name in phenotype file
@@ -19,13 +20,14 @@ task genesis {
 
     command {
         /opt/genesis.R \
-            --in-geno ${fileInGeno} \
-            --in-geno-format ${genoFormat} \
-	        --in-pheno ${fileInPheno} \
+            --file-geno ${fileInGeno} \
+            --geno-format ${genoFormat} \
+	        --file-pheno ${fileInPheno} \
 	        --pheno ${pheno} \
             ${covarsPrefix} ${sep="," covars} \
             --family ${family} \
             ${ "--gxe " + gxE } \
+            --file-variant-list ${fileInVariantList} \
             --out ${fileOut} \
 		    ${true="--gzip" false="" gzip}
     }
