@@ -1,13 +1,13 @@
 task genesis {
-    File fileInGeno
-    File fileInPheno
-    File fileInVariantList
-    String fileOut
-    String genoFormat       # Options: gds
+    File file_in_geno
+    File file_in_pheno
+    File file_in_variant_list
+    String file_out
+    String geno_format      # Options: gds
     String pheno            # Column name in phenotype file
     Array[String]? covars   # Array of column names of covars
     String family           # Options: gaussian
-    String? gxE             # Column name in phenotype file for GxE interaction
+    String? gxe             # Column name in phenotype file for gxe interaction
     Boolean? gzip
 
     String covarsPrefix = if defined(covars) then "--covars "  else ""
@@ -20,20 +20,20 @@ task genesis {
 
     command {
         /opt/genesis.R \
-            --file-geno ${fileInGeno} \
-            --geno-format ${genoFormat} \
-	        --file-pheno ${fileInPheno} \
+            --file-geno ${file_in_geno} \
+            --geno-format ${geno_format} \
+	        --file-pheno ${file_in_pheno} \
 	        --pheno ${pheno} \
             ${covarsPrefix} ${sep="," covars} \
             --family ${family} \
-            ${ "--gxe " + gxE } \
-            --file-variant-list ${fileInVariantList} \
-            --out ${fileOut} \
+            ${ "--gxe " + gxe } \
+            --file-variant-list ${file_in_variant_list} \
+            --out ${file_out} \
 		    ${true="--gzip" false="" gzip}
     }
 
     output {
-        File assoc_file = fileOut
+        File assoc_file = file_out
     }
 
     runtime {
