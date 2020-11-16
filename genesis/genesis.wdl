@@ -33,7 +33,7 @@ task genesis {
     }
 
     output {
-        File assoc_file = file_out
+        File assoc_file = sumstats_out
     }
 
     runtime {
