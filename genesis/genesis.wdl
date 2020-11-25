@@ -8,12 +8,13 @@ task genesis {
     Array[String]? covars   # Array of column names of covars
     String family           # Options: gaussian
     String? gxe             # Column name in phenotype file for gxe interaction
+    String chr              # Chr being analyzed
     Boolean? gzip
 
     String covarsPrefix = if defined(covars) then "--covars "  else ""
 
     # Runtime attributes
-    String docker = "rtibiocloud/genesis:v3.11_4677baa"
+    String docker = "rtibiocloud/genesis:v3.11_5f82b31"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -27,6 +28,7 @@ task genesis {
             ${covarsPrefix} ${sep="," covars} \
             --family ${family} \
             ${ "--gxe " + gxe } \
+            --chr ${chr} \
             --file-variant-list ${file_in_variant_list} \
             --out ${file_out} \
 		    ${true="--gzip" false="" gzip}
