@@ -6,7 +6,7 @@ task split_by_variant{
     String output_basename
 
     # Runtime environment
-    String docker = "rtibiocloud/split_gds_by_variant:v3.11_c6096b1"
+    String docker = "rtibiocloud/split_gds_by_variant:v3.11_ee7a5e8"
     Int cpu = 1
     Int mem_gb = 1
     Int max_retries = 3
