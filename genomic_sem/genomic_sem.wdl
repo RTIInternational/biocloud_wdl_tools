@@ -7,7 +7,7 @@ task genomic_sem {
     File? reference
     Float? info_filter
     Float? maf_filter
-    String out_dir
+    String out_prefix
     File? ld
     Boolean? munge
     Boolean? LDSC
@@ -38,7 +38,7 @@ task genomic_sem {
             --reference ${reference} \
             --info_file ${info_filter} \
             --maf_filter ${maf_filter} \
-            --outDir ${out_dir} \
+            --out_prefix ${out_prefix} \
             --ld ${ld} \
             --munge FALSE \
             --LDSC FALSE \
