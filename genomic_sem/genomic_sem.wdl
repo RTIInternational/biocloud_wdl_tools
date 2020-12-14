@@ -51,7 +51,8 @@ task genomic_sem {
             --sumstats FALSE \
             --sumstats_file ${sumstats_file} \
             --common_factor_gwas TRUE \
-            --common_factor_gwas_model ${common_factor_gwas_model}
+            --common_factor_gwas_model ${common_factor_gwas_model} \
+            --parallel FALSE
     }
 
     output {
