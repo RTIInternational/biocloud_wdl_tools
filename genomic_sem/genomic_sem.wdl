@@ -1,5 +1,5 @@
 task genomic_sem {
-    Array[File] input_files
+    Array[File]? input_files
     Array[String]? trait_names
     Array[String]? sample_sizes
     Array[String]? sample_prev
@@ -11,17 +11,16 @@ task genomic_sem {
     File? ld
     Boolean? munge
     Boolean? LDSC
-    File? LDSC_file
+    File LDSC_file
     String estimation
     Boolean? common_factor
     File? common_factor_model
     Array[String]? se_logit
     Boolean? sumstats
-    File? sumstats_file
+    File sumstats_file
     Boolean common_factor_gwas
     File common_factor_gwas_model
     Boolean parallel
-    Int cores
 
     # Runtime attributes
     String docker = "rtibiocloud/genomic_sem:v1_5dc0577"
