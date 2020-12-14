@@ -20,12 +20,13 @@ task genomic_sem {
     File? sumstats_file
     Boolean common_factor_gwas
     File common_factor_gwas_model
-
+    Boolean parallel
+    Int cores
 
     # Runtime attributes
     String docker = "rtibiocloud/genomic_sem:v1_5dc0577"
-    Int cpu = 1
-    Int mem_gb = 4
+    Int cpu = 16
+    Int mem_gb = 10
     Int max_retries = 3
 
     command {
