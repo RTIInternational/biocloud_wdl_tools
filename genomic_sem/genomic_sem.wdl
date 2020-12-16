@@ -36,7 +36,7 @@ task genomic_sem {
             --sample_prev ${sample_prev} \
             --pop_prev ${pop_prev} \
             --reference ${reference} \
-            --info_file ${info_filter} \
+            --info_filter ${info_filter} \
             --maf_filter ${maf_filter} \
             --out_prefix ${out_prefix} \
             --ld ${ld} \
