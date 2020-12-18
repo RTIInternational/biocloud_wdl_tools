@@ -1,7 +1,7 @@
 task genesis {
     File file_in_geno
     File file_in_pheno
-    File file_in_variant_list
+    File? file_in_variant_list
     String file_out
     String geno_format      # Options: gds
     String pheno            # Column name in phenotype file
@@ -11,7 +11,8 @@ task genesis {
     String chr              # Chr being analyzed
     Boolean? gzip
 
-    String covarsPrefix = if defined(covars) then "--covars "  else ""
+    String covarsPrefix = if defined(covars) then "--covars " else ""
+    String variantListPrefix = if defined(file_in_variant_list) then "--file-variant-list " else ""
 
     # Runtime attributes
     String docker = "rtibiocloud/genesis:v3.11_5f82b31"
@@ -29,7 +30,7 @@ task genesis {
             --family ${family} \
             ${ "--gxe " + gxe } \
             --chr ${chr} \
-            --file-variant-list ${file_in_variant_list} \
+            ${variantListPrefix} ${file_in_variant_list} \
             --out ${file_out} \
 		    ${true="--gzip" false="" gzip}
     }
