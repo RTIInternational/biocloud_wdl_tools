@@ -30,11 +30,11 @@ task genomic_sem {
 
     command {
         /opt/GenomicSEM_commonFactor.R \
-            --input_files ${input_files} \
-            --trait_names ${trait_names} \
-            --sample_sizes ${sample_sizes} \
-            --sample_prev ${sample_prev} \
-            --pop_prev ${pop_prev} \
+            --input_files ${sep="," input_files} \
+            --trait_names ${sep="," trait_names} \
+            --sample_sizes ${sep="," sample_sizes} \
+            --sample_prev ${sep="," sample_prev} \
+            --pop_prev ${sep="," pop_prev} \
             --reference ${reference} \
             --info_filter ${info_filter} \
             --maf_filter ${maf_filter} \
@@ -46,7 +46,7 @@ task genomic_sem {
             --estimation ${estimation} \
             --common_factor FALSE \
             --common_factor_model ${common_factor_model} \
-            --se_logit ${se_logit} \
+            --se_logit ${sep="," se_logit} \
             --sumstats FALSE \
             --sumstats_file ${sumstats_file} \
             --common_factor_gwas TRUE \
