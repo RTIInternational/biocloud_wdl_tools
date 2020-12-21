@@ -20,7 +20,7 @@ task genomic_sem {
     File sumstats_file
     Boolean common_factor_gwas
     File common_factor_gwas_model
-    Boolean parallel
+    #Boolean parallel
 
     # Runtime attributes
     String docker = "rtibiocloud/genomic_sem:v1_5dc0577"
@@ -51,7 +51,6 @@ task genomic_sem {
             --sumstats_file ${sumstats_file} \
             --common_factor_gwas TRUE \
             --common_factor_gwas_model ${common_factor_gwas_model} \
-            --parallel parallel
     }
 
     output {
