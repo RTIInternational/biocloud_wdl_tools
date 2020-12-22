@@ -54,7 +54,7 @@ task genomic_sem {
     }
 
     output {
-        File sumstats_out = "${out_prefix}.rds"
+        File gsem_out = "${out_prefix}.rds"
     }
 
     runtime {
