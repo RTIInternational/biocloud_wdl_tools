@@ -29,7 +29,7 @@ task genomic_sem {
     Int max_retries = 3
 
     command {
-        /opt/GenomicSEM_commonFactor.R \
+        Rscript /opt/GenomicSEM_commonFactor.R \
             --input_files ${sep="," input_files} \
             --trait_names ${sep="," trait_names} \
             --sample_sizes ${sep="," sample_sizes} \
