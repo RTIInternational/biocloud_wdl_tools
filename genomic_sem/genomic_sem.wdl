@@ -25,7 +25,7 @@ task genomic_sem {
     # Runtime attributes
     String docker = "rtibiocloud/genomic_sem:v1_2097f3e"
     Int cpu = 16
-    Int mem_gb = 20
+    Int mem_gb = 50
     Int max_retries = 3
 
     command {
