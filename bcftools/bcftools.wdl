@@ -40,6 +40,6 @@ task view{
     }
 
     output{
-        File merged_vcf = "${output_filename}"
+        File vcf_out = "${output_filename}"
     }
 }
