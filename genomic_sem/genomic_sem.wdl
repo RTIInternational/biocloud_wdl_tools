@@ -23,12 +23,13 @@ task genomic_sem {
     #Boolean parallel
 
     # Runtime attributes
-    String docker = "rtibiocloud/genomic_sem:v1_36d7cbe"
+    String docker = "rtibiocloud/genomic_sem:v1_6fcad83"
     Int cpu = 16
     Int mem_gb = 10
     Int max_retries = 3
 
     command {
+        set -e
         Rscript /opt/GenomicSEM_commonFactor.R \
             --input_files ${sep="," input_files} \
             --trait_names ${sep="," trait_names} \
@@ -50,11 +51,13 @@ task genomic_sem {
             --sumstats FALSE \
             --sumstats_file ${sumstats_file} \
             --common_factor_gwas TRUE \
-            --common_factor_gwas_model ${common_factor_gwas_model} \
+            --common_factor_gwas_model ${common_factor_gwas_model}
+
+        mv /opt/${out_prefix}.rds ./
     }
 
     output {
-        File gsem_out = "/opt/${out_prefix}.rds"
+        File gsem_out = "${out_prefix}.rds"
     }
 
     runtime {
