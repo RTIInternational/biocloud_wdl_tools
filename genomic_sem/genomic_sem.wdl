@@ -52,8 +52,6 @@ task genomic_sem {
             --sumstats_file ${sumstats_file} \
             --common_factor_gwas TRUE \
             --common_factor_gwas_model ${common_factor_gwas_model}
-
-        mv /opt/${out_prefix}.rds ./
     }
 
     output {
