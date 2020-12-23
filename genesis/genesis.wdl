@@ -15,7 +15,7 @@ task genesis {
     String variantListPrefix = if defined(file_in_variant_list) then "--file-variant-list " else ""
 
     # Runtime attributes
-    String docker = "rtibiocloud/genesis:v3.11_5f82b31"
+    String docker = "rtibiocloud/genesis:v3.11_0a3d228"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
