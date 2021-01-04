@@ -43,6 +43,7 @@ task rfmix{
         else
             # Otherwise just create softlink with normal
             ln -s ${query_vcf} query.vcf
+        fi
 
         # Unzip ref if needed (pigz is way faster)
         if [[ ${ref_vcf} =~ \.gz$ ]]; then
@@ -51,6 +52,7 @@ task rfmix{
         else
             # Otherwise just create softlink with normal
             ln -s ${ref_vcf} ref.vcf
+        fi
 
         rfmix -f query.vcf \
             -r ref.vcf \
