@@ -23,7 +23,7 @@ task genomic_sem {
     #Boolean parallel
 
     # Runtime attributes
-    String docker = "rtibiocloud/genomic_sem:v1_6fcad83"
+    String docker = "rtibiocloud/genomic_sem:v1_75a57cd"
     Int cpu = 16
     Int mem_gb = 10
     Int max_retries = 3
