@@ -1,4 +1,4 @@
-task view{
+task merge{
     # Utility for merging multiple VCF/BCF files
     File file_in
 
