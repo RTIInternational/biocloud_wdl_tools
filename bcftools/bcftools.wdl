@@ -25,7 +25,7 @@ task view{
             --threads ${cpu} \
             -o ${output_filename} \
             -O ${output_type} \
-            ${'-S ' + samples_file} \
+            ${'-S ' + samples_file + " --force-sample"} \
             ${'-r ' + regions} \
             ${'-R ' + regions_file} \
             ${'-t ' + targets} \
