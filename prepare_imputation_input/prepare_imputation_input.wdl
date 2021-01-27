@@ -62,6 +62,6 @@ task prepare_imputation_inputs{
     }
 
     output{
-        Array[File] vcf_out = glob("*.vcf.gz)
+        Array[File] vcf_out = glob("*.vcf.gz")
     }
 }
