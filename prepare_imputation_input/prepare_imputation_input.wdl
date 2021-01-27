@@ -45,7 +45,7 @@ task prepare_imputation_input{
          python /opt/prepare_imputation_input.py \
             --bfile plink_input/${input_prefix} \
             --ref ${ref} \
-            ${'--ref-group ' + ref_group} \
+            ${'--ref_group ' + ref_group} \
             --freq_diff_threshold ${freq_diff_threshold} \
             --out_prefix ${output_basename} \
             --working_dir $(pwd) \
