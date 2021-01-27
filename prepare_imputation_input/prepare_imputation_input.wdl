@@ -1,4 +1,4 @@
-task prepare_imputation_inputs{
+task prepare_imputation_input{
     File bed_in
     File bim_in
     File fam_in
