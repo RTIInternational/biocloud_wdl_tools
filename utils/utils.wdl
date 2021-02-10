@@ -474,3 +474,29 @@ task array_equals{
         Boolean is_equal = read_boolean(stdout())
     }
 }
+
+task shuf{
+    # Write a random permutation of the input lines to standard output
+    File input_file
+    Int? n
+    String output_filename
+
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    Int cpu = 1
+    Int mem_gb = 1
+
+    command<<<
+        shuf ${"-n " + n} ${input_file}  > ${output_filename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output{
+        File output_file = "${output_filename}"
+    }
+}
