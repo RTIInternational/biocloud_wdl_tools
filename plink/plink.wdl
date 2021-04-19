@@ -415,7 +415,7 @@ task make_bed_plink1{
     File? update_sex
     Int? update_sex_n
 
-    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -551,7 +551,7 @@ task merge_beds{
     Array[File] fam_in
     String output_basename
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -610,7 +610,7 @@ task merge_two_beds{
     Boolean ignore_errors = false
     String output_basename
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -671,7 +671,7 @@ task remove_fam_phenotype{
     String output_basename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -703,7 +703,7 @@ task remove_fam_pedigree{
     String output_basename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -819,7 +819,7 @@ task sex_check{
     File? update_sex
 
     # Runtime environment
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 4
     Int mem_gb = 8
 
@@ -886,7 +886,7 @@ task contains_chr{
     String chr
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -924,7 +924,7 @@ task get_excess_homo_samples{
     Float min_he
     Float max_he
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -988,7 +988,7 @@ task get_samples_missing_chr{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1053,7 +1053,7 @@ task get_bim_chrs{
     File bim_in
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -1179,7 +1179,7 @@ task recode_to_ped{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1292,7 +1292,7 @@ task make_founders{
     Boolean require_2_missing = true
     Boolean first = false
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 1
     Int max_retries = 3
@@ -1341,7 +1341,7 @@ task convert_bed_to_vcf{
     # Optionally subset by chr
     String? chr
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
