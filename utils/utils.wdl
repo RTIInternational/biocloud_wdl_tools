@@ -3,7 +3,7 @@ task append {
     String? b
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -28,7 +28,7 @@ task collect_files{
     String output_dir_name
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -97,7 +97,7 @@ task slice{
     Int actual_start_pos = start_pos + 1
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -121,7 +121,7 @@ task flatten_string_array {
     Array[Array[String]] array
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -145,7 +145,7 @@ task remove_empty_files{
     Array[File] input_files
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -173,7 +173,7 @@ task wc{
     File input_file
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -203,7 +203,7 @@ task cut{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -227,7 +227,7 @@ task get_file_union{
     Array[File] input_files
     String output_filename
 
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -262,7 +262,7 @@ task replace_chr{
     String char
     String new_char
 
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -292,7 +292,7 @@ task raise_error{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
         cpu: 1
         memory: "500 MB"
         maxRetries: 1
@@ -309,7 +309,7 @@ task cat{
     String output_filename
     Boolean input_gzipped = false
 
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -354,7 +354,7 @@ task get_file_extension{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
         cpu: 1
         memory: "100 MB"
     }
@@ -384,7 +384,7 @@ task array_contains{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
         cpu: 1
         memory: "100 MB"
     }
@@ -412,7 +412,7 @@ task append_column{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
         cpu: 1
         memory: "100 MB"
     }
@@ -429,7 +429,7 @@ task paste{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
@@ -465,7 +465,7 @@ task array_equals{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
         cpu: 1
         memory: "100 MB"
     }
@@ -482,7 +482,7 @@ task shuf{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
     Int cpu = 1
     Int mem_gb = 1
 
