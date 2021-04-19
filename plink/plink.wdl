@@ -1292,7 +1292,7 @@ task make_founders{
     Boolean require_2_missing = true
     Boolean first = false
 
-    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 1
     Int max_retries = 3
@@ -1341,7 +1341,7 @@ task convert_bed_to_vcf{
     # Optionally subset by chr
     String? chr
 
-    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
