@@ -924,7 +924,7 @@ task get_excess_homo_samples{
     Float min_he
     Float max_he
 
-    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -988,7 +988,7 @@ task get_samples_missing_chr{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91:v1.9_178bb91"
+    String docker = "404545384114.dkr.ecr.us-east-1.amazonaws.com/plink:v1.9_178bb91"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
