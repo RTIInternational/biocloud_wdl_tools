@@ -9,6 +9,7 @@ task view{
     String? targets
     File? targets_file
     Float? maf_filter
+    Int? min_ac
 
     String output_filename
     String output_type
@@ -31,6 +32,7 @@ task view{
             ${'-t ' + targets} \
             ${'-T ' + targets_file} \
             ${'-q ' + maf_filter + ":minor"} \
+            ${'--min-ac ' + min_ac + ":minor"} \
             ${vcf_in}
     >>>
 
