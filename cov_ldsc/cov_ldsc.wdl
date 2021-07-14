@@ -1,7 +1,5 @@
 task cov_ldsc {
     String bfile
-    Boolean? l2
-    Float? ld_wind_cm
     File cov_eigenvec
     String out_prefix
 
@@ -16,7 +14,7 @@ task cov_ldsc {
         python /opt/ldsc.py \
             --bfile ${bfile} \
             --l2 \
-            --ld_wind_cm ${ld_wind_cm} \
+            --ld_wind_cm 20 \
             --cov ${cov_eigenvec} \
             --out ${out_prefix} 
     }
