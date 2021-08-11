@@ -23,7 +23,7 @@ task cov_ldsc {
         File m_File = "${out_prefix}.M"
         File m_5_50_File = "${out_prefix}.M_5_50"
         File ldscore_out = "${out_prefix}.ldscore.gz"
-        File logFile = "${out_prefix}.log
+        File logFile = "${out_prefix}.log"
     }
 
 }
