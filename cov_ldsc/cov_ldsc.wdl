@@ -5,8 +5,8 @@ task cov_ldsc {
 
     # Runtime attributes
     String docker = "rtibiocloud/cov_ldsc:v1_78e7ecc"
-    Int cpu = 32
-    Int mem_gb = 32 
+    Int cpu = 8
+    Int mem_gb = 8 
     Int max_retries = 3
 
     command {
