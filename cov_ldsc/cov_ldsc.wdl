@@ -26,5 +26,12 @@ task cov_ldsc {
         File logFile = "${out_prefix}.log"
     }
 
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
 }
 
