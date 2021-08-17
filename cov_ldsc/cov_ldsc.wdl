@@ -14,7 +14,8 @@ task cov_ldsc {
         python /opt/ldsc.py \
             --bfile ${bfile} \
             --l2 \
-            --ld_wind_cm 20 \
+            --ld-wind-cm 20 \
+            --yes-really \
             --cov ${cov_eigenvec} \
             --out ${out_prefix} 
     }
