@@ -28,11 +28,12 @@ task generate_gwas_plots{
     String? manhattan_odd_chr_color
     String? manhattan_even_chr_color
     String? manhattan_highlight_chr_color
+    Float? manhattan_significance_value
 
     Array[String] cols_to_keep = select_all([col_id, col_chromosome, col_position, col_p, variant_type_colname])
 
     # Runtime options
-    String docker = "rtibiocloud/generate_gwas_plots:6ce5e03"
+    String docker = "rtibiocloud/generate_gwas_plots:v1_781a9d2"
     Int cpu = 1
     Int mem_gb = 16
     Int max_retries = 3
@@ -100,7 +101,8 @@ task generate_gwas_plots{
             ${'--manhattan_no_line ' + manhattan_no_line} \
             ${'--manhattan_odd_chr_color ' + manhattan_odd_chr_color} \
             ${'--manhattan_even_chr_color ' + manhattan_even_chr_color} \
-            ${'--manhattan_highlight_chr_color ' + manhattan_highlight_chr_color}
+            ${'--manhattan_highlight_chr_color ' + manhattan_highlight_chr_color} \
+            ${'--manhattan_significance_value ' + manhattan_significance_value}
     >>>
 
     runtime{
