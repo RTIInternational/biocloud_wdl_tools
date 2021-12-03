@@ -14,7 +14,7 @@ task gem {
     File? bim
     File? fam
     String? outputStyle
-    String? outLog = out + ".log"
+    String outLog = out + ".log"
 
     # Phenotype File Options:
     String sampleidName
@@ -50,8 +50,8 @@ task gem {
     command {
         gem --pheno-file + ${phenoFile} \ 
             --out ${out} \
-            --sampleid-name " + sampleidName \
-            --pheno-name " + phenoName \
+            --sampleid-name + ${sampleidName} \
+            --pheno-name + ${phenoName} \
             ${"--bgen" + bgen} \
             ${"--sample " + sample} \
             ${"--pfile " + pfile} \
