@@ -22,14 +22,14 @@ task gem {
     String? exposureNames
     String? intCovarNames
     String? covarNames
-    Boolean? robust
+    Int? robust
     Float? tol
     String? delim
     String? missingValue
-    Boolean? center
-    Boolean? scale
+    Int? center
+    Int? scale
     String? categoricalNames
-    String? catThreshold
+    Int? catThreshold
 
     # Filtering Options:
     Float? maf
