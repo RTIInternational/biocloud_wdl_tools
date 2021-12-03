@@ -13,7 +13,7 @@ task gem {
     File? bed
     File? bim
     File? fam
-    String? outputStyle = minimum
+    String? outputStyle
     String? outLog = out + ".log"
 
     # Phenotype File Options:
@@ -83,8 +83,8 @@ task gem {
     }
 
     output {
-        File assoc_outputs = out
-        File log_file = outLog
+        File assoc_outputs = "${out}"
+        File log_file = "${outLog}"
     }
 
     runtime {
