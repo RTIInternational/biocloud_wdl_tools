@@ -83,8 +83,8 @@ task gem {
     }
 
     output {
-        File assoc_outputs = "${out}"
-        File log_file = "${outLog}"
+        File summary_stats = "${out}"
+        File log = "${outLog}"
     }
 
     runtime {
