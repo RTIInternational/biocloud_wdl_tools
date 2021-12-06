@@ -50,8 +50,8 @@ task gem {
     command {
         gem --pheno-file + ${phenoFile} \ 
             --out ${out} \
-            --sampleid-name + ${sampleidName} \
-            --pheno-name + ${phenoName} \
+            --sampleid-name ${sampleidName} \
+            --pheno-name ${phenoName} \
             ${"--bgen" + bgen} \
             ${"--sample " + sample} \
             ${"--pfile " + pfile} \
