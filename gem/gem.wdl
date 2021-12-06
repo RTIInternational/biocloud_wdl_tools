@@ -5,11 +5,9 @@ task gem {
     String out
     File? bgen
     File? sample
-    File? pfile
     File? pgen
     File? pvar
     File? psam
-    File? bfile
     File? bed
     File? bim
     File? fam
@@ -54,11 +52,9 @@ task gem {
             --pheno-name ${phenoName} \
             ${"--bgen" + bgen} \
             ${"--sample " + sample} \
-            ${"--pfile " + pfile} \
             ${"--pgen " + pgen} \
             ${"--pvar " + pvar} \
             ${"--psam " + psam} \
-            ${"--bfile " + bfile} \
             ${"--bed " + bed} \
             ${"--bim " + bim} \
             ${"--fam " + fam} \
