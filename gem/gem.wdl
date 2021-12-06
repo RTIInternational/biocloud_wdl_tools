@@ -46,7 +46,7 @@ task gem {
 
 
     command {
-        gem --pheno-file ${phenoFile} \ 
+        GEM --pheno-file ${phenoFile} \ 
             --out ${out} \
             --sampleid-name ${sampleidName} \
             --pheno-name ${phenoName} \
