@@ -75,7 +75,7 @@ task gem {
             ${"--include-snp-file " + includeSnpFile} \
             ${"--threads " + threads} \
             ${"--stream-snps " + streamSnps} > \
-            outLog
+            ${outLog}
     }
 
     output {
