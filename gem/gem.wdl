@@ -50,7 +50,7 @@ task gem {
             --out ${out} \
             --sampleid-name ${sampleid_name} \
             --pheno-name ${pheno_name} \
-            ${"--bgen" + bgen} \
+            ${"--bgen " + bgen} \
             ${"--sample " + sample} \
             ${"--pgen " + pgen} \
             ${"--pvar " + pvar} \
