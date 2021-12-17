@@ -2,6 +2,7 @@ task make_gwas_summary_stats {
     File file_in_summary_stats
     File file_in_info
     String file_in_summary_stats_format
+    String file_in_info_format = "info"
     String file_out_prefix
     Int chunk_size = 50000
 
@@ -10,7 +11,7 @@ task make_gwas_summary_stats {
     String? population
 
     # Runtime options
-    String docker = "rtibiocloud/make_gwas_summary_stats:none_103d45e"
+    String docker = "rtibiocloud/make_gwas_summary_stats:v2_3fa45ba"
     Int cpu = 1
     Int mem_gb = 3
     Int max_retries = 3
@@ -20,6 +21,7 @@ task make_gwas_summary_stats {
             --file_in_summary_stats ${file_in_summary_stats} \
             --file_in_info ${file_in_info} \
             --file_in_summary_stats_format ${file_in_summary_stats_format} \
+            --file_in_info_format ${file_in_info_format} \
             ${"--file_in_pop_mafs " + file_in_pop_mafs} \
             ${"--population " + population} \
             --file_out_prefix ${file_out_prefix} \
