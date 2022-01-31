@@ -73,6 +73,10 @@ task generate_gwas_plots{
         # Convert X chromosome to 23
         echo "Converting instances of X to 23..."
         sed -i 's/X/23/g' fixed_sumstats.txt
+        
+        # Convert Y chromosome to 24
+        echo "Converting instances of Y to 24..."
+        sed -i 's/Y/24/g' fixed_sumstats.txt
 
         /opt/generate_gwas_plots.R \
             --in fixed_sumstats.txt \
