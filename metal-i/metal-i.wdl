@@ -23,7 +23,7 @@ task metal_i {
 
   # METAL analysis parameters
   String metal_out_prefix
-  String metal_out_suffix
+  String metal_out_suffix = "tsv"
   String scheme
   String ?analyze
   String ?genomic_control
