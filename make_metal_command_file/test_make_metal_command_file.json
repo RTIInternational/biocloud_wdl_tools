@@ -1,0 +1,23 @@
+{
+  "test_make_metal_command_file.metal_command_file": "metal.cmd",
+  "test_make_metal_command_file.sum_stats_files": "s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/afr/ukb_fev1_vitd_2df_afr_rsq_0.3_sampleMAF_0.01.tsv.gz,s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/eas/ukb_fev1_vitd_2df_eas_rsq_0.3_sampleMAF_0.01.tsv.gz,s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/eur/ukb_fev1_vitd_2df_eur_rsq_0.3_sampleMAF_0.01.tsv.gz,s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/sas/ukb_fev1_vitd_2df_sas_rsq_0.3_sampleMAF_0.01.tsv.gz",
+  "test_make_metal_command_file.separators": "WHITESPACE",
+  "test_make_metal_command_file.marker_col_names": "VARIANT_ID",
+  "test_make_metal_command_file.ref_allele_col_names": "REF",
+  "test_make_metal_command_file.alt_allele_col_names": "ALT",
+  "test_make_metal_command_file.effect_col_names": "ALT_EFFECT",
+  "test_make_metal_command_file.freq_col_names": "ALT_AF",
+  "test_make_metal_command_file.pvalue_col_names": "P",
+  "test_make_metal_command_file.weight_col_names": "N",
+  "test_make_metal_command_file.std_err_col_names": "SE",
+  "test_make_metal_command_file.int_effect_col_names": "Beta_G-VITD",
+  "test_make_metal_command_file.int_std_err_col_names": "SE_Beta_G-VITD",
+  "test_make_metal_command_file.int_cov_col_names": "Cov_Beta_G_G-VITD",
+  "test_make_metal_command_file.metal_out_prefix": "ukb_fev1_vitd_2df_afr_eas_eur_sas_rsq_0.3_sampleMAF_0.01",
+  "test_make_metal_command_file.scheme": "INTERACTION",
+  "test_make_metal_command_file.analyze": "HETEROGENEITY",
+  "test_make_metal_command_file.genomic_control": "ON",
+  "test_make_metal_command_file.column_counting": "STRICT",
+  "test_make_metal_command_file.average_freq": "ON",
+  "test_make_metal_command_file.min_max_freq": "ON"
+}
