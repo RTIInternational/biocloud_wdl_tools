@@ -60,7 +60,7 @@ task metal_i {
       ${"--int_effect_col_names " + int_effect_col_names} \
       ${"--int_std_err_col_names " + int_std_err_col_names} \
       ${"--int_cov_col_names " + int_cov_col_names} \
-      --metal_out_prefix ${metal_out_prefix} \
+      --out_prefix ${metal_out_prefix} \
       --out_suffix ${metal_out_suffix} \
       --scheme ${scheme} \
       ${"--genomic_control " + genomic_control} \
@@ -72,10 +72,14 @@ task metal_i {
     # Execute METAL command file
     /opt/metal ${metal_command_file}
 
+    # Rename METAL output
+    mv ${metal_out_prefix}1${metal_out_suffix} ${metal_out_prefix}.${metal_out_suffix}
+    mv ${metal_out_prefix}1${metal_out_suffix}.info ${metal_out_prefix}.info
   >>>
 
   output {
     File metal_results = "${metal_out_prefix}.${metal_out_suffix}"
+    File metal_info = "${metal_out_prefix}.info"
   }
   
   runtime {
