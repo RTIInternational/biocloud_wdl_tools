@@ -70,7 +70,7 @@ task metal_i {
       ${"--min_max_freq " + min_max_freq}
 
     # Execute METAL command file
-    /opt/metal ${metal_command_file}
+    /opt/metal ${metal_command_file} > ${metal_out_prefix}.log
 
     # Rename METAL output
     mv ${metal_out_prefix}1${metal_out_suffix} ${metal_out_prefix}.${metal_out_suffix}
@@ -80,6 +80,7 @@ task metal_i {
   output {
     File metal_results = "${metal_out_prefix}.${metal_out_suffix}"
     File metal_info = "${metal_out_prefix}.info"
+    File metal_log = "${metal_out_prefix}.log"
   }
   
   runtime {
