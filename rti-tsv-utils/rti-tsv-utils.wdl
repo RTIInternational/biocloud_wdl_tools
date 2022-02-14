@@ -32,7 +32,7 @@ task tsv_join{
             --in-file-right ${sep=" " right_files} \
             ${"--in-file-right-sep " + right_seps} \
             ${"--in-file-right-cols " + right_cols} \
-            --right_on ${right_ons} \
+            --right-on ${right_ons} \
             ${"--right-suffix " + right_suffixes} \
             ${"--how " + hows} \
             --out-file-prefix ${out_prefix} \
