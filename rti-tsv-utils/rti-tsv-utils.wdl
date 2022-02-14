@@ -29,7 +29,7 @@ task tsv_join{
             ${"--in-file-left-cols " + left_cols} \
             --left-on ${left_on} \
             ${"--left-suffix " + left_suffix} \
-            --in-file-right ${sep=" " right_files}
+            --in-file-right ${sep=" " right_files} \
             ${"--in-file-right-sep " + right_seps} \
             ${"--in-file-right-cols " + right_cols} \
             --right_on ${right_ons} \
