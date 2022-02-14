@@ -49,8 +49,8 @@ task tsv_join{
     }
 
     output{
-        File out_tsv = "${out_prefix} + .tsv.gz"
-        File out_log = "${out_prefix} + .log"
+        File out_tsv = "${out_prefix}.tsv.gz"
+        File out_log = "${out_prefix}.log"
     }
 }
 
