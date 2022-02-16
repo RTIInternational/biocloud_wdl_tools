@@ -72,8 +72,10 @@ task metal_i {
     # Execute METAL command file
     /opt/metal ${metal_command_file} > ${metal_out_prefix}.log
 
-    # Rename METAL output
-    mv ${metal_out_prefix}1${metal_out_suffix} ${metal_out_prefix}.${metal_out_suffix}
+    # Change P-value column name
+    perl -pe 's/P-value/P/ if 1 .. 1' ${metal_out_prefix}1${metal_out_suffix} > ${metal_out_prefix}.${metal_out_suffix}
+
+    # Rename METAL info file
     mv ${metal_out_prefix}1${metal_out_suffix}.info ${metal_out_prefix}.info
   >>>
 
