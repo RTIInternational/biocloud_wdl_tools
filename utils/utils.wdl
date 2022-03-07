@@ -286,13 +286,15 @@ task replace_chr{
 task raise_error{
     # General module for stopping a pipeline with a custom error message
     String msg
+    String docker = "ubuntu:18.04"
+
     command <<<
         echo '${msg}' > err_msg.txt
         exit 1
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: docker
         cpu: 1
         memory: "500 MB"
         maxRetries: 1
@@ -339,6 +341,8 @@ task get_file_extension{
     # Optionally get more than just the last file extension using fields to determine how many extensions to grab
     String input_file
     Int fields = 1
+    String docker = "ubuntu:18.04"
+
 
     command <<<
         echo ${input_file} | awk -F '\.' \
@@ -354,7 +358,7 @@ task get_file_extension{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: docker
         cpu: 1
         memory: "100 MB"
     }
@@ -368,6 +372,8 @@ task array_contains{
     # Return true if array contains an exact match, false otherwise
     Array[String] input_array
     String query
+    String docker = "ubuntu:18.04"
+
 
     command<<<
         set -e
@@ -384,7 +390,7 @@ task array_contains{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: docker
         cpu: 1
         memory: "100 MB"
     }
@@ -406,13 +412,14 @@ task append_column{
     String? F
     String f_arg = if(defined(F)) then "-F '${F}'" else ""
     String ofs_arg = if(defined(OFS)) then "-v OFS='${OFS}'" else ""
+    String docker = "ubuntu:18.04"
 
     command<<<
         awk ${f_arg} ${ofs_arg} '{ $(NF+1) = "${value}"; print }' ${input_file} > ${output_filename}
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: docker
         cpu: 1
         memory: "100 MB"
     }
@@ -454,6 +461,7 @@ task array_equals{
     # Return true if two arrays contain same values in same order
     Array[String] array_a
     Array[String] array_b
+    String docker = "ubuntu:18.04"
 
     command<<<
         diff ${write_lines(array_a)} ${write_lines(array_b)} > compare.txt
@@ -465,7 +473,7 @@ task array_equals{
     >>>
 
     runtime {
-        docker: "ubuntu:18.04"
+        docker: docker
         cpu: 1
         memory: "100 MB"
     }
