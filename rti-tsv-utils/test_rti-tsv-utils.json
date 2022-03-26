@@ -1,0 +1,6 @@
+{
+  "test_sort.in_file": "s3://rti-pulmonary/gwas/aric/results/fev1/0002/eur/ARIC_FEV1_eur_SerumVitD_PrimaryInt_18AUG16_chr2_grch37_dbsnp_b153.tsv.gz",
+  "test_sort.cols": "pos",
+  "test_sort.out_prefix": "test_out",
+  "test_sort.mem_gb": 2
+}

@@ -16,7 +16,7 @@ task tsv_join{
     Int? chunk_size
 
     # Runtime environment
-    String docker = "rtibiocloud/rti-tsv-utils:v1_f55805a"
+    String docker = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -54,3 +54,41 @@ task tsv_join{
     }
 }
 
+task tsv_sort{
+    # TSV utility for sorting tsv file based on specified columns
+    File in_file
+    String cols
+    String out_prefix
+    String in_file_sep = "tab"
+    Boolean ascending = true
+
+    # Runtime environment
+    String docker = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    command <<<
+
+        python /opt/rti-tsv-utils-sort.py \
+            --in-file ${in_file} \
+            ${"--cols " + cols} \
+            --out-prefix ${out_prefix} \
+            ${"--in-file-sep " + in_file_sep} \
+            ${true="--ascending" false="--descending" ascending} \
+            --out-file-compression gzip
+
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File out_tsv = "${out_prefix}.tsv.gz"
+        File out_log = "${out_prefix}.log"
+    }
+}
