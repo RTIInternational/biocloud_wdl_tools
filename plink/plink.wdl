@@ -1393,14 +1393,14 @@ task convert_bed_to_vcf{
     }
 }
 
-task calculate_ld {
+task calculate_ld_from_bed_bim_fam {
 
     # Input file parameters
     String input_format = "bed-bim-fam"
     File ?bed
     File ?bim
     File ?fam
-    File ?vcf
+    # File ?vcf
 
     # Output file parameters
     String output_basename
@@ -1432,19 +1432,19 @@ task calculate_ld {
     Int mem_gb = 2
     Int max_retries = 3
 
-    String parameter_bed = if(input_format == "bed-bim-fam") then "--bed ${bed}" else ""
-    String parameter_bim = if(input_format == "bed-bim-fam") then "--bim ${bim}" else ""
-    String parameter_fam = if(input_format == "bed-bim-fam") then "--fam ${fam}" else ""
-    String parameter_vcf = if(input_format == "vcf") then "--vcf ${vcf}" else ""
+    # String parameter_bed = if(input_format == "bed-bim-fam") then "--bed ${bed}" else ""
+    # String parameter_bim = if(input_format == "bed-bim-fam") then "--bim ${bim}" else ""
+    # String parameter_fam = if(input_format == "bed-bim-fam") then "--fam ${fam}" else ""
+    # String parameter_vcf = if(input_format == "vcf") then "--vcf ${vcf}" else ""
 
     command <<<
         set -e
 
         plink \
-            ${parameter_bed} \
-            ${parameter_bim} \
-            ${parameter_fam} \
-            ${parameter_vcf} \
+            --bed ${bed} \
+            --bim ${bim} \
+            --fam ${fam} \
+            # ${parameter_vcf} \
             ${'--keep ' + keep} \
             ${'--remove ' + remove} \
             --out ${output_basename} \
