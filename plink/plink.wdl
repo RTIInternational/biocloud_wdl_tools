@@ -1392,3 +1392,85 @@ task convert_bed_to_vcf{
         File log_file = "${output_basename}.log"
     }
 }
+
+task calculate_ld {
+
+    # Input file parameters
+    String input_format = "bed-bim-fam"
+    File ?bed
+    File ?bim
+    File ?fam
+    File ?vcf
+
+    # Output file parameters
+    String output_basename
+    String? output_format   # square, square0 triangle inter-chr
+    Boolean? with_freqs
+    Boolean? yes_really
+
+    # Stat
+    String? correlation_stat = "r2"
+
+    # LD window parameters
+    Int? ld_window
+    Int? ld_window_kb
+    Float? ld_window_r2
+
+    # Reference SNP parameters
+    String? ld_snp
+    String? ld_snp_list
+
+    # D prime parameters
+    String? dprime  # d, dprime, dprime-signed
+
+    # Filtering options
+    String? keep
+    String? remove
+
+    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+
+    String parameter_bed = if(input_format == "bed-bim-fam") then "--bed ${bed}" else ""
+    String parameter_bim = if(input_format == "bed-bim-fam") then "--bim ${bim}" else ""
+    String parameter_fam = if(input_format == "bed-bim-fam") then "--fam ${fam}" else ""
+    String parameter_vcf = if(input_format == "vcf") then "--vcf ${vcf}" else ""
+
+    command <<<
+        set -e
+
+        plink \
+            ${parameter_bed} \
+            ${parameter_bim} \
+            ${parameter_fam} \
+            ${parameter_vcf} \
+            ${'--keep ' + keep} \
+            ${'--remove ' + remove} \
+            --out ${output_basename} \
+            --${correlation_stat} \
+                ${output_format} \
+                gz \
+                ${dprime} \
+                ${true='with-freqs' false="" with_freqs} \
+                ${true='yes-really' false="" yes_really} \
+            ${'--ld-window ' + ld_window} \
+            ${'--ld-window-kb ' + ld_window_kb} \
+            ${'--ld-window-r2 ' + ld_window_r2} \
+            ${'--ld-snp-list ' + ld_snp_list}
+
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File ld_file = "${output_basename}.ld.gz"
+        File log_file = "${output_basename}.log"
+    }
+
+}
