@@ -1435,7 +1435,6 @@ task calculate_ld_from_bed_bim_fam {
     # String parameter_bed = if(input_format == "bed-bim-fam") then "--bed ${bed}" else ""
     # String parameter_bim = if(input_format == "bed-bim-fam") then "--bim ${bim}" else ""
     # String parameter_fam = if(input_format == "bed-bim-fam") then "--fam ${fam}" else ""
-    # String parameter_vcf = if(input_format == "vcf") then "--vcf ${vcf}" else ""
 
     command <<<
         set -e
@@ -1444,7 +1443,6 @@ task calculate_ld_from_bed_bim_fam {
             --bed ${bed} \
             --bim ${bim} \
             --fam ${fam} \
-            # ${parameter_vcf} \
             ${'--keep ' + keep} \
             ${'--remove ' + remove} \
             --out ${output_basename} \
