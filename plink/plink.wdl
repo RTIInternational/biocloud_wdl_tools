@@ -1397,9 +1397,9 @@ task calculate_ld {
 
     # Input file parameters
     String input_format = "bed-bim-fam"
-    File bed = ""
-    File bim = ""
-    File fam = ""
+    File? bed
+    File? bim
+    File? fam
     # File ?vcf
 
     # Output file parameters
@@ -1439,9 +1439,9 @@ task calculate_ld {
     command <<<
         set -e
 
-        parameter_bed=$(echo ${bed} | perl -ne 'if ($_ ne "") { print "--bed $_"; } else { print ""; }')
-        parameter_bim=$(echo ${bim} | perl -ne 'if ($_ ne "") { print "--bim $_"; } else { print ""; }')
-        parameter_fam=$(echo ${fam} | perl -ne 'if ($_ ne "") { print "--fam $_"; } else { print ""; }')
+        parameter_bed=$(echo ${bed} | perl -ne 'if ($_) { print "--bed $_"; } else { print ""; }')
+        parameter_bim=$(echo ${bim} | perl -ne 'if ($_) { print "--bim $_"; } else { print ""; }')
+        parameter_fam=$(echo ${fam} | perl -ne 'if ($_) { print "--fam $_"; } else { print ""; }')
 
         plink \
             $parameter_bed \
