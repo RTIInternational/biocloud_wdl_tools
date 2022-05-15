@@ -1393,13 +1393,13 @@ task convert_bed_to_vcf{
     }
 }
 
-task calculate_ld_from_bed_bim_fam {
+task calculate_ld {
 
     # Input file parameters
     String input_format = "bed-bim-fam"
-    File ?bed
-    File ?bim
-    File ?fam
+    File bed = ""
+    File bim = ""
+    File fam = ""
     # File ?vcf
 
     # Output file parameters
@@ -1418,7 +1418,7 @@ task calculate_ld_from_bed_bim_fam {
 
     # Reference SNP parameters
     String? ld_snp
-    String? ld_snp_list
+    File? ld_snp_list
 
     # D prime parameters
     String? dprime  # d, dprime, dprime-signed
@@ -1439,10 +1439,14 @@ task calculate_ld_from_bed_bim_fam {
     command <<<
         set -e
 
+        parameter_bed=$(echo ${bed} | perl -ne 'if ($_ ne "") { print "--bed $_"; } else { print ""; }')
+        parameter_bim=$(echo ${bim} | perl -ne 'if ($_ ne "") { print "--bim $_"; } else { print ""; }')
+        parameter_fam=$(echo ${fam} | perl -ne 'if ($_ ne "") { print "--fam $_"; } else { print ""; }')
+
         plink \
-            --bed ${bed} \
-            --bim ${bim} \
-            --fam ${fam} \
+            $parameter_bed \
+            $parameter_bim \
+            $parameter_fam \
             ${'--keep ' + keep} \
             ${'--remove ' + remove} \
             --out ${output_basename} \
