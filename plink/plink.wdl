@@ -1432,17 +1432,14 @@ task calculate_ld {
     Int mem_gb = 2
     Int max_retries = 3
 
-    # String parameter_bed = if(input_format == "bed-bim-fam") then "--bed ${bed}" else ""
-    # String parameter_bim = if(input_format == "bed-bim-fam") then "--bim ${bim}" else ""
-    # String parameter_fam = if(input_format == "bed-bim-fam") then "--fam ${fam}" else ""
-
     command <<<
+    
         set -e
 
-        parameter_bed=$(echo ${bed} | perl -ne 'if ($_) { print "--bed $_"; } else { print ""; }')
-        parameter_bim=$(echo ${bim} | perl -ne 'if ($_) { print "--bim $_"; } else { print ""; }')
-        parameter_fam=$(echo ${fam} | perl -ne 'if ($_) { print "--fam $_"; } else { print ""; }')
-        parameter_vcf=$(echo ${vcf} | perl -ne 'if ($_) { print "--vcf $_"; } else { print ""; }')
+        parameter_bed=$(echo ${bed} | perl -ne 'if ("'${input_format}'" eq "bed-bim-fam") { print "--bed $_"; } else { print ""; }')
+        parameter_bim=$(echo ${bim} | perl -ne 'if ("'${input_format}'" eq "bed-bim-fam") { print "--bim $_"; } else { print ""; }')
+        parameter_fam=$(echo ${fam} | perl -ne 'if ("'${input_format}'" eq "bed-bim-fam") { print "--fam $_"; } else { print ""; }')
+        parameter_vcf=$(echo ${vcf} | perl -ne 'if ("'${input_format}'" eq "vcf") { print "--vcf $_"; } else { print ""; }')
 
         plink \
             $parameter_bed \
