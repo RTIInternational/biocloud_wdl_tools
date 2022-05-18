@@ -1475,3 +1475,39 @@ task calculate_ld {
     }
 
 }
+
+task convert_bgen_v1_2_to_v1_1 {
+    File bgen_in
+    File sample_in
+    String ref_alt_mode
+    String output_basename
+
+    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
+    Int cpu
+    Int mem_gb
+    Int max_retries = 3
+
+    command <<<
+        set -e
+
+        # Convert
+        plink2 \
+            --bgen plink_input/${input_prefix}.bgen ${ref_alt_mode} \
+            --sample plink_input/${input_prefix}.sample \
+            --export bgen-1.1 \
+            --out ${output_basename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File bgen_out = "${output_basename}.bgen"
+        File sample_out = "${output_basename}.bgen"
+        File log_file = "${output_basename}.log"
+    }
+}
