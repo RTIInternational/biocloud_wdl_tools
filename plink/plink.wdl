@@ -1492,8 +1492,8 @@ task convert_bgen_v1_2_to_v1_1 {
 
         # Convert
         plink2 \
-            --bgen plink_input/${input_prefix}.bgen ${ref_alt_mode} \
-            --sample plink_input/${input_prefix}.sample \
+            --bgen bgen_in \
+            --sample sample_in \
             --export bgen-1.1 \
             --out ${output_basename}
     >>>
