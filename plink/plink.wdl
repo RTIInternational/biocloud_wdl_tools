@@ -1507,7 +1507,7 @@ task convert_bgen_v1_2_to_v1_1 {
 
     output{
         File bgen_out = "${output_basename}.bgen"
-        File sample_out = "${output_basename}.bgen"
+        File sample_out = "${output_basename}.sample"
         File log_file = "${output_basename}.log"
     }
 }
