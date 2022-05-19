@@ -148,7 +148,7 @@ task make_bed{
     File? update_sex
     Int? update_sex_n
 
-    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
+    String docker = "rtibiocloud/plink:v2.0_888cf13"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -753,7 +753,7 @@ task prune_ld_markers{
     Boolean? bad_ld
 
     # Runtime environment
-    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
+    String docker = "rtibiocloud/plink:v2.0_888cf13"
     Int cpu = 4
     Int mem_gb = 8
 
@@ -1098,7 +1098,7 @@ task hardy{
     File? keep_samples
     File? remove_samples
 
-    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
+    String docker = "rtibiocloud/plink:v2.0_888cf13"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1239,7 +1239,7 @@ task convert_bgen_to_vcf {
     String output_basename
     String input_prefix = basename(sub(bgen_in, "\\.gz$", ""), ".bgen")
 
-    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
+    String docker = "rtibiocloud/plink:v2.0_888cf13"
     Int cpu
     Int mem_gb
     Int max_retries = 3
@@ -1481,8 +1481,10 @@ task convert_bgen_v1_2_to_v1_1 {
     File sample_in
     String ref_alt_mode
     String output_basename
+    Boolean rm_dup = false
+    String rm_dup_mode = 'error'
 
-    String docker = "rtibiocloud/plink:v2.0-4d3bad3"
+    String docker = "rtibiocloud/plink:v2.0_888cf13"
     Int cpu
     Int mem_gb
     Int max_retries = 3
@@ -1494,6 +1496,7 @@ task convert_bgen_v1_2_to_v1_1 {
         plink2 \
             --bgen ${bgen_in} ${ref_alt_mode} \
             --sample ${sample_in} \
+            ${true='--rm_dup ${rm_dup_mode}' false="" rm_dup} \
             --export bgen-1.1 \
             --out ${output_basename}
     >>>
