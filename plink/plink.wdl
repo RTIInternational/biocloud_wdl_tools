@@ -1482,7 +1482,7 @@ task convert_bgen_v1_2_to_v1_1 {
     String ref_alt_mode
     String output_basename
     Boolean rm_dup = false
-    String rm_dup_mode = 'error'
+    String? rm_dup_mode
 
     String docker = "rtibiocloud/plink:v2.0_888cf13"
     Int cpu
@@ -1496,7 +1496,7 @@ task convert_bgen_v1_2_to_v1_1 {
         plink2 \
             --bgen ${bgen_in} ${ref_alt_mode} \
             --sample ${sample_in} \
-            ${true='--rm-dup ${rm_dup_mode}' false="" rm_dup} \
+            ${true='--rm-dup ' false="" rm_dup} ${rm_dup_mode} \
             --export bgen-1.1 \
             --out ${output_basename}
     >>>
