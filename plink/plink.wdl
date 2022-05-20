@@ -1496,7 +1496,7 @@ task convert_bgen_v1_2_to_v1_1 {
         plink2 \
             --bgen ${bgen_in} ${ref_alt_mode} \
             --sample ${sample_in} \
-            ${true='--rm_dup ${rm_dup_mode}' false="" rm_dup} \
+            ${true='--rm-dup ${rm_dup_mode}' false="" rm_dup} \
             --export bgen-1.1 \
             --out ${output_basename}
     >>>
