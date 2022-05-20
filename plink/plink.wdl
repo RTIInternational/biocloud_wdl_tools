@@ -1424,8 +1424,8 @@ task calculate_ld {
     String? dprime  # d, dprime, dprime-signed
 
     # Filtering options
-    String? keep
-    String? remove
+    File? keep
+    File? remove
 
     String docker = "rtibiocloud/plink:v1.9_178bb91"
     Int cpu = 1
