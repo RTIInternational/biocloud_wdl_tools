@@ -1401,6 +1401,8 @@ task calculate_ld {
     File? bim
     File? fam
     File? vcf
+    File? bgen
+    File? sample
 
     # Output file parameters
     String output_basename
@@ -1440,12 +1442,16 @@ task calculate_ld {
         parameter_bim=$(echo ${bim} | perl -ne 'if ("'${input_format}'" eq "bed-bim-fam") { print "--bim $_"; } else { print ""; }')
         parameter_fam=$(echo ${fam} | perl -ne 'if ("'${input_format}'" eq "bed-bim-fam") { print "--fam $_"; } else { print ""; }')
         parameter_vcf=$(echo ${vcf} | perl -ne 'if ("'${input_format}'" eq "vcf") { print "--vcf $_"; } else { print ""; }')
+        parameter_bgen=$(echo ${bgen} | perl -ne 'if ("'${input_format}'" eq "bgen") { print "--bgen $_"; } else { print ""; }')
+        parameter_sample=$(echo ${sample} | perl -ne 'if ("'${input_format}'" eq "bgen") { print "--sample $_"; } else { print ""; }')
 
         plink \
             $parameter_bed \
             $parameter_bim \
             $parameter_fam \
             $parameter_vcf \
+            $parameter_bgen \
+            $parameter_sample \
             ${'--keep ' + keep} \
             ${'--remove ' + remove} \
             --out ${output_basename} \
