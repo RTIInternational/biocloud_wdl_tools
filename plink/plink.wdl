@@ -1524,3 +1524,52 @@ task convert_bgen_v1_2_to_v1_1 {
         File log_file = "${output_basename}.log"
     }
 }
+
+task export_bgen_to_other_format {
+    File bgen_in
+    File sample_in
+    String ref_alt_mode
+    String output_basename
+    String export_format
+    Boolean rm_dup = false
+    String? rm_dup_mode
+    File? keep
+    File? remove
+    File? extract
+    File? exclude
+
+    String docker = "rtibiocloud/plink:v2.0_888cf13"
+    Int cpu
+    Int mem_gb
+    Int max_retries = 3
+
+    command <<<
+        set -e
+
+        # Convert
+        plink2 \
+            --bgen ${bgen_in} ${ref_alt_mode} \
+            --sample ${sample_in} \
+            ${'--keep ' + keep} \
+            ${'--remove ' + remove} \
+            ${'--extract ' + extract} \
+            ${'--exclude ' + exclude} \
+            ${true='--rm-dup ' false="" rm_dup} ${rm_dup_mode} \
+            --export ${export_format} \
+            --out ${output_basename}
+    >>>
+
+    runtime {
+        docker: docker
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File bgen_out = "${output_basename}.bgen"
+        File sample_out = "${output_basename}.sample"
+        File log_file = "${output_basename}.log"
+    }
+}
+
