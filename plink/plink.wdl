@@ -1238,6 +1238,12 @@ task convert_bgen_to_vcf {
     String vcf_dosage
     String output_basename
     String input_prefix = basename(sub(bgen_in, "\\.gz$", ""), ".bgen")
+    File? keep
+    File? remove
+    File? extract
+    File? exclude
+    Boolean rm_dup = false
+    String? rm_dup_mode
 
     String docker = "rtibiocloud/plink:v2.0_888cf13"
     Int cpu
@@ -1268,6 +1274,11 @@ task convert_bgen_to_vcf {
         plink2 \
             --bgen plink_input/${input_prefix}.bgen ${ref_alt_mode} \
             --sample plink_input/${input_prefix}.sample \
+            ${'--keep ' + keep} \
+            ${'--remove ' + remove} \
+            ${'--extract ' + extract} \
+            ${'--exclude ' + exclude} \
+            ${true='--rm-dup ' false="" rm_dup} ${rm_dup_mode} \
             --export vcf bgz vcf-dosage=${vcf_dosage} \
             --out ${output_basename}
     >>>
