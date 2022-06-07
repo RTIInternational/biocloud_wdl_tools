@@ -1525,12 +1525,11 @@ task convert_bgen_v1_2_to_v1_1 {
     }
 }
 
-task export_bgen_to_other_format {
+task export_bgen_to_vcf {
     File bgen_in
     File sample_in
     String ref_alt_mode
     String output_basename
-    String export_format
     Boolean rm_dup = false
     String? rm_dup_mode
     File? keep
@@ -1555,7 +1554,7 @@ task export_bgen_to_other_format {
             ${'--extract ' + extract} \
             ${'--exclude ' + exclude} \
             ${true='--rm-dup ' false="" rm_dup} ${rm_dup_mode} \
-            --export ${export_format} \
+            --export vcf \
             --out ${output_basename}
     >>>
 
@@ -1567,8 +1566,7 @@ task export_bgen_to_other_format {
     }
 
     output{
-        File bgen_out = "${output_basename}.bgen"
-        File sample_out = "${output_basename}.sample"
+        File bgen_out = "${output_basename}.vcf"
         File log_file = "${output_basename}.log"
     }
 }
