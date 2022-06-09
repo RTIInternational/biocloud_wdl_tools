@@ -1414,6 +1414,7 @@ task calculate_ld {
     File? vcf
     File? bgen
     File? sample
+    Boolean? allow_extra_chr
 
     # Output file parameters
     String output_basename
@@ -1463,6 +1464,7 @@ task calculate_ld {
             $parameter_vcf \
             $parameter_bgen \
             $parameter_sample \
+            ${true='--allow-extra-chr' false="" allow_extra_chr} \
             ${'--keep ' + keep} \
             ${'--remove ' + remove} \
             --out ${output_basename} \
