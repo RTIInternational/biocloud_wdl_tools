@@ -15,7 +15,7 @@ task genesis {
     String variantListPrefix = if defined(file_in_variant_list) then "--file-variant-list " else ""
 
     # Runtime attributes
-    String docker = "rtibiocloud/genesis:v3.11_0a3d228"
+    String docker = "rtibiocloud/genesis:v3.15_2d537e1"
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -24,15 +24,15 @@ task genesis {
         /opt/genesis.R \
             --file-geno ${file_in_geno} \
             --geno-format ${geno_format} \
-	        --file-pheno ${file_in_pheno} \
-	        --pheno ${pheno} \
+            --file-pheno ${file_in_pheno} \
+            --pheno ${pheno} \
             ${covarsPrefix} ${sep="," covars} \
             --family ${family} \
             ${ "--gxe " + gxe } \
             --chr ${chr} \
             ${variantListPrefix} ${file_in_variant_list} \
             --out ${file_out} \
-		    ${true="--gzip" false="" gzip}
+            ${true="--gzip" false="" gzip}
     }
 
     output {
