@@ -11,7 +11,7 @@ task make_gwas_summary_stats {
     String? population
 
     # Runtime options
-    String docker = "rtibiocloud/make_gwas_summary_stats:v2_9b276cc"
+    String docker = "rtibiocloud/make_gwas_summary_stats:v2.1_aa06202"
     Int cpu = 1
     Int mem_gb = 3
     Int max_retries = 3
