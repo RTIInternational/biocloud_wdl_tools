@@ -12,6 +12,9 @@ task make_gwas_summary_stats {
 
     # Runtime options
     String docker = "rtibiocloud/make_gwas_summary_stats:v2.1_aa06202"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/make_gwas_summary_stats:v2.1_aa06202"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 3
     Int max_retries = 3
@@ -29,7 +32,7 @@ task make_gwas_summary_stats {
     }
 
     runtime{
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries

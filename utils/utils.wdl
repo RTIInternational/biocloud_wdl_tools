@@ -4,6 +4,9 @@ task append {
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -13,7 +16,7 @@ task append {
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -29,6 +32,9 @@ task collect_files{
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -73,7 +79,7 @@ task collect_files{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -98,6 +104,9 @@ task slice{
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -106,7 +115,7 @@ task slice{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -122,6 +131,9 @@ task flatten_string_array {
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -131,7 +143,7 @@ task flatten_string_array {
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -146,6 +158,9 @@ task remove_empty_files{
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -159,7 +174,7 @@ task remove_empty_files{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -174,6 +189,9 @@ task wc{
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -187,7 +205,7 @@ task wc{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -204,6 +222,9 @@ task cut{
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -212,7 +233,7 @@ task cut{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -228,6 +249,9 @@ task get_file_union{
     String output_filename
 
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -244,7 +268,7 @@ task get_file_union{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -263,6 +287,9 @@ task replace_chr{
     String new_char
 
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -272,7 +299,7 @@ task replace_chr{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -287,6 +314,9 @@ task raise_error{
     # General module for stopping a pipeline with a custom error message
     String msg
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
 
     command <<<
         echo '${msg}' > err_msg.txt
@@ -294,7 +324,7 @@ task raise_error{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: 1
         memory: "500 MB"
         maxRetries: 1
@@ -312,6 +342,9 @@ task cat{
     Boolean input_gzipped = false
 
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -325,7 +358,7 @@ task cat{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -342,6 +375,9 @@ task get_file_extension{
     String input_file
     Int fields = 1
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
 
 
     command <<<
@@ -358,7 +394,7 @@ task get_file_extension{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: 1
         memory: "100 MB"
     }
@@ -373,6 +409,9 @@ task array_contains{
     Array[String] input_array
     String query
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
 
 
     command<<<
@@ -390,7 +429,7 @@ task array_contains{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: 1
         memory: "100 MB"
     }
@@ -413,13 +452,16 @@ task append_column{
     String f_arg = if(defined(F)) then "-F '${F}'" else ""
     String ofs_arg = if(defined(OFS)) then "-v OFS='${OFS}'" else ""
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
 
     command<<<
         awk ${f_arg} ${ofs_arg} '{ $(NF+1) = "${value}"; print }' ${input_file} > ${output_filename}
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: 1
         memory: "100 MB"
     }
@@ -437,6 +479,9 @@ task paste{
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -447,7 +492,7 @@ task paste{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -462,6 +507,9 @@ task array_equals{
     Array[String] array_a
     Array[String] array_b
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
 
     command<<<
         diff ${write_lines(array_a)} ${write_lines(array_b)} > compare.txt
@@ -473,7 +521,7 @@ task array_equals{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: 1
         memory: "100 MB"
     }
@@ -491,6 +539,9 @@ task shuf{
 
     # Runtime environment
     String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -499,7 +550,7 @@ task shuf{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }

@@ -7,6 +7,9 @@ task split_by_variant{
 
     # Runtime environment
     String docker = "rtibiocloud/split_gds_by_variant:v3.11_ee7a5e8"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/split_gds_by_variant:v3.11_ee7a5e8"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
     Int max_retries = 3
@@ -20,7 +23,7 @@ task split_by_variant{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries

@@ -22,6 +22,9 @@ task convert_variant_ids {
 
     # Runtime environment
     String docker = "rtibiocloud/convert_variant_ids:v1_7b4adf9"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/convert_variant_ids:v1_7b4adf9"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
     Int max_retries = 3
@@ -50,7 +53,7 @@ task convert_variant_ids {
     }
 
     runtime{
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries

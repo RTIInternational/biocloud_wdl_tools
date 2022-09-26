@@ -11,6 +11,9 @@ task tsv_append{
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 2
     Int mem_gb = 4
     Int max_retries = 3
@@ -29,14 +32,14 @@ task tsv_append{
         # Concat all files together
         tsv-append \
             ${"--source-header " + source_header} \
-		    ${true="--header" false="" header} \
-		    ${true="--track-source" false="" track_source} \
-		    ${"--delimiter '" + delimiter + "'"} \
+            ${true="--header" false="" header} \
+            ${true="--track-source" false="" track_source} \
+            ${"--delimiter '" + delimiter + "'"} \
             ${tsv_dir}/* > ${output_filename}
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -62,6 +65,9 @@ task tsv_filter{
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 2
     Int mem_gb = 4
     Int max_retries = 3
@@ -78,16 +84,16 @@ task tsv_filter{
         fi
 
         tsv-filter \
-		    ${true="--header" false="" header} \
-		    ${true="--or" false="" or_filter} \
-		    ${true="--invert" false="" invert} \
-		    ${"--delimiter '" + delimiter + "'"} \
-		    ${filter_string} \
+            ${true="--header" false="" header} \
+            ${true="--or" false="" or_filter} \
+            ${true="--invert" false="" invert} \
+            ${"--delimiter '" + delimiter + "'"} \
+            ${filter_string} \
             $input_file > ${output_filename}
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -110,6 +116,9 @@ task tsv_select{
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 2
     Int mem_gb = 4
     Int max_retries = 3
@@ -125,15 +134,15 @@ task tsv_select{
             input_file=input.txt
         fi
         tsv-select \
-		    ${true="--header" false="" header} \
-		    ${"--delimiter '" + delimiter + "'"} \
-		    --fields ${sep="," fields} \
-		    --rest ${rest} \
+            ${true="--header" false="" header} \
+            ${"--delimiter '" + delimiter + "'"} \
+            --fields ${sep="," fields} \
+            --rest ${rest} \
             $input_file > ${output_filename}
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -162,6 +171,9 @@ task tsv_join{
 
     # Runtime environment
     String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 2
     Int mem_gb = ceil(size(tsv_filter_file, "GiB") * 2) + 2
     Int max_retries = 3
@@ -191,17 +203,17 @@ task tsv_join{
             ${"--key-fields " + key_fields} \
             ${"--data-fields " + data_fields} \
             ${"--append-fields " + append_fields} \
-		    ${true="--header" false="" header} \
-		    ${"--prefix " + prefix} \
-		    ${"--delimiter '" + delimiter + "'"} \
+            ${true="--header" false="" header} \
+            ${"--prefix " + prefix} \
+            ${"--delimiter '" + delimiter + "'"} \
             ${true="--write-all " false="" write_unmatched}${write_unmatched_str} \
-		    ${true="--exclude" false="" exclude} \
-		    ${true="--allow-duplicate-keys" false="" allow_duplicate_keys} \
+            ${true="--exclude" false="" exclude} \
+            ${true="--allow-duplicate-keys" false="" allow_duplicate_keys} \
             $input_file > ${output_filename}
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries

@@ -7,12 +7,12 @@ task generate_gwas_plots{
     String? variant_type_colname
     String output_basename
 
-    Boolean? in_header = true
+    Boolean in_header = true
     Boolean? in_csv
     File? highlight_list
 
-    Boolean? generate_manhattan_plot = true
-    Boolean? generate_qq_plot = true
+    Boolean generate_manhattan_plot = true
+    Boolean generate_qq_plot = true
     Boolean? generate_snp_manhattan_plot
     Boolean? generate_indel_manhattan_plot
     Boolean? generate_snp_indel_manhattan_plot
@@ -20,8 +20,8 @@ task generate_gwas_plots{
     Boolean? generate_indel_qq_plot
     Boolean? generate_snp_indel_qq_plot
 
-    Boolean? qq_lambda = true
-    Boolean? qq_lines = true
+    Boolean qq_lambda = true
+    Boolean qq_lines = true
     Boolean? qq_significance_line
     Int? manhattan_ylim
     Boolean? manhattan_no_line
@@ -34,6 +34,9 @@ task generate_gwas_plots{
 
     # Runtime options
     String docker = "rtibiocloud/generate_gwas_plots:v1_781a9d2"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/generate_gwas_plots:v1_781a9d2"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 16
     Int max_retries = 3
@@ -58,7 +61,7 @@ task generate_gwas_plots{
                 for (i=1; i<=NF; i++)
                     ix[$i] = i
                 for (i in out)
-    	            printf "%s%s", $ix[out[i]], OFS
+                    printf "%s%s", $ix[out[i]], OFS
                 print ""
               }
               NR>1 {
@@ -114,7 +117,7 @@ task generate_gwas_plots{
     >>>
 
     runtime{
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
