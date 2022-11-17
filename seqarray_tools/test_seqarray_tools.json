@@ -1,5 +1,6 @@
 {
   "test_seqarray_tools.in_seq_gds": "s3://rti-shared/shared_data/post_qc/ukbiobank/genotype/array/imputed/v3/all/ukb_imp_chr22_v3_seq.gds",
+  "test_seqarray_tools.out_vcf": "ukb_imp_chr22_v3.vcf",
   "test_seqarray_tools.seq_gds_variant_annot": "s3://rti-shared/shared_data/post_qc/ukbiobank/genotype/array/imputed/v3/all/ukb_gds_snp_annot_chr22_v3_grch37_dbsnp_b153.tsv.gz",
   "test_seqarray_tools.variant_ids": "s3://rti-pulmonary/gwas/ukbiobank/data/fev1/0010/Mediation_analysis_sig_SNPs_FEV1_eur.txt",
   "test_seqarray_tools.variant_annot_xref_col": "ID",
