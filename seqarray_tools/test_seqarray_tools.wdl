@@ -1,4 +1,4 @@
-import "seqarray_tools.wdl" as SEQARRAY
+import "biocloud_wdl_tools/seqarray_tools/seqarray_tools.wdl" as SEQARRAY
 
 workflow test_seqarray_tools{
 
