@@ -7,7 +7,7 @@ task smartpca{
     String altnormstyle = "YES"
     Int numoutevec = 10
     Int numoutlieriter = 5
-    File? poplistname
+    Array[String] poplist
     Int numthreads = 8
 
     # Runtime environment
@@ -22,11 +22,14 @@ task smartpca{
 
         set -e
 
+        # Create poplist
+        echo ${write_lines(poplist)} > poplist.txt
+
         # Create parameter file
         echo "genotypename: ${genotypename}" > par.txt
         echo "snpname: ${snpname}" >> par.txt
         echo "indivname: ${indivname}" >> par.txt
-        echo -n ${'poplistname: ' + poplistname + '\n'} >> par.txt
+        echo "poplistname: poplist.txt" >> par.txt
         echo "evecoutname: ${output_basename}.evec" >> par.txt
         echo "evaloutname: ${output_basename}.eval" >> par.txt
         echo "snpweightoutname: ${output_basename}.snpweight" >> par.txt
