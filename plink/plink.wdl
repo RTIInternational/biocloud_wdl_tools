@@ -738,6 +738,9 @@ task prune_ld_markers{
     # Auto-force compatibility between plink1.9 and plink2.0 chr codes
     String output_chr = "26"
 
+    # Variant filtering
+    File? exclude
+
     # Region filtering
     String? chr
     File? exclude_regions
@@ -788,6 +791,7 @@ task prune_ld_markers{
             --${ld_type} ${window_size}${window_size_unit} ${step_size} ${r2_threshold} ${vif_threshold} \
             ${'--maf ' + maf} \
             ${'--chr ' + chr} \
+            ${'--exclude ' + exclude} \
             ${'--exclude range ' + exclude_regions} \
             --out ${output_basename} \
             --threads ${cpu} \
