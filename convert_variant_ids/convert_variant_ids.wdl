@@ -9,9 +9,9 @@ task convert_variant_ids {
     Int in_pos_col
     Int in_a1_col
     Int in_a2_col
-    String in_missing_allele
-    String in_deletion_allele
-    String ref_deletion_allele
+    String in_missing_allele = "0"
+    String in_deletion_allele = "-"
+    String ref_deletion_allele = "."
     Int in_chunk_size = 50000
     Int ref_chunk_size = 1000000
     Boolean? rescue_rsids
