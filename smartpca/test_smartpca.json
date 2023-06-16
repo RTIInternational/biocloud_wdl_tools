@@ -1,0 +1,8 @@
+{
+    "test_smartpca.genotypename": "s3://rti-cromwell-output/cromwell-execution/smartpca_ancestry_wf/31da1d59-dcaa-41c9-992d-30e9e9223913/call-merge_chrs/cacheCopy/ref_weiss_ldpruned.bed",
+    "test_smartpca.snpname": "s3://rti-cromwell-output/cromwell-execution/smartpca_ancestry_wf/31da1d59-dcaa-41c9-992d-30e9e9223913/call-prepare_smartpca_input_files/smartpca.bim",
+    "test_smartpca.indivname": "s3://rti-cromwell-output/cromwell-execution/smartpca_ancestry_wf/31da1d59-dcaa-41c9-992d-30e9e9223913/call-prepare_smartpca_input_files/smartpca.fam",
+    "test_smartpca.output_basename": "weiss",
+    "test_smartpca.poplist": ["AFR", "AMR", "EAS", "EUR", "SAS"]
+}
+  
