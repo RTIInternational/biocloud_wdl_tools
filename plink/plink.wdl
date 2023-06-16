@@ -149,6 +149,10 @@ task make_bed{
     Int? update_sex_n
 
     String docker = "rtibiocloud/plink:v2.0_888cf13"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_4d3bad3"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
+
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -255,7 +259,7 @@ task make_bed{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -416,6 +420,9 @@ task make_bed_plink1{
     Int? update_sex_n
 
     String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -531,7 +538,7 @@ task make_bed_plink1{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -551,7 +558,10 @@ task merge_beds{
     Array[File] fam_in
     String output_basename
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -583,7 +593,7 @@ task merge_beds{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -610,7 +620,10 @@ task merge_two_beds{
     Boolean ignore_errors = false
     String output_basename
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 4
     Int mem_gb = 8
     Int max_retries = 3
@@ -651,7 +664,7 @@ task merge_two_beds{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -688,7 +701,7 @@ task remove_fam_phenotype{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -717,7 +730,7 @@ task remove_fam_pedigree{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -757,6 +770,9 @@ task prune_ld_markers{
 
     # Runtime environment
     String docker = "rtibiocloud/plink:v2.0_888cf13"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_4d3bad3"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 4
     Int mem_gb = 8
 
@@ -800,7 +816,7 @@ task prune_ld_markers{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -823,7 +839,10 @@ task sex_check{
     File? update_sex
 
     # Runtime environment
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 4
     Int mem_gb = 8
 
@@ -873,7 +892,7 @@ task sex_check{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -909,7 +928,7 @@ task contains_chr{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -928,7 +947,10 @@ task get_excess_homo_samples{
     Float min_he
     Float max_he
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -971,7 +993,7 @@ task get_excess_homo_samples{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -992,7 +1014,10 @@ task get_samples_missing_chr{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1039,7 +1064,7 @@ task get_samples_missing_chr{
 
     >>>
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -1072,7 +1097,7 @@ task get_bim_chrs{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -1103,6 +1128,9 @@ task hardy{
     File? remove_samples
 
     String docker = "rtibiocloud/plink:v2.0_888cf13"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_4d3bad3"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1163,7 +1191,7 @@ task hardy{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -1183,7 +1211,10 @@ task recode_to_ped{
     String output_basename
     String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1222,7 +1253,7 @@ task recode_to_ped{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -1250,6 +1281,9 @@ task convert_bgen_to_vcf {
     String? rm_dup_mode
 
     String docker = "rtibiocloud/plink:v2.0_888cf13"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_4d3bad3"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu
     Int mem_gb
     Int max_retries = 3
@@ -1288,7 +1322,7 @@ task convert_bgen_to_vcf {
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -1307,7 +1341,10 @@ task make_founders{
     Boolean require_2_missing = true
     Boolean first = false
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
     Int max_retries = 3
@@ -1331,7 +1368,7 @@ task make_founders{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -1356,7 +1393,10 @@ task convert_bed_to_vcf{
     # Optionally subset by chr
     String? chr
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1396,7 +1436,7 @@ task convert_bed_to_vcf{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -1445,7 +1485,10 @@ task calculate_ld {
     File? keep
     File? remove
 
-    String docker = "rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -1486,7 +1529,7 @@ task calculate_ld {
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -1510,6 +1553,9 @@ task convert_bgen_v1_2_to_v1_1 {
     File? remove
 
     String docker = "rtibiocloud/plink:v2.0_888cf13"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_4d3bad3"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu
     Int mem_gb
     Int max_retries = 3
@@ -1529,7 +1575,7 @@ task convert_bgen_v1_2_to_v1_1 {
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
