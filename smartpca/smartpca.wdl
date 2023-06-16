@@ -22,14 +22,11 @@ task smartpca{
 
         set -e
 
-        # Create poplist
-        echo ${write_lines(poplist)} > poplist.txt
-
         # Create parameter file
         echo "genotypename: ${genotypename}" > par.txt
         echo "snpname: ${snpname}" >> par.txt
         echo "indivname: ${indivname}" >> par.txt
-        echo "poplistname: poplist.txt" >> par.txt
+        echo "poplistname: ${write_lines(poplist)}" >> par.txt
         echo "evecoutname: ${output_basename}.evec" >> par.txt
         echo "evaloutname: ${output_basename}.eval" >> par.txt
         echo "snpweightoutname: ${output_basename}.snpweight" >> par.txt
