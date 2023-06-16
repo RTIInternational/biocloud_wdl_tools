@@ -5,4 +5,3 @@
     "test_smartpca.output_basename": "weiss",
     "test_smartpca.poplist": ["AFR", "AMR", "EAS", "EUR", "SAS"]
 }
-  

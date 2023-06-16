@@ -1,13 +1,10 @@
-import "biocloud_wdl_tools/smartpca/smartpca.wdl" as SMARTPCA
+import "biocloud_gwas_workflows/biocloud_wdl_tools/smartpca/smartpca.wdl" as SMARTPCA
 
 workflow test_smartpca {
     File genotypename
     File snpname
     File indivname
     String output_basename
-    String altnormstyle = "YES"
-    Int numoutevec = 10
-    Int numoutlieriter = 5
     Array[String] poplist
 
     call SMARTPCA.smartpca as smartpca{
