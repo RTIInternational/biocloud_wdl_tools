@@ -1,0 +1,10 @@
+{
+  "test_assign_ancestry_mahalanobis.file_pcs": "s3://rti-heroin/scratch/weiss_evec.tsv",
+  "test_assign_ancestry_mahalanobis.pc_count": 10,
+  "test_assign_ancestry_mahalanobis.dataset": "weiss",
+  "test_assign_ancestry_mahalanobis.dataset_legend_label": "Weiss",
+  "test_assign_ancestry_mahalanobis.ref_pops": ["AFR","AMR","EAS","EUR","SAS"],
+  "test_assign_ancestry_mahalanobis.ref_pops_legend_labels": ["African","American Admixed","East Asian","European","South Asian"],
+  "test_assign_ancestry_mahalanobis.use_pcs_count": 10,
+  "test_assign_ancestry_mahalanobis.midpoint_formula": "median"
+}
