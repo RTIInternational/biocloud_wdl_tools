@@ -8,9 +8,10 @@ task assign_ancestry_mahalanobis {
     Array[String] ref_pops_legend_labels
     Int use_pcs_count = 10
     String midpoint_formula = "median"
+    Int? std_dev_cutoff
 
     # Runtime environment
-    String docker = "rtibiocloud/assign_ancestry_mahalanobis:v1_7e53dc6"
+    String docker = "rtibiocloud/assign_ancestry_mahalanobis:v1_1e3985b"
     String ecr = ""
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
@@ -28,7 +29,8 @@ task assign_ancestry_mahalanobis {
             --ref-pops-legend-labels "${sep=',' ref_pops_legend_labels}" \
             --out-dir "" \
             --use-pcs-count ${use_pcs_count} \
-            --midpoint-formula "${midpoint_formula}"
+            --midpoint-formula "${midpoint_formula}" \
+            ${'--std-dev-cutoff ' + std_dev_cutoff}
     }
 
     runtime{
@@ -47,8 +49,6 @@ task assign_ancestry_mahalanobis {
         File dataset_ancestry_assignments_summary = "${dataset}_ancestry_assignments_summary.tsv"
         Array[File] dataset_ancestry_assignments_plots = glob("${dataset}*ancestry_assignments.png")
         Array[File] dataset_ancestry_outliers_plots = glob("${dataset}*outliers.png")
-        Array[File] dataset_2_stddev_keep_lists = glob("${dataset}*2_stddev_keep.tsv")
-        Array[File] dataset_3_stddev_keep_lists = glob("${dataset}*3_stddev_keep.tsv")
-        Array[File] dataset_4_stddev_keep_lists = glob("${dataset}*4_stddev_keep.tsv")
+        Array[File] dataset_ancestry_keep_lists = glob("${dataset}*_keep.tsv")
     }
 }
