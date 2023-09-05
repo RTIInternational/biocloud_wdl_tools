@@ -43,7 +43,7 @@ task assign_ancestry_mahalanobis {
         File ref_dropped_samples  = "ref_dropped_samples.tsv"
         File ref_raw_ancestry_assignments = "ref_raw_ancestry_assignments.tsv"
         File ref_raw_ancestry_assignments_summary = "ref_raw_ancestry_assignments_summary.tsv"
-        Array[File] dataset_ancestry_assignments = glob("${dataset}*ancestry_assignments.tsv")
+        File dataset_ancestry_assignments = "${dataset}_raw_ancestry_assignments.tsv"
         File dataset_ancestry_assignments_summary = "${dataset}_ancestry_assignments_summary.tsv"
         Array[File] dataset_ancestry_assignments_plots = glob("${dataset}*ancestry_assignments.png")
         Array[File] dataset_ancestry_outliers_plots = glob("${dataset}*outliers.png")
