@@ -11,7 +11,7 @@ task make_gwas_summary_stats {
     String? population
 
     # Runtime options
-    String docker = "rtibiocloud/make_gwas_summary_stats:v2.1_aa06202"
+    String docker = "rtibiocloud/make_gwas_summary_stats:v2.1.1_b267615"
     String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/make_gwas_summary_stats:v2.1_aa06202"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
