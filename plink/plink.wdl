@@ -1391,6 +1391,44 @@ task make_founders{
     }
 }
 
+task convert_vcf_to_bed{
+    File vcf_in
+    String output_basename
+
+    String docker = "rtibiocloud/plink:v1.9-77ee25f"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
+    Int cpu = 1
+    Int mem_gb = 2
+    Int max_retries = 3
+    Int threads = cpu
+
+    command <<<
+
+        # Convert vcf to bed
+        plink \
+            --vcf ${vcf_in} \
+            --make-bed \
+            --out ${output_basename} \
+            --threads ${threads}
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "${mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File bed_out = "${output_basename}.bed"
+        File bim_out = "${output_basename}.bim"
+        File fam_out = "${output_basename}.fam"
+        File log_file = "${output_basename}.log"
+    }
+}
+
 task convert_bed_to_vcf{
     File bed_in
     File bim_in
