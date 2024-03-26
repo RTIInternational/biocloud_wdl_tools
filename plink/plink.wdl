@@ -1407,7 +1407,7 @@ task convert_vcf_to_bed{
     command <<<
 
         # Convert vcf to bed
-        plink \
+        plink2 \
             --vcf ${vcf_in} \
             --make-bed \
             --out ${output_basename} \
