@@ -1395,8 +1395,8 @@ task convert_vcf_to_bed{
     File vcf_in
     String output_basename
 
-    String docker = "rtibiocloud/plink:v1.9-77ee25f"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
+    String docker = "rtibiocloud/plink:v2.0_888cf13"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_4d3bad3"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
