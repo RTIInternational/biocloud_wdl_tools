@@ -559,3 +559,15 @@ task shuf{
         File output_file = "${output_filename}"
     }
 }
+
+task sum_ints {
+    input {
+        Array[Int] ints
+    }
+    command <<<
+        python -c "print(~{sep="+" ints})"
+    >>>
+    output {
+        Int sum = read_int(stdout())
+    }
+}
