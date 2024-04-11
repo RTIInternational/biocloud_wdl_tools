@@ -561,9 +561,8 @@ task shuf{
 }
 
 task sum_ints {
-    input {
-        Array[Int] ints
-    }
+    Array[Int] ints
+
     command <<<
         python -c "print(~{sep="+" ints})"
     >>>
