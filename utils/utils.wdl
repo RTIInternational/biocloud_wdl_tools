@@ -573,7 +573,7 @@ task sum_ints {
     Int mem_gb = 1
 
     command <<<
-        python -c "print(~{sep="+" ${ints})"
+        python -c "print(${sep="+" ints})"
     >>>
     
     runtime {
