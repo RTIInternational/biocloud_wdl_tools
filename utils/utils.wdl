@@ -561,11 +561,27 @@ task shuf{
 }
 
 task sum_ints {
+    # Sum an array of ints
     Array[Int] ints
 
+    # Runtime environment
+    String docker = "ubuntu:18.04"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
+    Int cpu = 1
+    Int mem_gb = 1
+
     command <<<
-        python -c "print(~{sep="+" ints})"
+        python -c "print(~{sep="+" ${ints})"
     >>>
+    
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
     output {
         Int sum = read_int(stdout())
     }
