@@ -3,8 +3,8 @@ task append {
     String? b
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -31,8 +31,8 @@ task collect_files{
     String output_dir_name
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -103,8 +103,8 @@ task slice{
     Int actual_start_pos = start_pos + 1
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -130,8 +130,8 @@ task flatten_string_array {
     Array[Array[String]] array
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -157,8 +157,8 @@ task remove_empty_files{
     Array[File] input_files
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -188,8 +188,8 @@ task wc{
     File input_file
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -221,8 +221,8 @@ task cut{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -248,8 +248,8 @@ task get_file_union{
     Array[File] input_files
     String output_filename
 
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -286,8 +286,8 @@ task replace_chr{
     String char
     String new_char
 
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -313,8 +313,8 @@ task replace_chr{
 task raise_error{
     # General module for stopping a pipeline with a custom error message
     String msg
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -341,8 +341,8 @@ task cat{
     String output_filename
     Boolean input_gzipped = false
 
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -374,8 +374,8 @@ task get_file_extension{
     # Optionally get more than just the last file extension using fields to determine how many extensions to grab
     String input_file
     Int fields = 1
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -408,8 +408,8 @@ task array_contains{
     # Return true if array contains an exact match, false otherwise
     Array[String] input_array
     String query
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -451,8 +451,8 @@ task append_column{
     String? F
     String f_arg = if(defined(F)) then "-F '${F}'" else ""
     String ofs_arg = if(defined(OFS)) then "-v OFS='${OFS}'" else ""
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -478,8 +478,8 @@ task paste{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -506,8 +506,8 @@ task array_equals{
     # Return true if two arrays contain same values in same order
     Array[String] array_a
     Array[String] array_b
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -538,8 +538,8 @@ task shuf{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -565,15 +565,15 @@ task sum_ints {
     Array[Int] ints
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
-    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/ubuntu:18.04"
+    String docker = "ubuntu:22.04"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
     command <<<
-        python -c "print(${sep="+" ints})"
+        echo $((${sep="+" ints}))
     >>>
     
     runtime {
