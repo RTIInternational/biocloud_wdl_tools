@@ -255,6 +255,9 @@ task make_bed{
             ${'--mind ' + mind} \
             ${true='--split-par' false="" split_x} ${build_code} \
             ${true='--merge-par' false="" merge_x} \
+            ${'--update-ids ' + update_ids} \
+            ${'--update-parents ' + update_parents} \
+            ${'--update-sex ' + update_sex} ${'col-num=' + update_sex_n} \
             --output-chr ${output_chr}
     >>>
 
