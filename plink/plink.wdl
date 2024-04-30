@@ -621,6 +621,7 @@ task merge_two_beds{
     String input_prefix_b = basename(sub(bed_in_b, "\\.gz$", ""), ".bed")
     Int? merge_mode
     Boolean ignore_errors = false
+    Boolean? allow_no_sex
     String output_basename
 
     String docker = "rtibiocloud/plink:v1.9-77ee25f"
@@ -651,6 +652,7 @@ task merge_two_beds{
             --bfile plink_input/${input_prefix_a} \
             --bmerge plink_input/${input_prefix_b} \
             ${'--merge-mode ' + merge_mode} \
+            ${true='--allow-no-sex' false="" allow_no_sex} \
             --out ${output_basename} \
             --threads ${cpu}
 
