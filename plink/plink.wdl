@@ -239,6 +239,7 @@ task make_bed{
             ${'--max-mac ' + max_mac} ${mac_mode} \
             ${true='--maf-succ' false="" maf_succ} \
             ${'--hwe ' + hwe_pvalue} ${hwe_mode} \
+            ${true='--allow-no-sex' false="" allow_no_sex} \
             ${true='--keep-females' false="" filter_females} \
             ${true='--keep-males' false="" filter_males} \
             ${true='--keep-nosex' false="" filter_nosex} \
@@ -521,6 +522,7 @@ task make_bed_plink1{
             ${'--max-mac ' + max_mac} ${mac_mode} \
             ${true='--maf-succ' false="" maf_succ} \
             ${'--hwe ' + hwe_pvalue} ${hwe_mode} \
+            ${true='--allow-no-sex' false="" allow_no_sex} \
             ${true='--filter-females' false="" filter_females} \
             ${true='--filter-males' false="" filter_males} \
             ${true='--filter-cases' false="" filter_cases} \
