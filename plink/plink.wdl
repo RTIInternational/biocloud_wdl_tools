@@ -560,6 +560,7 @@ task merge_beds{
     Array[File] bim_in
     Array[File] fam_in
     String output_basename
+    Boolean? allow_no_sex
 
     String docker = "rtibiocloud/plink:v1.9-77ee25f"
     String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_178bb91"
@@ -592,6 +593,7 @@ task merge_beds{
         plink --make-bed \
             --threads ${cpu} \
             --merge-list merge_list.txt \
+            ${true='--allow-no-sex' false="" allow_no_sex} \
             --out ${output_basename}
     >>>
 
