@@ -11,7 +11,7 @@ task assign_ancestry_mahalanobis {
     Int? std_dev_cutoff
 
     # Runtime environment
-    String docker = "rtibiocloud/assign_ancestry_mahalanobis:v1_6207f45"
+    String docker = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
     String ecr = ""
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr

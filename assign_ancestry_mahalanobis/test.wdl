@@ -10,6 +10,7 @@ workflow test_assign_ancestry_mahalanobis{
     Array[String] ref_pops_legend_labels
     Int use_pcs_count = 10
     String midpoint_formula = "median"
+    Int std_dev_cutoff = 3
 
     call ANCESTRY.assign_ancestry_mahalanobis{
         input:
@@ -20,7 +21,8 @@ workflow test_assign_ancestry_mahalanobis{
             ref_pops = ref_pops,
             ref_pops_legend_labels = ref_pops_legend_labels,
             use_pcs_count = use_pcs_count,
-            midpoint_formula = midpoint_formula
+            midpoint_formula = midpoint_formula,
+            std_dev_cutoff = 3
     }
 
     output{
@@ -28,13 +30,11 @@ workflow test_assign_ancestry_mahalanobis{
         File ref_dropped_samples  = assign_ancestry_mahalanobis.ref_dropped_samples
         File ref_raw_ancestry_assignments = assign_ancestry_mahalanobis.ref_raw_ancestry_assignments
         File ref_raw_ancestry_assignments_summary = assign_ancestry_mahalanobis.ref_raw_ancestry_assignments_summary
-        Array[File] dataset_ancestry_assignments = assign_ancestry_mahalanobis.dataset_ancestry_assignments
+        File dataset_ancestry_assignments = assign_ancestry_mahalanobis.dataset_ancestry_assignments
         File dataset_ancestry_assignments_summary = assign_ancestry_mahalanobis.dataset_ancestry_assignments_summary
         Array[File] dataset_ancestry_assignments_plots = assign_ancestry_mahalanobis.dataset_ancestry_assignments_plots
         Array[File] dataset_ancestry_outliers_plots = assign_ancestry_mahalanobis.dataset_ancestry_outliers_plots
-        Array[File] dataset_2_stddev_keep_lists = assign_ancestry_mahalanobis.dataset_2_stddev_keep_lists
-        Array[File] dataset_3_stddev_keep_lists = assign_ancestry_mahalanobis.dataset_3_stddev_keep_lists
-        Array[File] dataset_4_stddev_keep_lists = assign_ancestry_mahalanobis.dataset_4_stddev_keep_lists
+        Array[File] dataset_ancestry_keep_lists = assign_ancestry_mahalanobis.dataset_ancestry_keep_lists
     }
 }
 
