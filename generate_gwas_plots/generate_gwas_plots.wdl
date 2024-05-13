@@ -35,8 +35,8 @@ task generate_gwas_plots{
     # Runtime options
     String docker = "rtibiocloud/generate_gwas_plots:v1_781a9d2"
     String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/generate_gwas_plots:v1_781a9d2"
-    String container_source = "docker"
-    String container_image = if(container_source == "docker") then docker else ecr
+    String container_source = "dockerhub"
+    String container_image = if(container_source == "dockerhub") then docker else ecr
     Int cpu = 1
     Int mem_gb = 16
     Int max_retries = 3
