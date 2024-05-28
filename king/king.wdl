@@ -290,7 +290,10 @@ task king_samples_to_ids{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
@@ -395,7 +398,10 @@ task kinship_to_plink_sample_list{
     String output_filename
 
     # Runtime environment
-    String docker = "ubuntu:18.04"
+    String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
+    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
 
