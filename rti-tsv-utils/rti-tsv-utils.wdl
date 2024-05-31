@@ -17,6 +17,9 @@ task tsv_join{
 
     # Runtime environment
     String docker = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/rti-tsv-utils:v1_fcb9291"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -42,7 +45,7 @@ task tsv_join{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
@@ -64,6 +67,9 @@ task tsv_sort{
 
     # Runtime environment
     String docker = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/rti-tsv-utils:v1_fcb9291"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
     Int max_retries = 3
@@ -81,7 +87,7 @@ task tsv_sort{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
         maxRetries: max_retries
