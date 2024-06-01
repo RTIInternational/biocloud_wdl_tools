@@ -4,7 +4,7 @@ task append {
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -32,7 +32,7 @@ task collect_files{
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -104,7 +104,7 @@ task slice{
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -131,7 +131,7 @@ task flatten_string_array {
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -158,7 +158,7 @@ task remove_empty_files{
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -189,7 +189,7 @@ task wc{
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -222,7 +222,7 @@ task cut{
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -249,7 +249,7 @@ task get_file_union{
     String output_filename
 
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -287,7 +287,7 @@ task replace_chr{
     String new_char
 
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -314,7 +314,7 @@ task raise_error{
     # General module for stopping a pipeline with a custom error message
     String msg
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -342,7 +342,7 @@ task cat{
     Boolean input_gzipped = false
 
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -375,7 +375,7 @@ task get_file_extension{
     String input_file
     Int fields = 1
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -409,7 +409,7 @@ task array_contains{
     Array[String] input_array
     String query
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -452,7 +452,7 @@ task append_column{
     String f_arg = if(defined(F)) then "-F '${F}'" else ""
     String ofs_arg = if(defined(OFS)) then "-v OFS='${OFS}'" else ""
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -479,7 +479,7 @@ task paste{
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -507,7 +507,7 @@ task array_equals{
     Array[String] array_a
     Array[String] array_b
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
 
@@ -539,7 +539,7 @@ task shuf{
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
@@ -566,7 +566,7 @@ task sum_ints {
 
     # Runtime environment
     String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-    String ecr = "public.ecr.aws/lts/ubuntu:22.04_stable"
+    String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
     String container_source = "docker"
     String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1

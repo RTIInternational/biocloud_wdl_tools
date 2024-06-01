@@ -27,6 +27,9 @@ task flashpca{
 
     # Runtime environment
     String docker = "rtibiocloud/flashpca:v2.0-9b4c1b9"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/flashpca:v2.0-9b4c1b9"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 1
     Int mem_mb = mem_gb * 1000
@@ -84,7 +87,7 @@ task flashpca{
     }
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
@@ -109,7 +112,10 @@ task get_non_ancestry_informative_snps{
     Int min_snps = 10000
 
     # Runtime environment
-    String docker = "rtibiocloud/tsv-utils:v1.4.4-8d966cb"
+    String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+    String container_source = "docker"
+    String container_image = if(container_source == "docker") then docker else ecr
     Int cpu = 1
     Int mem_gb = 2
 
@@ -158,7 +164,7 @@ task get_non_ancestry_informative_snps{
     >>>
 
     runtime {
-        docker: docker
+        docker: container_image
         cpu: cpu
         memory: "${mem_gb} GB"
     }
