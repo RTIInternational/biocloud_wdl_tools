@@ -207,8 +207,8 @@ task make_bed{
             ~{true='--allow-extra-chr' false='' allow_extra_chr} \
             ~{true='--autosome' false='' autosome} \
             ~{true='--autosome-par' false='' autosome_xy} \
-            ~{chrs_prefix} ~{sep=", " chrs} \
-            ~{not_chrs_prefix} ~{sep=", " not_chrs} \
+            ~{chrs_prefix} ~{sep=', ' chrs} \
+            ~{not_chrs_prefix} ~{sep=', ' not_chrs} \
             ~{'--keep ' + keep_samples} \
             ~{'--remove ' + remove_samples} \
             ~{'--keep-fam ' + keep_fam} \
@@ -217,22 +217,22 @@ task make_bed{
             ~{'--remove-clusters ' + remove_clusters} \
             ~{'--extract ' + extract} \
             ~{'--exclude ' + exclude} \
-            ~{extract_int_prefix} ~{sep=" " extract_intersect} \
+            ~{extract_int_prefix} ~{sep=' ' extract_intersect} \
             ~{true='--snps-only' false='' snps_only} ~{snps_only_type} \
             ~{'--from ' + from_id} \
             ~{'--to ' + to_id} \
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{true='--snps' false="" snps} ~{sep=", " snps} \
-            ~{true='--exclude-snps' false="" exclude_snps} ~{sep=", " exclude_snps} \
+            ~{true='--snps' false='' snps} ~{sep=', ' snps} \
+            ~{true='--exclude-snps' false='' exclude_snps} ~{sep=', ' exclude_snps} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
             ~{'--to-kb ' + to_kb} \
             ~{'--from-mb ' + from_mb} \
             ~{'--to-mb ' + to_mb} \
-            ~{true='--rm-dup' false="" rm_dup} ~{rm_dup_mode} \
+            ~{true='--rm-dup' false='' rm_dup} ~{rm_dup_mode} \
             ~{'--thin ' + thin} \
             ~{'--thin-count ' + thin_count} \
             ~{'--thin-indiv ' + thin_indiv} \
@@ -244,25 +244,25 @@ task make_bed{
             ~{'--max-maf ' + max_maf} ~{maf_mode} \
             ~{'--mac ' + min_mac} ~{mac_mode} \
             ~{'--max-mac ' + max_mac} ~{mac_mode} \
-            ~{true='--maf-succ' false="" maf_succ} \
+            ~{true='--maf-succ' false='' maf_succ} \
             ~{'--hwe ' + hwe_pvalue} ~{hwe_mode} \
-            ~{true='--allow-no-sex' false="" allow_no_sex} \
-            ~{true='--keep-females' false="" filter_females} \
-            ~{true='--keep-males' false="" filter_males} \
-            ~{true='--keep-nosex' false="" filter_nosex} \
-            ~{true='--remove-females' false="" remove_females} \
-            ~{true='--remove-males' false="" remove_males} \
-            ~{true='--remove-nosex' false="" remove_nosex} \
-            ~{true='--keep-founders' false="" filter_founders} \
-            ~{true='--keep-nonfounders' false="" filter_nonfounders} \
-            ~{true='--nonfounders' false="" nonfounders} \
-            ~{true='--sort-vars' false="" sort_vars} ~{sort_vars_mode} \
-            ~{true='--set-hh-missing' false="" set_hh_missing} ~{true='keep-dosage' false="" hh_missing_keep_dosage} \
+            ~{true='--allow-no-sex' false='' allow_no_sex} \
+            ~{true='--keep-females' false='' filter_females} \
+            ~{true='--keep-males' false='' filter_males} \
+            ~{true='--keep-nosex' false='' filter_nosex} \
+            ~{true='--remove-females' false='' remove_females} \
+            ~{true='--remove-males' false='' remove_males} \
+            ~{true='--remove-nosex' false='' remove_nosex} \
+            ~{true='--keep-founders' false='' filter_founders} \
+            ~{true='--keep-nonfounders' false='' filter_nonfounders} \
+            ~{true='--nonfounders' false='' nonfounders} \
+            ~{true='--sort-vars' false='' sort_vars} ~{sort_vars_mode} \
+            ~{true='--set-hh-missing' false='' set_hh_missing} ~{true='keep-dosage' false='' hh_missing_keep_dosage} \
             ~{'--flip ' + flip} \
             ~{'--geno ' + geno} \
             ~{'--mind ' + mind} \
-            ~{true='--split-par' false="" split_x} ~{build_code} \
-            ~{true='--merge-par' false="" merge_x} \
+            ~{true='--split-par' false='' split_x} ~{build_code} \
+            ~{true='--merge-par' false='' merge_x} \
             ~{'--update-ids ' + update_ids} \
             ~{'--update-parents ' + update_parents} \
             ~{'--update-sex ' + update_sex} ~{'col-num=' + update_sex_n} \
@@ -488,16 +488,16 @@ task make_bed_plink1{
             ~{exclude_prefix} ~{exclude_range_opt} ~{exclude} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
-            ~{true='--keep-cluster-names' false="" keep_cluster_names} ~{sep=" " keep_cluster_names} \
-            ~{true='--remove-cluster-names' false="" remove_cluster_names} ~{sep=" " remove_cluster_names} \
-            ~{true='--gene' false="" gene} ~{sep=" " gene} \
-            ~{true='--gene-all' false="" gene_all} \
-            ~{true='--attrib' false="" attrib} ~{attrib} ~{attrib_filter} \
-            ~{true='--attrib-indiv' false="" attrib_indiv} ~{attrib_indiv} ~{attrib_indiv_filter} \
+            ~{true='--keep-cluster-names' false='' keep_cluster_names} ~{sep=' ' keep_cluster_names} \
+            ~{true='--remove-cluster-names' false='' remove_cluster_names} ~{sep=' ' remove_cluster_names} \
+            ~{true='--gene' false='' gene} ~{sep=' ' gene} \
+            ~{true='--gene-all' false='' gene_all} \
+            ~{true='--attrib' false='' attrib} ~{attrib} ~{attrib_filter} \
+            ~{true='--attrib-indiv' false='' attrib_indiv} ~{attrib_indiv} ~{attrib_indiv_filter} \
             ~{'--chr ' + chr} \
             ~{'--not-chr ' + not_chr} \
-            ~{chrs_prefix} ~{sep=", " chrs} \
-            ~{not_chrs_prefix} ~{sep=", " not_chrs} \
+            ~{chrs_prefix} ~{sep=', ' chrs} \
+            ~{not_chrs_prefix} ~{sep=', ' not_chrs} \
             ~{true='--allow-extra-chr' false='' allow_extra_chr} ~{extra_chrs}\
             ~{true='--autosome' false='' autosome} \
             ~{true='--autosome-xy' false='' autosome_xy} \
@@ -507,22 +507,22 @@ task make_bed_plink1{
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{true='--snps' false="" snps} ~{sep=", " snps} \
-            ~{true='--exclude-snps' false="" exclude_snps} ~{sep=", " exclude_snps} \
+            ~{true='--snps' false='' snps} ~{sep=', ' snps} \
+            ~{true='--exclude-snps' false='' exclude_snps} ~{sep=', ' exclude_snps} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
             ~{'--to-kb ' + to_kb} \
             ~{'--from-mb ' + from_mb} \
             ~{'--to-mb ' + to_mb} \
-            ~{true='--rm-dup' false="" rm_dup} ~{rm_dup_mode} \
+            ~{true='--rm-dup' false='' rm_dup} ~{rm_dup_mode} \
             ~{'--thin ' + thin} \
             ~{'--thin-count ' + thin_count} \
             ~{'--thin-indiv ' + thin_indiv} \
             ~{'--thin-indiv-count ' + thin_indiv_count} \
             ~{'--bp-space ' + bp_space} \
-            ~{true='--filter' false="" filter} ~{filter} ~{sep=" " filter_values} \
-            ~{true='--mfilter' false="" mfilter} ~{mfilter} \
+            ~{true='--filter' false='' filter} ~{filter} ~{sep=' ' filter_values} \
+            ~{true='--mfilter' false='' mfilter} ~{mfilter} \
             ~{'--geno ' + max_missing_geno_rate} \
             ~{'--mind ' + max_missing_ind_rate} \
             ~{true='--prune' false='' prune} \
@@ -532,20 +532,20 @@ task make_bed_plink1{
             ~{'--max-maf ' + max_maf} ~{maf_mode} \
             ~{'--mac ' + min_mac} ~{mac_mode} \
             ~{'--max-mac ' + max_mac} ~{mac_mode} \
-            ~{true='--maf-succ' false="" maf_succ} \
+            ~{true='--maf-succ' false='' maf_succ} \
             ~{'--hwe ' + hwe_pvalue} ~{hwe_mode} \
-            ~{true='--allow-no-sex' false="" allow_no_sex} \
-            ~{true='--filter-females' false="" filter_females} \
-            ~{true='--filter-males' false="" filter_males} \
-            ~{true='--filter-cases' false="" filter_cases} \
-            ~{true='--filter-controls' false="" filter_controls} \
-            ~{true='--filter-founders' false="" filter_founders} \
-            ~{true='--filter-nonfounders' false="" filter_nonfounders} \
-            ~{true='--nonfounders' false="" nonfounders} \
-            ~{true='--sort-vars' false="" sort_vars} ~{sort_vars_mode} \
-            ~{true='--set-hh-missing' false="" set_hh_missing} \
-            ~{true='--split-x' false="" split_x} ~{build_code} ~{true='no-fail' false="" split_no_fail} \
-            ~{true='--merge-x' false="" merge_x} ~{true='no-fail' false="" merge_no_fail} \
+            ~{true='--allow-no-sex' false='' allow_no_sex} \
+            ~{true='--filter-females' false='' filter_females} \
+            ~{true='--filter-males' false='' filter_males} \
+            ~{true='--filter-cases' false='' filter_cases} \
+            ~{true='--filter-controls' false='' filter_controls} \
+            ~{true='--filter-founders' false='' filter_founders} \
+            ~{true='--filter-nonfounders' false='' filter_nonfounders} \
+            ~{true='--nonfounders' false='' nonfounders} \
+            ~{true='--sort-vars' false='' sort_vars} ~{sort_vars_mode} \
+            ~{true='--set-hh-missing' false='' set_hh_missing} \
+            ~{true='--split-x' false='' split_x} ~{build_code} ~{true='no-fail' false='' split_no_fail} \
+            ~{true='--merge-x' false='' merge_x} ~{true='no-fail' false='' merge_no_fail} \
             ~{'--update-ids ' + update_ids} \
             ~{'--update-parents ' + update_parents} \
             ~{'--update-sex ' + update_sex} ~{update_sex_n} \
@@ -591,17 +591,17 @@ task merge_beds{
 
     command <<<
         # Write bed files to file
-        for file in ~{sep=" " bed_in}; do
+        for file in ~{sep=' ' bed_in}; do
             echo "$file" >> bed_files.txt
         done
 
         # Write bim files to file
-        for file in ~{sep=" " bim_in}; do
+        for file in ~{sep=' ' bim_in}; do
             echo "$file" >> bim_files.txt
         done
 
         # Write fam files to file
-        for file in ~{sep=" " fam_in}; do
+        for file in ~{sep=' ' fam_in}; do
             echo "$file" >> fam_files.txt
         done
 
@@ -612,7 +612,7 @@ task merge_beds{
         plink --make-bed \
             --threads ~{cpu} \
             --merge-list merge_list.txt \
-            ~{true='--allow-no-sex' false="" allow_no_sex} \
+            ~{true='--allow-no-sex' false='' allow_no_sex} \
             --out ~{output_basename}
     >>>
 
@@ -678,7 +678,7 @@ task merge_two_beds{
             --bfile plink_input/~{input_prefix_a} \
             --bmerge plink_input/~{input_prefix_b} \
             ~{'--merge-mode ' + merge_mode} \
-            ~{true='--allow-no-sex' false="" allow_no_sex} \
+            ~{true='--allow-no-sex' false='' allow_no_sex} \
             --out ~{output_basename} \
             --threads ~{cpu}
 
@@ -1255,9 +1255,9 @@ task hardy{
             --hardy \
             --threads ~{cpu} \
             --out ~{output_basename} \
-            ~{true='--keep-females' false="" filter_females} \
-            ~{true='--nonfounders' false="" nonfounders} \
-            ~{chrs_prefix} ~{sep=", " chrs} \
+            ~{true='--keep-females' false='' filter_females} \
+            ~{true='--nonfounders' false='' nonfounders} \
+            ~{chrs_prefix} ~{sep=', ' chrs} \
             ~{'--keep ' + keep_samples} \
             ~{'--remove ' + remove_samples} \
             --output-chr ~{output_chr}
@@ -1414,7 +1414,7 @@ task convert_bgen_to_vcf {
             ~{'--remove ' + remove} \
             ~{'--extract ' + extract} \
             ~{'--exclude ' + exclude} \
-            ~{true='--rm-dup ' false="" rm_dup} ~{rm_dup_mode} \
+            ~{true='--rm-dup ' false='' rm_dup} ~{rm_dup_mode} \
             --export vcf bgz vcf-dosage=~{vcf_dosage} \
             --out ~{output_basename}
     >>>
@@ -1466,7 +1466,7 @@ task make_founders{
         # Get expected heterozygosity for each sample
         plink --fam plink_input/~{input_prefix}.fam \
             --make-just-fam \
-            --make-founders ~{true="require-2-missing" false="" require_2_missing} ~{true="first" false="" first} \
+            --make-founders ~{true='require-2-missing' false='' require_2_missing} ~{true='first' false='' first} \
             --out ~{output_basename}
     >>>
 
@@ -1581,7 +1581,7 @@ task convert_bed_to_vcf{
 
         # Get expected heterozygosity for each sample
         plink --bfile plink_input/~{input_prefix} \
-            --recode vcf ~{true="bgz" false="" bgzip_output} \
+            --recode vcf ~{true='bgz' false='' bgzip_output} \
             ~{'--chr ' + chr} \
             --out ~{output_basename}
     >>>
@@ -1666,7 +1666,7 @@ task calculate_ld {
             $parameter_vcf \
             $parameter_bgen \
             $parameter_sample \
-            ~{true='--allow-extra-chr' false="" allow_extra_chr} \
+            ~{true='--allow-extra-chr' false='' allow_extra_chr} \
             ~{'--keep ' + keep} \
             ~{'--remove ' + remove} \
             --out ~{output_basename} \
@@ -1674,8 +1674,8 @@ task calculate_ld {
                 ~{output_format} \
                 gz \
                 ~{dprime} \
-                ~{true='with-freqs' false="" with_freqs} \
-                ~{true='yes-really' false="" yes_really} \
+                ~{true='with-freqs' false='' with_freqs} \
+                ~{true='yes-really' false='' yes_really} \
             ~{'--ld-window ' + ld_window} \
             ~{'--ld-window-kb ' + ld_window_kb} \
             ~{'--ld-window-r2 ' + ld_window_r2} \
@@ -1729,7 +1729,7 @@ task convert_bgen_v1_2_to_v1_1 {
             --sample ~{sample_in} \
             ~{'--keep ' + keep} \
             ~{'--remove ' + remove} \
-            ~{true='--rm-dup ' false="" rm_dup} ~{rm_dup_mode} \
+            ~{true='--rm-dup ' false='' rm_dup} ~{rm_dup_mode} \
             --export bgen-1.1 \
             --out ~{output_basename}
     >>>
