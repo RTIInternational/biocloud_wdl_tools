@@ -154,7 +154,8 @@ task make_bed{
         Int? update_sex_n
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
 
@@ -433,8 +434,9 @@ task make_bed_plink1{
         File? update_sex
         Int? update_sex_n
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -579,8 +581,9 @@ task merge_beds{
         String output_basename
         Boolean? allow_no_sex
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 4
@@ -648,8 +651,9 @@ task merge_two_beds{
         Boolean? allow_no_sex
         String output_basename
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 4
@@ -718,8 +722,9 @@ task remove_fam_phenotype{
         String output_basename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-        String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
+        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -758,8 +763,9 @@ task remove_fam_pedigree{
         String output_basename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-        String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
+        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -820,7 +826,8 @@ task prune_ld_markers{
 
         # Runtime environment
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 4
@@ -894,8 +901,9 @@ task sex_check{
         File? update_sex
 
         # Runtime environment
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 4
@@ -969,8 +977,9 @@ task contains_chr{
         String chr
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-        String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
+        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1015,8 +1024,9 @@ task get_excess_homo_samples{
         Float min_he
         Float max_he
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1087,8 +1097,9 @@ task get_samples_missing_chr{
         String output_basename
         String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1160,8 +1171,9 @@ task get_bim_chrs{
         File bim_in
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-        String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
+        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1214,7 +1226,8 @@ task hardy{
         File? remove_samples
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1302,8 +1315,9 @@ task recode_to_ped{
         String output_basename
         String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1377,7 +1391,8 @@ task convert_bgen_to_vcf {
         String? rm_dup_mode
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu
@@ -1442,8 +1457,9 @@ task make_founders{
         Boolean require_2_missing = true
         Boolean first = false
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1490,7 +1506,8 @@ task convert_vcf_to_bed{
         String output_basename
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1542,8 +1559,9 @@ task convert_bed_to_vcf{
         # Optionally subset by chr
         String? chr
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1638,8 +1656,9 @@ task calculate_ld {
         File? keep
         File? remove
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9-77ee25f"
+        String docker = "rtibiocloud/plink:v1.9_2706f72"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -1711,7 +1730,8 @@ task convert_bgen_v1_2_to_v1_1 {
         File? remove
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu
