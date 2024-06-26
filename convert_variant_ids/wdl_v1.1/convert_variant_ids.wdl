@@ -27,7 +27,8 @@ task convert_variant_ids {
 
         # Runtime environment
         String docker = "rtibiocloud/convert_variant_ids:v1_7b4adf9"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/convert_variant_ids:v1_7b4adf9"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/convert_variant_ids:v1_7b4adf9"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1

@@ -12,7 +12,8 @@ task split_vcf{
 
         # Runtime environment
         String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4-8d966cb"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4-8d966cb"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 8
@@ -78,7 +79,8 @@ task split_vcf_info{
 
         # Runtime environment
         String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4-8d966cb"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4-8d966cb"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 8
@@ -151,7 +153,8 @@ task split_file{
 
         # Runtime environment
         String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4-8d966cb"
+        String? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4-8d966cb"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 2

@@ -30,16 +30,19 @@ task make_bed{
         File? extract
         File? exclude
         Array[File]? extract_intersect
-        String extract_int_prefix = if(defined(extract_intersect)) then "--extract-intersect" else ""
+        String extract_intersect_prefix = if(defined(extract_intersect)) then "--extract-intersect" else ""
 
         # Filtering by sample cluster
         File? keep_clusters
         Array[String]? keep_cluster_names
+        String keep_cluster_names_prefix = if(defined(keep_cluster_names)) then "--keep-cluster-names" else ""
         File? remove_clusters
         Array[String]? remove_cluster_names
+        String remove_cluster_names_prefix = if(defined(remove_cluster_names)) then "--remove-cluster-names" else ""
 
         # Set gene set membership
         Array[String]? gene
+        String gene_prefix = if(defined(gene)) then "--gene" else ""
         Boolean? gene_all
 
         # Filter by attributes files
@@ -55,11 +58,9 @@ task make_bed{
         Boolean? autosome
         Boolean? autosome_xy
         Boolean? prune
-        Array[String]? extra_chrs
         Array[String]? chrs
-        Array[String]? not_chrs
-
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
+        Array[String]? not_chrs
         String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
         # Site type filtering
@@ -79,7 +80,9 @@ task make_bed{
         Int? window
         String? exclude_snp
         Array[String]? snps
+        String snps_prefix = if(defined(snps)) then "--snps" else ""
         Array[String]? exclude_snps
+        String exclude_snps_prefix = if(defined(exclude_snps)) then "--exclude-snps" else ""
 
         # Remove duplicates
         Boolean? rm_dup
@@ -154,7 +157,7 @@ task make_bed{
         Int? update_sex_n
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -198,6 +201,7 @@ task make_bed{
             ln -s ~{fam_in} plink_input/~{input_prefix}.fam
         fi
 
+        
         # Now run plink2
         plink2 --bfile plink_input/~{input_prefix} \
             --out ~{output_basename} \
@@ -216,17 +220,19 @@ task make_bed{
             ~{'--remove-fam ' + remove_fam} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
+            ~{keep_cluster_names_prefix} ~{sep=' ' keep_cluster_names} \
+            ~{remove_cluster_names_prefix} ~{sep=' ' remove_cluster_names} \
             ~{'--extract ' + extract} \
             ~{'--exclude ' + exclude} \
-            ~{extract_int_prefix} ~{sep=' ' extract_intersect} \
+            ~{extract_intersect_prefix} ~{sep=' ' extract_intersect} \
             ~{true='--snps-only' false='' snps_only} ~{snps_only_type} \
             ~{'--from ' + from_id} \
             ~{'--to ' + to_id} \
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{true='--snps' false='' snps} ~{sep=', ' snps} \
-            ~{true='--exclude-snps' false='' exclude_snps} ~{sep=', ' exclude_snps} \
+            ~{snps_prefix} ~{sep=', ' snps} \
+            ~{exclude_snps_prefix} ~{sep=', ' exclude_snps} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
@@ -239,6 +245,7 @@ task make_bed{
             ~{'--thin-indiv ' + thin_indiv} \
             ~{'--thin-indiv-count ' + thin_indiv_count} \
             ~{'--bp-space ' + bp_space} \
+            ~{'--filter' + filter} ~{sep=' ' filter_values} \
             ~{'--min-alleles ' + min_alleles} \
             ~{'--max-alleles ' + max_alleles} \
             ~{'--maf ' + min_maf} ~{maf_mode} \
@@ -321,11 +328,15 @@ task make_bed_plink1{
         # Filtering by sample cluster
         File? keep_clusters
         Array[String]? keep_cluster_names
+        String keep_cluster_names_prefix = if(defined(keep_cluster_names)) then "--keep-cluster-names" else ""
         File? remove_clusters
         Array[String]? remove_cluster_names
+        String remove_cluster_names_prefix = if(defined(remove_cluster_names)) then "--remove-cluster-names" else ""
+
 
         # Set gene set membership
         Array[String]? gene
+        String gene_prefix = if(defined(gene)) then "--gene" else ""
         Boolean? gene_all
 
         # Filter by attributes files
@@ -341,11 +352,9 @@ task make_bed_plink1{
         Boolean? autosome
         Boolean? autosome_xy
         Boolean? prune
-        Array[String]? extra_chrs
         Array[String]? chrs
-        Array[String]? not_chrs
-
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
+        Array[String]? not_chrs
         String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
         # Site type filtering
@@ -365,7 +374,9 @@ task make_bed_plink1{
         Int? window
         String? exclude_snp
         Array[String]? snps
+        String snps_prefix = if(defined(snps)) then "--snps" else ""
         Array[String]? exclude_snps
+        String exclude_snps_prefix = if(defined(exclude_snps)) then "--exclude-snps" else ""
 
         # Remove duplicates
         Boolean? rm_dup
@@ -435,7 +446,7 @@ task make_bed_plink1{
         Int? update_sex_n
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -490,17 +501,17 @@ task make_bed_plink1{
             ~{exclude_prefix} ~{exclude_range_opt} ~{exclude} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
-            ~{true='--keep-cluster-names' false='' keep_cluster_names} ~{sep=' ' keep_cluster_names} \
-            ~{true='--remove-cluster-names' false='' remove_cluster_names} ~{sep=' ' remove_cluster_names} \
-            ~{true='--gene' false='' gene} ~{sep=' ' gene} \
+            ~{keep_cluster_names_prefix} ~{sep=' ' keep_cluster_names} \
+            ~{remove_cluster_names_prefix} ~{sep=' ' remove_cluster_names} \
+            ~{gene_prefix} ~{sep=' ' gene} \
             ~{true='--gene-all' false='' gene_all} \
-            ~{true='--attrib' false='' attrib} ~{attrib} ~{attrib_filter} \
-            ~{true='--attrib-indiv' false='' attrib_indiv} ~{attrib_indiv} ~{attrib_indiv_filter} \
+            ~{'--attrib' + attrib} ~{attrib_filter} \
+            ~{'--attrib-indiv' + attrib_indiv} ~{attrib_indiv_filter} \
             ~{'--chr ' + chr} \
             ~{'--not-chr ' + not_chr} \
             ~{chrs_prefix} ~{sep=', ' chrs} \
             ~{not_chrs_prefix} ~{sep=', ' not_chrs} \
-            ~{true='--allow-extra-chr' false='' allow_extra_chr} ~{extra_chrs}\
+            ~{true='--allow-extra-chr' false='' allow_extra_chr}\
             ~{true='--autosome' false='' autosome} \
             ~{true='--autosome-xy' false='' autosome_xy} \
             ~{true='--snps-only' false='' snps_only} ~{snps_only_type} \
@@ -509,8 +520,8 @@ task make_bed_plink1{
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{true='--snps' false='' snps} ~{sep=', ' snps} \
-            ~{true='--exclude-snps' false='' exclude_snps} ~{sep=', ' exclude_snps} \
+            ~{snps_prefix} ~{sep=', ' snps} \
+            ~{exclude_snps_prefix} ~{sep=', ' exclude_snps} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
@@ -523,8 +534,8 @@ task make_bed_plink1{
             ~{'--thin-indiv ' + thin_indiv} \
             ~{'--thin-indiv-count ' + thin_indiv_count} \
             ~{'--bp-space ' + bp_space} \
-            ~{true='--filter' false='' filter} ~{filter} ~{sep=' ' filter_values} \
-            ~{true='--mfilter' false='' mfilter} ~{mfilter} \
+            ~{'--filter' + filter} ~{sep=' ' filter_values} \
+            ~{'--mfilter' + mfilter} \
             ~{'--geno ' + max_missing_geno_rate} \
             ~{'--mind ' + max_missing_ind_rate} \
             ~{true='--prune' false='' prune} \
@@ -582,7 +593,7 @@ task merge_beds{
         Boolean? allow_no_sex
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -652,7 +663,7 @@ task merge_two_beds{
         String output_basename
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -723,7 +734,7 @@ task remove_fam_phenotype{
 
         # Runtime environment
         String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -764,7 +775,7 @@ task remove_fam_pedigree{
 
         # Runtime environment
         String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -826,7 +837,7 @@ task prune_ld_markers{
 
         # Runtime environment
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -902,7 +913,7 @@ task sex_check{
 
         # Runtime environment
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -978,7 +989,7 @@ task contains_chr{
 
         # Runtime environment
         String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1025,7 +1036,7 @@ task get_excess_homo_samples{
         Float max_he
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1098,7 +1109,7 @@ task get_samples_missing_chr{
         String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1172,7 +1183,7 @@ task get_bim_chrs{
 
         # Runtime environment
         String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1226,7 +1237,7 @@ task hardy{
         File? remove_samples
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1316,7 +1327,7 @@ task recode_to_ped{
         String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1391,7 +1402,7 @@ task convert_bgen_to_vcf {
         String? rm_dup_mode
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1458,7 +1469,7 @@ task make_founders{
         Boolean first = false
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1506,7 +1517,7 @@ task convert_vcf_to_bed{
         String output_basename
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1560,7 +1571,7 @@ task convert_bed_to_vcf{
         String? chr
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1657,7 +1668,7 @@ task calculate_ld {
         File? remove
 
         String docker = "rtibiocloud/plink:v1.9_2706f72"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v1.9_2706f72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
@@ -1730,7 +1741,7 @@ task convert_bgen_v1_2_to_v1_1 {
         File? remove
 
         String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_account_id
+        Int? ecr_account_id
         String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/plink:v2.0_888cf13"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr

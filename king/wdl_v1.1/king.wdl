@@ -71,7 +71,8 @@ task king{
 
         # Runtime environment
         String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -173,7 +174,8 @@ task unrelated{
 
         # Runtime environment
         String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -252,7 +254,8 @@ task duplicate{
 
         # Runtime environment
         String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -319,8 +322,9 @@ task king_samples_to_ids{
         String output_filename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-        String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
+        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -370,7 +374,8 @@ task kinship{
 
         # Runtime environment
         String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/king:v2.24-f0eeb5c"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -440,8 +445,9 @@ task kinship_to_plink_sample_list{
         String output_filename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:a6d2b38300ce017add71440577d5b0a90460d0e57fd7aec21dd0d1b0761bbfb2"
-        String ecr = "public.ecr.aws/ubuntu/ubuntu:22.04_stable"
+        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/ubuntu:22.04_19478ce7fc2ff"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
@@ -476,7 +482,8 @@ task prune_related_samples{
 
         # Runtime environment
         String docker = "rtibiocloud/process_king_kinship:none_32a4b4b"
-        String ecr = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/process_king_kinship:none_32a4b4b"
+        Int? ecr_account_id
+        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/tibiocloud/process_king_kinship:none_32a4b4b"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
