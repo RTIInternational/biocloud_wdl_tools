@@ -16,8 +16,8 @@ task tsv_append{
 
         # Runtime environment
         String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_account_id
-        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_path
+        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 2
@@ -76,8 +76,8 @@ task tsv_filter{
 
         # Runtime environment
         String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_account_id
-        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_path
+        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 2
@@ -132,8 +132,8 @@ task tsv_select{
 
         # Runtime environment
         String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_account_id
-        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_path
+        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 2
@@ -193,8 +193,8 @@ task tsv_join{
 
         # Runtime environment
         String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_account_id
-        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_path
+        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 2

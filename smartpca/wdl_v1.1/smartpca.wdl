@@ -16,8 +16,8 @@ task smartpca{
 
         # Runtime environment
         String docker = "rtibiocloud/eigensoft:v6.1.4_2d0f99b"
-        Int? ecr_account_id
-        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/eigensoft:v6.1.4_2d0f99b"
+        String? ecr_path
+        String ecr = "~{ecr_path}/rtibiocloud/eigensoft:v6.1.4_2d0f99b"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 8

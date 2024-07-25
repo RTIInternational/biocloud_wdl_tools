@@ -16,8 +16,8 @@ task assign_ancestry_mahalanobis {
 
         # Runtime environment
         String docker = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
-        Int? ecr_account_id
-        String ecr = "~{ecr_account_id}.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
+        String? ecr_path
+        String ecr = "~{ecr_path}/rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
         String container_source = "docker"
         String container_image = if(container_source == "docker") then docker else ecr
         Int cpu = 1
