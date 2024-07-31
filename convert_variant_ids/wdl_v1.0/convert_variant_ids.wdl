@@ -26,11 +26,11 @@ task convert_variant_ids {
         String log_filename = "~{output_filename}.log"
 
         # Runtime environment
-        String docker = "rtibiocloud/convert_variant_ids:v1_7b4adf9"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/convert_variant_ids:v1_7b4adf9"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/convert_variant_ids:v1_7b4adf9"
+        String ecr_image = "rtibiocloud/convert_variant_ids:v1_7b4adf9"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
         Int max_retries = 3

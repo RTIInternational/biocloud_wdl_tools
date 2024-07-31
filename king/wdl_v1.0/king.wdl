@@ -70,11 +70,11 @@ task king{
         String? sexchr
 
         # Runtime environment
-        String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/king:v2.24-f0eeb5c"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String ecr_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
 
@@ -173,11 +173,11 @@ task unrelated{
         String? sexchr
 
         # Runtime environment
-        String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/king:v2.24-f0eeb5c"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String ecr_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
 
@@ -253,11 +253,11 @@ task duplicate{
         String? sexchr
 
         # Runtime environment
-        String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/king:v2.24-f0eeb5c"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String ecr_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
 
@@ -322,11 +322,11 @@ task king_samples_to_ids{
         String output_filename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -373,11 +373,11 @@ task kinship{
         String? sexchr
 
         # Runtime environment
-        String docker = "rtibiocloud/king:v2.24-f0eeb5c"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/king:v2.24-f0eeb5c"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String ecr_image = "rtibiocloud/king:v2.24-f0eeb5c"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
 
@@ -445,11 +445,11 @@ task kinship_to_plink_sample_list{
         String output_filename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -481,11 +481,11 @@ task prune_related_samples{
         String? output_delim
 
         # Runtime environment
-        String docker = "rtibiocloud/process_king_kinship:none_32a4b4b"
-        String? ecr_path
-        String ecr = "~{ecr_path}/tibiocloud/process_king_kinship:none_32a4b4b"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/process_king_kinship:none_32a4b4b"
+        String ecr_image = "rtibiocloud/process_king_kinship:none_32a4b4b"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 

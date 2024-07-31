@@ -15,11 +15,11 @@ task smartpca{
         Int numthreads = 8
 
         # Runtime environment
-        String docker = "rtibiocloud/eigensoft:v6.1.4_2d0f99b"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/eigensoft:v6.1.4_2d0f99b"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/eigensoft:v6.1.4_2d0f99b"
+        String ecr_image = "rtibiocloud/eigensoft:v6.1.4_2d0f99b"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 8
         Int mem_gb = 16
 

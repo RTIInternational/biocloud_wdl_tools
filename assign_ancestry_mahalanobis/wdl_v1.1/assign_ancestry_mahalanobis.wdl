@@ -15,11 +15,11 @@ task assign_ancestry_mahalanobis {
         Int? std_dev_cutoff
 
         # Runtime environment
-        String docker = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
+        String ecr_image = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3

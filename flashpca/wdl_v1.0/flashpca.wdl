@@ -31,11 +31,11 @@ task flashpca{
         Boolean? check
 
         # Runtime environment
-        String docker = "rtibiocloud/flashpca:v2.0-9b4c1b9"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/flashpca:v2.0-9b4c1b9"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/flashpca:v2.0-9b4c1b9"
+        String ecr_image = "rtibiocloud/flashpca:v2.0-9b4c1b9"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
         Int mem_mb = mem_gb * 1000
@@ -123,11 +123,11 @@ task get_non_ancestry_informative_snps{
         Int min_snps = 10000
 
         # Runtime environment
-        String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String ecr_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
 

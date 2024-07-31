@@ -11,11 +11,11 @@ task split_vcf{
         Boolean compress_outputs = true
 
         # Runtime environment
-        String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/pigz:v2.4-8d966cb"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/pigz:v2.4-8d966cb"
+        String ecr_image = "rtibiocloud/pigz:v2.4-8d966cb"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 8
         Int unzip_cpu = cpu - 1
         Int mem_gb = 8
@@ -78,11 +78,11 @@ task split_vcf_info{
         Boolean compress_outputs = true
 
         # Runtime environment
-        String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/pigz:v2.4-8d966cb"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/pigz:v2.4-8d966cb"
+        String ecr_image = "rtibiocloud/pigz:v2.4-8d966cb"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 8
         Int unzip_cpu = cpu - 1
         Int mem_gb = 8
@@ -152,11 +152,11 @@ task split_file{
         Boolean invalid_args = !defined(num_splits) && !defined(lines_per_split)
 
         # Runtime environment
-        String docker = "rtibiocloud/pigz:v2.4-8d966cb"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/pigz:v2.4-8d966cb"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/pigz:v2.4-8d966cb"
+        String ecr_image = "rtibiocloud/pigz:v2.4-8d966cb"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int unzip_cpu = cpu - 1
         Int mem_gb = 2

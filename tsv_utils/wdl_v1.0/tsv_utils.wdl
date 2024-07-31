@@ -15,11 +15,11 @@ task tsv_append{
 
 
         # Runtime environment
-        String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String ecr_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = 4
         Int max_retries = 3
@@ -75,11 +75,11 @@ task tsv_filter{
         String filter_string
 
         # Runtime environment
-        String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String ecr_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = 4
         Int max_retries = 3
@@ -131,11 +131,11 @@ task tsv_select{
         String rest = "none"  # Location for remaining fields (none|first|last)
 
         # Runtime environment
-        String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String ecr_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = 4
         Int max_retries = 3
@@ -192,11 +192,11 @@ task tsv_join{
         String output_filename
 
         # Runtime environment
-        String docker = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/tsv-utils:v2.2.0_5141a72"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String ecr_image = "rtibiocloud/tsv-utils:v2.2.0_5141a72"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = ceil(size(tsv_filter_file, "GiB") * 2) + 2
         Int max_retries = 3

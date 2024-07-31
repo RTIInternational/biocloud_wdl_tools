@@ -8,11 +8,11 @@ task append {
         String? b
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -42,11 +42,11 @@ task collect_files{
         String output_dir_name
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -120,11 +120,11 @@ task slice{
         Int actual_start_pos = start_pos + 1
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -152,11 +152,11 @@ task flatten_string_array {
         Array[Array[String]] array
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -185,11 +185,11 @@ task remove_empty_files{
         Array[File] input_files
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -222,11 +222,11 @@ task wc{
         File input_file
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -235,9 +235,9 @@ task wc{
     command <<<
         if [[ ~{input_file} =~ \.gz$ ]]
         then
-            gunzip -c ~{input_file} | wc -l | cut -d" " -f1
+            gunzip -c ~{input_file} | wc -l | perl -ne 'if (/(\d+)/) { print $1; } else { print "-1"; }'
         else
-            wc -l ~{input_file} | cut -d" " -f1
+            wc -l ~{input_file} | perl -ne 'if (/(\d+)/) { print $1; } else { print "-1"; }'
         fi
     >>>
 
@@ -261,11 +261,11 @@ task cut{
         String output_filename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -294,11 +294,11 @@ task get_file_union{
         Array[File] input_files
         String output_filename
 
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -338,11 +338,11 @@ task replace_chr{
         String char
         String new_char
 
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -371,11 +371,11 @@ task raise_error{
     input {
 
         String msg
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
 
     }
 
@@ -405,11 +405,11 @@ task cat{
         String output_filename
         Boolean input_gzipped = false
 
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -444,11 +444,11 @@ task get_file_extension{
 
         String input_file
         Int fields = 1
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
 
     }
 
@@ -483,11 +483,11 @@ task array_contains{
 
         Array[String] input_array
         String query
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
 
     }
 
@@ -531,11 +531,11 @@ task append_column{
         String? F
         String f_arg = if(defined(F)) then "-F '~{F}'" else ""
         String ofs_arg = if(defined(OFS)) then "-v OFS='~{OFS}'" else ""
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
 
     }
 
@@ -564,11 +564,11 @@ task paste{
         String output_filename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -598,11 +598,11 @@ task array_equals{
 
         Array[String] array_a
         Array[String] array_b
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
 
     }
 
@@ -636,11 +636,11 @@ task shuf{
         String output_filename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -669,11 +669,11 @@ task sum_ints {
         Array[Int] ints
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 

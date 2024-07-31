@@ -21,11 +21,11 @@ task tsv_join{
         Int? chunk_size
 
         # Runtime environment
-        String docker = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/rti-tsv-utils:v1_fcb9291"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+        String ecr_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -77,11 +77,11 @@ task tsv_sort{
         Boolean ascending = true
 
         # Runtime environment
-        String docker = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/rti-tsv-utils:v1_fcb9291"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+        String ecr_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3

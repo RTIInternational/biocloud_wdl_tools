@@ -156,11 +156,11 @@ task make_bed{
         File? update_sex
         Int? update_sex_n
 
-        String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v2.0_888cf13"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v2.0_888cf13"
+        String ecr_image = "rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
 
         Int cpu = 1
         Int mem_gb = 2
@@ -445,11 +445,11 @@ task make_bed_plink1{
         File? update_sex
         Int? update_sex_n
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -592,11 +592,11 @@ task merge_beds{
         String output_basename
         Boolean? allow_no_sex
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 4
         Int mem_gb = 8
         Int max_retries = 3
@@ -662,11 +662,11 @@ task merge_two_beds{
         Boolean? allow_no_sex
         String output_basename
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 4
         Int mem_gb = 8
         Int max_retries = 3
@@ -733,11 +733,11 @@ task remove_fam_phenotype{
         String output_basename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -774,11 +774,11 @@ task remove_fam_pedigree{
         String output_basename
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -836,11 +836,11 @@ task prune_ld_markers{
         Boolean? bad_ld
 
         # Runtime environment
-        String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v2.0_888cf13"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v2.0_888cf13"
+        String ecr_image = "rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 4
         Int mem_gb = 8
 
@@ -912,11 +912,11 @@ task sex_check{
         File? update_sex
 
         # Runtime environment
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 4
         Int mem_gb = 8
 
@@ -988,11 +988,11 @@ task contains_chr{
         String chr
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -1035,11 +1035,11 @@ task get_excess_homo_samples{
         Float min_he
         Float max_he
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -1108,11 +1108,11 @@ task get_samples_missing_chr{
         String output_basename
         String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -1182,11 +1182,11 @@ task get_bim_chrs{
         File bim_in
 
         # Runtime environment
-        String docker = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String? ecr_path
-        String ecr = "~{ecr_path}/ubuntu:22.04_19478ce7fc2ff"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
 
@@ -1236,11 +1236,11 @@ task hardy{
         File? keep_samples
         File? remove_samples
 
-        String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v2.0_888cf13"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v2.0_888cf13"
+        String ecr_image = "rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -1326,11 +1326,11 @@ task recode_to_ped{
         String output_basename
         String input_prefix = basename(sub(bed_in, "\\.gz$", ""), ".bed")
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -1401,11 +1401,11 @@ task convert_bgen_to_vcf {
         Boolean rm_dup = false
         String? rm_dup_mode
 
-        String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v2.0_888cf13"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v2.0_888cf13"
+        String ecr_image = "rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu
         Int mem_gb
         Int max_retries = 3
@@ -1468,11 +1468,11 @@ task make_founders{
         Boolean require_2_missing = true
         Boolean first = false
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
         Int max_retries = 3
@@ -1516,11 +1516,11 @@ task convert_vcf_to_bed{
         File vcf_in
         String output_basename
 
-        String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v2.0_888cf13"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v2.0_888cf13"
+        String ecr_image = "rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -1570,11 +1570,11 @@ task convert_bed_to_vcf{
         # Optionally subset by chr
         String? chr
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -1667,11 +1667,11 @@ task calculate_ld {
         File? keep
         File? remove
 
-        String docker = "rtibiocloud/plink:v1.9-77ee25f"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v1.9-77ee25f"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
         Int max_retries = 3
@@ -1740,11 +1740,11 @@ task convert_bgen_v1_2_to_v1_1 {
         File? keep
         File? remove
 
-        String docker = "rtibiocloud/plink:v2.0_888cf13"
-        String? ecr_path
-        String ecr = "~{ecr_path}/rtibiocloud/plink:v2.0_888cf13"
-        String container_source = "docker"
-        String container_image = if(container_source == "docker") then docker else ecr
+        String docker_image = "rtibiocloud/plink:v2.0_888cf13"
+        String ecr_image = "rtibiocloud/plink:v2.0_888cf13"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu
         Int mem_gb
         Int max_retries = 3
