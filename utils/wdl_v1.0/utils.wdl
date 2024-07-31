@@ -60,7 +60,7 @@ task collect_files{
     parameter_meta {
         input_files: "Files to zip"
         output_dir_name: "Name of directory that will be created and tarballed"
-        docker: "(optional) the docker image containing the runtime environment for this task"
+        docker_image: "(optional) the docker image containing the runtime environment for this task"
         mem_gb: "(optional) the amount of memory (GB) to provision for this task"
         cpu: "(optional) the number of cpus to provision for this task"
     }
