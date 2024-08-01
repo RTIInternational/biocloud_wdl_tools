@@ -734,7 +734,7 @@ task remove_fam_phenotype{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -775,7 +775,7 @@ task remove_fam_pedigree{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -989,7 +989,7 @@ task contains_chr{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -1183,7 +1183,7 @@ task get_bim_chrs{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
