@@ -9,7 +9,7 @@ task append {
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -43,7 +43,7 @@ task collect_files{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -121,7 +121,7 @@ task slice{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -153,7 +153,7 @@ task flatten_string_array {
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -186,7 +186,7 @@ task remove_empty_files{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -223,7 +223,7 @@ task wc{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -262,7 +262,7 @@ task cut{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -295,7 +295,7 @@ task get_file_union{
         String output_filename
 
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -339,7 +339,7 @@ task replace_chr{
         String new_char
 
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -372,7 +372,7 @@ task raise_error{
 
         String msg
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -406,7 +406,7 @@ task cat{
         Boolean input_gzipped = false
 
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -445,7 +445,7 @@ task get_file_extension{
         String input_file
         Int fields = 1
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -484,7 +484,7 @@ task array_contains{
         Array[String] input_array
         String query
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -532,7 +532,7 @@ task append_column{
         String f_arg = if(defined(F)) then "-F '~{F}'" else ""
         String ofs_arg = if(defined(OFS)) then "-v OFS='~{OFS}'" else ""
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -565,7 +565,7 @@ task paste{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -599,7 +599,7 @@ task array_equals{
         Array[String] array_a
         Array[String] array_b
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -637,7 +637,7 @@ task shuf{
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -670,7 +670,7 @@ task sum_ints {
 
         # Runtime environment
         String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "ubuntu:22.04_19478ce7fc2ff"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
