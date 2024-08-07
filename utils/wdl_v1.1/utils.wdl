@@ -693,3 +693,52 @@ task sum_ints {
         Int sum = read_int(stdout())
     }
 }
+
+
+task wc_l{
+
+    input{
+
+        File input_file
+        
+        # Runtime environment
+        String docker_image = "python:3.11.9-slim-bookworm"
+        String ecr_image = "rtibiocloud/python:3.11.9-slim-bookworm"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+
+    }
+
+    command <<<
+
+        python <<CODE
+        
+        import subprocess
+        import re
+
+        line_count = -1
+        wc_l_result = subprocess.check_output(['wc', '-l', '~{input_file}']).decode("utf-8")
+        x = re.search("^\d+", wc_l_result)
+        if x is not None:
+            line_count = int(x.group())
+
+        print(line_count)
+        
+        CODE
+
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+    }
+
+    output {
+        Int num_lines = read_int(stdout())
+    }
+    
+}
