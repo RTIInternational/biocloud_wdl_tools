@@ -235,9 +235,9 @@ task wc{
     command <<<
         if [[ ~{input_file} =~ \.gz$ ]]
         then
-            gunzip -c ~{input_file} | wc -l | cut -d" " -f1
+            gunzip -c ~{input_file} | wc -l | perl -ne 'if (/(\d+)/) { print $1; } else { print "0"; }'
         else
-            wc -l ~{input_file} | cut -d" " -f1
+            wc -l ~{input_file} | perl -ne 'if (/(\d+)/) { print $1; } else { print "0"; }'
         fi
     >>>
 
@@ -694,40 +694,28 @@ task sum_ints {
     }
 }
 
-task wc_l{
+task comm{
 
     input{
-
-        File input_file
+        File file1
+        File file2
+        String option
+        String output_filename
         
         # Runtime environment
-        String docker_image = "python:3.11.9-slim-bookworm"
-        String ecr_image = "rtibiocloud/python:3.11.9-slim-bookworm"
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 1
-
     }
 
     command <<<
-
-        python <<CODE
-        
-        import subprocess
-        import re
-
-        line_count = -1
-        wc_l_result = subprocess.check_output(['wc', '-l', '~{input_file}']).decode("utf-8")
-        x = re.search("^\d+", wc_l_result)
-        if x is not None:
-            line_count = int(x.group())
-
-        print(line_count)
-        
-        CODE
-
+        sort ~{file1} > "file1_sorted.txt"
+        sort ~{file2} > "file2_sorted.txt"
+        comm ~{option} "file1_sorted.txt" "file2_sorted.txt" > ~{output_filename}
     >>>
 
     runtime {
@@ -737,7 +725,9 @@ task wc_l{
     }
 
     output {
-        Int num_lines = read_int(stdout())
+        File output_file = "~{output_filename}"
     }
-    
+
 }
+
+
