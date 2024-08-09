@@ -318,10 +318,6 @@ task make_bed_plink1{
         # Site filtering by bed
         File? extract
         File? exclude
-        Boolean? extract_range
-        Boolean? exclude_range
-        String? extract_range_opt = if(defined(extract_range) && extract_range) then "range" else ""
-        String? exclude_range_opt = if(defined(exclude_range) && exclude_range) then "range" else ""
         String extract_prefix = if(defined(extract)) then "--extract" else ""
         String exclude_prefix = if(defined(exclude)) then "--exclude" else ""
 
@@ -497,8 +493,6 @@ task make_bed_plink1{
             ~{'--remove ' + remove_samples} \
             ~{'--keep-fam ' + keep_fam} \
             ~{'--remove-fam ' + remove_fam} \
-            ~{extract_prefix} ~{extract_range_opt} ~{extract} \
-            ~{exclude_prefix} ~{exclude_range_opt} ~{exclude} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
             ~{keep_cluster_names_prefix} ~{sep=' ' keep_cluster_names} \
