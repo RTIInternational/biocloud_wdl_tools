@@ -730,4 +730,37 @@ task comm{
 
 }
 
+task line_count{
+
+    input{
+        File input_file
+
+        # Runtime environment
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+    }
+
+    Int tmp_count = length(read_lines(input_file))
+
+    command <<<
+
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+    }
+
+    output{
+        Int count = tmp_count
+    }
+
+}
+
 
