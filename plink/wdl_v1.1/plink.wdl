@@ -43,7 +43,7 @@ task make_bed{
         # Set gene set membership
         Array[String]? gene
         String gene_prefix = if(defined(gene)) then "--gene" else ""
-        Boolean? gene_all
+        Boolean gene_all = false
 
         # Filter by attributes files
         File? attrib
@@ -54,17 +54,17 @@ task make_bed{
         # Filtering options by chr
         String? chr
         String? not_chr
-        Boolean? allow_extra_chr
-        Boolean? autosome
-        Boolean? autosome_xy
-        Boolean? prune
+        Boolean allow_extra_chr = false
+        Boolean autosome = false
+        Boolean autosome_xy = false
+        Boolean prune = false
         Array[String]? chrs
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
         Array[String]? not_chrs
         String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
         # Site type filtering
-        Boolean? snps_only
+        Boolean snps_only = false
         String? snps_only_type
         String? from_id
         String? to_id
@@ -85,7 +85,7 @@ task make_bed{
         String exclude_snps_prefix = if(defined(exclude_snps)) then "--exclude-snps" else ""
 
         # Remove duplicates
-        Boolean? rm_dup
+        Boolean rm_dup = false
         String? rm_dup_mode # error (default), retain-mismatch, exclude-mismatch, exclude-all, force-first
 
         # Arbitrary thinning
@@ -113,41 +113,41 @@ task make_bed{
         Int? min_mac
         Int? max_mac
         String? mac_mode
-        Boolean? nonfounders
-        Boolean? maf_succ
+        Boolean nonfounders = false
+        Boolean maf_succ = false
 
         # HWE filtering
         Float? hwe_pvalue
         String? hwe_mode
 
         # Sex filters
-        Boolean? allow_no_sex
-        Boolean? must_have_sex
-        Boolean? filter_females
-        Boolean? filter_males
-        Boolean? filter_controls
-        Boolean? filter_cases
-        Boolean? filter_nosex
-        Boolean? remove_females
-        Boolean? remove_males
-        Boolean? remove_nosex
+        Boolean allow_no_sex = false
+        Boolean must_have_sex = false
+        Boolean filter_females = false
+        Boolean filter_males = false
+        Boolean filter_controls = false
+        Boolean filter_cases = false
+        Boolean filter_nosex = false
+        Boolean remove_females = false
+        Boolean remove_males = false
+        Boolean remove_nosex = false
 
         # Founder status
-        Boolean? filter_founders
-        Boolean? filter_nonfounders
+        Boolean filter_founders = false
+        Boolean filter_nonfounders = false
 
         # Other data management options
-        Boolean? sort_vars
+        Boolean sort_vars = false
         String? sort_vars_mode
 
         # Re-coding heterozygous haploids
-        Boolean? set_hh_missing
-        Boolean? hh_missing_keep_dosage
-        Boolean? split_x
+        Boolean set_hh_missing = false
+        Boolean hh_missing_keep_dosage = false
+        Boolean split_x = false
         String? build_code
-        Boolean? merge_x
-        Boolean? split_no_fail
-        Boolean? merge_no_fail
+        Boolean merge_x = false
+        Boolean split_no_fail = false
+        Boolean merge_no_fail = false
 
 
         # Updating files
@@ -333,7 +333,7 @@ task make_bed_plink1{
         # Set gene set membership
         Array[String]? gene
         String gene_prefix = if(defined(gene)) then "--gene" else ""
-        Boolean? gene_all
+        Boolean gene_all = false
 
         # Filter by attributes files
         File? attrib
@@ -344,17 +344,17 @@ task make_bed_plink1{
         # Filtering options by chr
         String? chr
         String? not_chr
-        Boolean? allow_extra_chr
-        Boolean? autosome
-        Boolean? autosome_xy
-        Boolean? prune
+        Boolean allow_extra_chr = false
+        Boolean autosome = false
+        Boolean autosome_xy = false
+        Boolean prune = false
         Array[String]? chrs
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
         Array[String]? not_chrs
         String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
         # Site type filtering
-        Boolean? snps_only
+        Boolean snps_only = false
         String? snps_only_type
         String? from_id
         String? to_id
@@ -375,7 +375,7 @@ task make_bed_plink1{
         String exclude_snps_prefix = if(defined(exclude_snps)) then "--exclude-snps" else ""
 
         # Remove duplicates
-        Boolean? rm_dup
+        Boolean rm_dup = false
         String? rm_dup_mode # error (default), retain-mismatch, exclude-mismatch, exclude-all, force-first
 
         # Arbitrary thinning
@@ -403,36 +403,36 @@ task make_bed_plink1{
         Int? min_mac
         Int? max_mac
         String? mac_mode
-        Boolean? nonfounders
-        Boolean? maf_succ
+        Boolean nonfounders = false
+        Boolean maf_succ = false
 
         # HWE filtering
         Float? hwe_pvalue
         String? hwe_mode
 
         # Sex filters
-        Boolean? allow_no_sex
-        Boolean? must_have_sex
-        Boolean? filter_females
-        Boolean? filter_males
-        Boolean? filter_controls
-        Boolean? filter_cases
+        Boolean allow_no_sex = false
+        Boolean must_have_sex = false
+        Boolean filter_females = false
+        Boolean filter_males = false
+        Boolean filter_controls = false
+        Boolean filter_cases = false
 
         # Founder status
-        Boolean? filter_founders
-        Boolean? filter_nonfounders
+        Boolean filter_founders = false
+        Boolean filter_nonfounders = false
 
         # Other data management options
-        Boolean? sort_vars
+        Boolean sort_vars = false
         String? sort_vars_mode
 
         # Re-coding heterozygous haploids
-        Boolean? set_hh_missing
-        Boolean? split_x
+        Boolean set_hh_missing = false
+        Boolean split_x = false
         String? build_code
-        Boolean? merge_x
-        Boolean? split_no_fail
-        Boolean? merge_no_fail
+        Boolean merge_x = false
+        Boolean split_no_fail = false
+        Boolean merge_no_fail = false
 
 
         # Updating files
@@ -584,7 +584,7 @@ task merge_beds{
         Array[File] bim_in
         Array[File] fam_in
         String output_basename
-        Boolean? allow_no_sex
+        Boolean allow_no_sex = false
 
         String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
         String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
@@ -653,7 +653,7 @@ task merge_two_beds{
         String input_prefix_b = basename(sub(bed_in_b, "\\.gz$", ""), ".bed")
         Int? merge_mode
         Boolean ignore_errors = false
-        Boolean? allow_no_sex
+        Boolean allow_no_sex = false
         String output_basename
 
         String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
@@ -827,7 +827,7 @@ task prune_ld_markers{
         Float? r2_threshold
         Float? vif_threshold
         Int? x_chr_mode
-        Boolean? bad_ld
+        Boolean bad_ld = false
 
         # Runtime environment
         String docker_image = "rtibiocloud/plink:v2.0_888cf13"
@@ -1222,8 +1222,8 @@ task hardy{
 
         Float hwe_pvalue = 0.0
         String? hwe_mode
-        Boolean? filter_females
-        Boolean? nonfounders
+        Boolean filter_females = false
+        Boolean nonfounders = false
         Array[String]? chrs
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
 
@@ -1634,13 +1634,13 @@ task calculate_ld {
         File? vcf
         File? bgen
         File? sample
-        Boolean? allow_extra_chr
+        Boolean allow_extra_chr = false
 
         # Output file parameters
         String output_basename
         String? output_format   # square, square0 triangle inter-chr
-        Boolean? with_freqs
-        Boolean? yes_really
+        Boolean with_freqs = false
+        Boolean yes_really = false
 
         # Stat
         String? correlation_stat = "r2"
