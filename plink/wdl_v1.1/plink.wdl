@@ -212,27 +212,27 @@ task make_bed{
             ~{if allow_extra_chr then '--allow-extra-chr' else ''} \
             ~{if autosome then '--autosome' else ''} \
             ~{if autosome_xy then '--autosome-par' else ''} \
-            ~{chrs_prefix} ~{sep(', ', chrs)} \
-            ~{not_chrs_prefix} ~{sep(', ', not_chrs)} \
+            ~{chrs_prefix} ~{if defined(chrs) then sep(', ', chrs) else ""} \
+            ~{not_chrs_prefix} ~{if defined(not_chrs) then sep(', ', not_chrs) else ""} \
             ~{'--keep ' + keep_samples} \
             ~{'--remove ' + remove_samples} \
             ~{'--keep-fam ' + keep_fam} \
             ~{'--remove-fam ' + remove_fam} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
-            ~{keep_cluster_names_prefix} ~{sep(' ', keep_cluster_names)} \
-            ~{remove_cluster_names_prefix} ~{sep(' ', remove_cluster_names)} \
+            ~{keep_cluster_names_prefix} ~{if defined(keep_cluster_names) then sep(' ', keep_cluster_names) else ""} \
+            ~{remove_cluster_names_prefix} ~{if defined(remove_cluster_names) then sep(' ', remove_cluster_names) else ""} \
             ~{'--extract ' + extract} \
             ~{'--exclude ' + exclude} \
-            ~{extract_intersect_prefix} ~{sep(' ', extract_intersect)} \
+            ~{extract_intersect_prefix} ~{if defined(extract_intersect) then sep(' ', extract_intersect) else ""} \
             ~{if snps_only then '--snps-only' else ''} ~{snps_only_type} \
             ~{'--from ' + from_id} \
             ~{'--to ' + to_id} \
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{snps_prefix} ~{sep(', ', snps)} \
-            ~{exclude_snps_prefix} ~{sep(', ', exclude_snps)} \
+            ~{snps_prefix} ~{if defined(snps) then sep(', ', snps) else ""} \
+            ~{exclude_snps_prefix} ~{if defined(exclude_snps) then sep(', ', exclude_snps) else ""} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
@@ -245,7 +245,7 @@ task make_bed{
             ~{'--thin-indiv ' + thin_indiv} \
             ~{'--thin-indiv-count ' + thin_indiv_count} \
             ~{'--bp-space ' + bp_space} \
-            ~{'--filter' + filter} ~{sep(' ', filter_values)} \
+            ~{'--filter' + filter} ~{if defined(filter_values) then sep(' ', filter_values) else ""} \
             ~{'--min-alleles ' + min_alleles} \
             ~{'--max-alleles ' + max_alleles} \
             ~{'--maf ' + min_maf} ~{maf_mode} \
@@ -495,16 +495,16 @@ task make_bed_plink1{
             ~{'--remove-fam ' + remove_fam} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
-            ~{keep_cluster_names_prefix} ~{sep(' ', keep_cluster_names)} \
-            ~{remove_cluster_names_prefix} ~{sep(' ', remove_cluster_names)} \
-            ~{gene_prefix} ~{sep(' ', gene)} \
+            ~{keep_cluster_names_prefix} ~{if defined(keep_cluster_names) then sep(' ', keep_cluster_names) else ""} \
+            ~{remove_cluster_names_prefix} ~{if defined(remove_cluster_names) then sep(' ', remove_cluster_names) else ""} \
+            ~{gene_prefix} ~{if defined(gene) then sep(' ', gene) else ""} \
             ~{if gene_all then '--gene-all' else ''} \
             ~{'--attrib' + attrib} ~{attrib_filter} \
             ~{'--attrib-indiv' + attrib_indiv} ~{attrib_indiv_filter} \
             ~{'--chr ' + chr} \
             ~{'--not-chr ' + not_chr} \
-            ~{chrs_prefix} ~{sep(', ', chrs)} \
-            ~{not_chrs_prefix} ~{sep(', ', not_chrs)} \
+            ~{chrs_prefix} ~{if defined(chrs) then sep(', ', chrs) else ""} \
+            ~{not_chrs_prefix} ~{if defined(not_chrs) then sep(', ', not_chrs) else ""} \
             ~{if allow_extra_chr then '--allow-extra-chr' else ''}\
             ~{if autosome then '--autosome' else ''} \
             ~{if autosome_xy then '--autosome-xy' else ''} \
@@ -514,8 +514,8 @@ task make_bed_plink1{
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{snps_prefix} ~{sep(', ', snps)} \
-            ~{exclude_snps_prefix} ~{sep(', ', exclude_snps)} \
+            ~{snps_prefix} ~{if defined(snps) then sep(', ', snps) else ""} \
+            ~{exclude_snps_prefix} ~{if defined(exclude_snps) then sep(', ', exclude_snps) else ""} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
@@ -528,7 +528,7 @@ task make_bed_plink1{
             ~{'--thin-indiv ' + thin_indiv} \
             ~{'--thin-indiv-count ' + thin_indiv_count} \
             ~{'--bp-space ' + bp_space} \
-            ~{'--filter' + filter} ~{sep(' ', filter_values)} \
+            ~{'--filter' + filter} ~{if defined(filter_values) then sep(' ', filter_values) else ""} \
             ~{'--mfilter' + mfilter} \
             ~{'--geno ' + max_missing_geno_rate} \
             ~{'--mind ' + max_missing_ind_rate} \
@@ -1275,7 +1275,7 @@ task hardy{
             --out ~{output_basename} \
             ~{if filter_females then '--keep-females' else ''} \
             ~{if nonfounders then '--nonfounders' else ''} \
-            ~{chrs_prefix} ~{sep(', ', chrs)} \
+            ~{chrs_prefix} ~{if defined(chrs) then sep(', ', chrs) else ""} \
             ~{'--keep ' + keep_samples} \
             ~{'--remove ' + remove_samples} \
             --output-chr ~{output_chr}
