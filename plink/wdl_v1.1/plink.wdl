@@ -1000,9 +1000,9 @@ task contains_chr{
         fi
 
         if [ -s results.txt ]; then
-            echo "true"
+            echo "true" > contains.txt
         else
-            echo "false"
+            echo "false" > contains.txt
         fi
     >>>
 
@@ -1013,8 +1013,9 @@ task contains_chr{
     }
 
     output {
-        Boolean contains = read_boolean(stdout())
+        Boolean contains = read_boolean("contains.txt")
     }
+    
 }
 
 task get_excess_homo_samples{

@@ -496,12 +496,12 @@ task array_contains{
         contains=0
         for i in ~{sep=" " input_array};do
             if [[ "~{query}" == "$i" ]];then
-                echo "true"
+                echo "true" > contains.txt
                 contains=1
             fi
         done
         if [ $contains -eq 0 ];then
-            echo "false"
+            echo "false" > contains.txt
         fi
     >>>
 
@@ -512,7 +512,7 @@ task array_contains{
     }
 
     output{
-        Boolean contains = read_boolean(stdout())
+        Boolean contains = read_boolean("contains.txt")
     }
 }
 
@@ -609,9 +609,9 @@ task array_equals{
     command <<<
         diff ~{write_lines(array_a)} ~{write_lines(array_b)} > compare.txt
         if [ -s compare.txt ];then
-            echo "false"
+            echo "false" > is_equal.txt
         else
-            echo "true"
+            echo "true" > is_equal.txt
         fi
     >>>
 
@@ -622,7 +622,7 @@ task array_equals{
     }
 
     output{
-        Boolean is_equal = read_boolean(stdout())
+        File is_equal = "is_equal.txt"
     }
 }
 
