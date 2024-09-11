@@ -1189,11 +1189,11 @@ task get_bim_chrs{
 
     command <<<
         # Can't just use cut/sort/uniq bc we need chrs in order and strings like MT would efff that up by forcing alphabetical sorting
-        # Solution here is just to scan the file with awk and print every time it sees a new chr
+        # Solution here is just to scan the file with perl and print every time it sees a new chr
         if [[ ~{bim_in} =~ \.gz$ ]]; then
-            gunzip -c ~{bim_in} | awk '{if(!($1 in arr)){print $1};arr[$1]++}'
+            gunzip -c ~{bim_in} | perl -lane 'BEGIN{ %chrs = (); } if (!exists($chrs{$F[0]})) { print $F[0]; $chrs{$F[0]} = 1}' > "chrs.txt"
         else
-           cat ~{bim_in} | awk '{if(!($1 in arr)){print $1};arr[$1]++}'
+           perl -lane 'BEGIN{ %chrs = (); } if (!exists($chrs{$F[0]})) { print $F[0]; $chrs{$F[0]} = 1}' > "chrs.txt"
         fi
     >>>
 
@@ -1204,7 +1204,7 @@ task get_bim_chrs{
     }
 
     output {
-        Array[String] chrs = read_lines(stdout())
+        Array[String] chrs = read_lines("chrs.txt")
     }
 }
 

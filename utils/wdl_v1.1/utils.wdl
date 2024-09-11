@@ -19,8 +19,8 @@ task append {
     }
 
     command <<<
-        cat ~{write_lines(a)}
-        ~{'echo ' + b}
+        cat ~{write_lines(a)} > "array.txt"
+        ~{'echo ' + b} >> "array.txt"
     >>>
 
     runtime {
@@ -30,7 +30,7 @@ task append {
     }
 
     output {
-        Array[File] out = read_lines(stdout())
+        Array[File] out = read_lines("array.txt")
     }
 }
 
@@ -131,7 +131,7 @@ task slice{
     }
 
     command <<<
-        tail -n +~{actual_start_pos} ~{write_lines(inputs)} | head -~{slice_size}
+        tail -n +~{actual_start_pos} ~{write_lines(inputs)} | head -~{slice_size} > "slice.txt"
     >>>
 
     runtime {
@@ -141,40 +141,7 @@ task slice{
     }
 
     output {
-        Array[String] outputs = read_lines(stdout())
-    }
-}
-
-task flatten_string_array {
-
-    input {
-
-        Array[Array[String]] array
-
-        # Runtime environment
-        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
-        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
-        String? ecr_repo
-        String image_source = "docker"
-        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
-        Int cpu = 1
-        Int mem_gb = 1
-
-    }
-
-    command <<<
-        for line in $(echo ~{sep=', ' array}) ; \
-        do echo $line | tr -d '"[],' ; done
-    >>>
-
-    runtime {
-        docker: container_image
-        cpu: cpu
-        memory: "~{mem_gb} GB"
-    }
-
-    output {
-        Array[String]  flat_array = read_lines(stdout())
+        Array[String] outputs = read_lines("slice.txt")
     }
 }
 
@@ -235,9 +202,9 @@ task wc{
     command <<<
         if [[ ~{input_file} =~ \.gz$ ]]
         then
-            gunzip -c ~{input_file} | wc -l | perl -ne 'if (/(\d+)/) { print $1; } else { print "0"; }'
+            gunzip -c ~{input_file} | wc -l | perl -ne 'if (/(\d+)/) { print $1; } else { print "0"; }' > "wc.txt"
         else
-            wc -l ~{input_file} | perl -ne 'if (/(\d+)/) { print $1; } else { print "0"; }'
+            wc -l ~{input_file} | perl -ne 'if (/(\d+)/) { print $1; } else { print "0"; }' > "wc.txt"
         fi
     >>>
 
@@ -248,7 +215,7 @@ task wc{
     }
 
     output {
-        Int num_lines = read_int(stdout())
+        Int num_lines = read_int("wc.txt")
     }
 }
 
@@ -462,7 +429,7 @@ task get_file_extension{
                     i--
                 }
                 print extension
-            }'
+            }' > "file_ext.txt"
     >>>
 
     runtime {
@@ -472,7 +439,7 @@ task get_file_extension{
     }
 
     output{
-        String extension = read_string(stdout())
+        String extension = read_string("file_ext.txt")
     }
 }
 
@@ -680,7 +647,7 @@ task sum_ints {
     }
 
     command <<<
-        echo $((~{sep="+" ints}))
+        echo $((~{sep="+" ints})) > "sum.txt"
     >>>
     
     runtime {
@@ -690,7 +657,7 @@ task sum_ints {
     }
 
     output {
-        Int sum = read_int(stdout())
+        Int sum = read_int("sum.txt")
     }
 }
 
