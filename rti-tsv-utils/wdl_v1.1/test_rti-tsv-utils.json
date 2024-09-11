@@ -1,0 +1,7 @@
+{
+  "input_files": [
+    "s3://rti-nida-iomics-oa-healthomics-output/5218145/out/ancestry_wf_ref_raw_ancestry_assignments/ref_raw_ancestry_assignments.tsv",
+    "s3://rti-nida-iomics-oa-healthomics-output/5218145/out/ancestry_wf_ref_raw_ancestry_assignments/ref_raw_ancestry_assignments.tsv"
+  ],
+  "output_prefix": "test"
+}

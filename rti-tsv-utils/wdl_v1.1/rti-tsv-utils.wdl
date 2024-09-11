@@ -112,3 +112,57 @@ task tsv_sort{
         File out_log = "~{out_prefix}.log"
     }
 }
+
+
+task tsv_append{
+    # TSV utility for combining rows from array of files with same columns
+
+    input {
+
+        Array[File] input_files
+        String output_prefix
+        Int header_row_count = 1
+
+        # Runtime environment
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 2
+        Int max_retries = 3
+
+    }
+
+    command <<<
+
+        # Write header
+        head -n ~{header_row_count} ~{input_files[0]} > ~{output_prefix}.tsv
+
+        # Append data rows
+        first_data_row=$((~{header_row_count} + 1))
+        for file in ~{sep(" ", input_files)}; do
+            if [[ $file =~ \.gz$ ]]; then
+                gunzip -c $file | tail -n +$first_data_row >> ~{output_prefix}.tsv
+            else
+                tail -n +$first_data_row $file >> ~{output_prefix}.tsv
+            fi
+        done
+
+        # Zip output file
+        gzip ~{output_prefix}.tsv
+
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        File out_tsv = "~{output_prefix}.tsv.gz"
+    }
+}
