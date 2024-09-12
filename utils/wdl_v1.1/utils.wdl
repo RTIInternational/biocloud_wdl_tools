@@ -696,3 +696,29 @@ task comm{
     }
 
 }
+
+task rename_file{
+
+    input{
+        File input_file
+        String output_filename
+        
+        # Runtime environment
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+    }
+
+    command <<<
+        mv ~{input_file} ~{output_filename}
+    >>>
+
+    output {
+        File output_file = output_filename
+    }
+    
+}
