@@ -202,9 +202,9 @@ task wc{
     command <<<
         if [[ ~{input_file} =~ \.gz$ ]]
         then
-            gunzip -c ~{input_file} | wc -l > "wc.txt"
+            gunzip -c ~{input_file} | wc -l | perl -ne '/^\s*(\d+)/; print $1;' > "wc.txt"
         else
-            wc -l ~{input_file} > "wc.txt"
+            wc -l ~{input_file} | perl -ne '/^\s*(\d+)/; print $1;' > "wc.txt"
         fi
     >>>
 
@@ -720,5 +720,5 @@ task rename_file{
     output {
         File output_file = output_filename
     }
-    
+
 }
