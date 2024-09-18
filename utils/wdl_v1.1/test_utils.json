@@ -1,0 +1,5 @@
+{
+  "input_file": "s3://rti-nida-iomics-oa-healthomics-output/1268798/logs/engine.log",
+  "output_filename": "test.log"
+}
+

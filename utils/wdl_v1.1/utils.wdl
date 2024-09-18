@@ -714,7 +714,7 @@ task rename_file{
     }
 
     command <<<
-        mv ~{input_file} ~{output_filename}
+        cp ~{input_file} ~{output_filename}
     >>>
 
     output {
