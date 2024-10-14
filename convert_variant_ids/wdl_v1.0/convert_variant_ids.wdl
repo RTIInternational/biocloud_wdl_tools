@@ -4,35 +4,38 @@ task convert_variant_ids {
 
     input {
 
-        File in_file
+        # Required parameters
         File ref
         String chr
-        Int in_header = 0
-        String in_sep = "tab"
+        File in_file
         Int in_id_col
         Int in_chr_col
         Int in_pos_col
         Int in_a1_col
         Int in_a2_col
+        String output_filename
+
+        # Optional parameters
+        Int in_header = 0
+        String in_sep = "tab"
         String in_missing_allele = "0"
         String in_deletion_allele = "-"
         String ref_deletion_allele = "."
         Int in_chunk_size = 50000
         Int ref_chunk_size = 1000000
+        Boolean? in_header_as_text = false
         Boolean? rescue_rsids
-
         String? output_compression
-        String output_filename
         String log_filename = "~{output_filename}.log"
 
         # Runtime environment
-        String docker_image = "rtibiocloud/convert_variant_ids:v1_7b4adf9"
-        String ecr_image = "rtibiocloud/convert_variant_ids:v1_7b4adf9"
+        String docker_image = "rtibiocloud/convert_variant_ids:v1_4e0952e"
+        String ecr_image = "rtibiocloud/convert_variant_ids:v1_4e0952e"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
-        Int cpu = 1
-        Int mem_gb = 1
+        Int cpu = 2
+        Int mem_gb = 4
         Int max_retries = 3
 
     }
@@ -42,6 +45,7 @@ task convert_variant_ids {
             --chr ~{chr} \
             --in_file ~{in_file} \
             --in_header ~{in_header} \
+            ~{true="--in_header_as_text" false="" in_header_as_text} \
             --in_sep ~{in_sep} \
             --in_id_col ~{in_id_col} \
             --in_chr_col ~{in_chr_col} \
