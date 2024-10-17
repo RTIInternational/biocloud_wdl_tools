@@ -43,7 +43,7 @@ task make_bed{
         # Set gene set membership
         Array[String]? gene
         String gene_prefix = if(defined(gene)) then "--gene" else ""
-        Boolean? gene_all
+        Boolean gene_all = false
 
         # Filter by attributes files
         File? attrib
@@ -54,17 +54,17 @@ task make_bed{
         # Filtering options by chr
         String? chr
         String? not_chr
-        Boolean? allow_extra_chr
-        Boolean? autosome
-        Boolean? autosome_xy
-        Boolean? prune
+        Boolean allow_extra_chr = false
+        Boolean autosome = false
+        Boolean autosome_xy = false
+        Boolean prune = false
         Array[String]? chrs
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
         Array[String]? not_chrs
         String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
         # Site type filtering
-        Boolean? snps_only
+        Boolean snps_only = false
         String? snps_only_type
         String? from_id
         String? to_id
@@ -85,7 +85,7 @@ task make_bed{
         String exclude_snps_prefix = if(defined(exclude_snps)) then "--exclude-snps" else ""
 
         # Remove duplicates
-        Boolean? rm_dup
+        Boolean rm_dup = false
         String? rm_dup_mode # error (default), retain-mismatch, exclude-mismatch, exclude-all, force-first
 
         # Arbitrary thinning
@@ -113,41 +113,41 @@ task make_bed{
         Int? min_mac
         Int? max_mac
         String? mac_mode
-        Boolean? nonfounders
-        Boolean? maf_succ
+        Boolean nonfounders = false
+        Boolean maf_succ = false
 
         # HWE filtering
         Float? hwe_pvalue
         String? hwe_mode
 
         # Sex filters
-        Boolean? allow_no_sex
-        Boolean? must_have_sex
-        Boolean? filter_females
-        Boolean? filter_males
-        Boolean? filter_controls
-        Boolean? filter_cases
-        Boolean? filter_nosex
-        Boolean? remove_females
-        Boolean? remove_males
-        Boolean? remove_nosex
+        Boolean allow_no_sex = false
+        Boolean must_have_sex = false
+        Boolean filter_females = false
+        Boolean filter_males = false
+        Boolean filter_controls = false
+        Boolean filter_cases = false
+        Boolean filter_nosex = false
+        Boolean remove_females = false
+        Boolean remove_males = false
+        Boolean remove_nosex = false
 
         # Founder status
-        Boolean? filter_founders
-        Boolean? filter_nonfounders
+        Boolean filter_founders = false
+        Boolean filter_nonfounders = false
 
         # Other data management options
-        Boolean? sort_vars
+        Boolean sort_vars = false
         String? sort_vars_mode
 
         # Re-coding heterozygous haploids
-        Boolean? set_hh_missing
-        Boolean? hh_missing_keep_dosage
-        Boolean? split_x
+        Boolean set_hh_missing = false
+        Boolean hh_missing_keep_dosage = false
+        Boolean split_x = false
         String? build_code
-        Boolean? merge_x
-        Boolean? split_no_fail
-        Boolean? merge_no_fail
+        Boolean merge_x = false
+        Boolean split_no_fail = false
+        Boolean merge_no_fail = false
 
 
         # Updating files
@@ -209,68 +209,68 @@ task make_bed{
             --threads ~{cpu} \
             ~{'--chr ' + chr} \
             ~{'--not-chr ' + not_chr} \
-            ~{true='--allow-extra-chr' false='' allow_extra_chr} \
-            ~{true='--autosome' false='' autosome} \
-            ~{true='--autosome-par' false='' autosome_xy} \
-            ~{chrs_prefix} ~{sep=', ' chrs} \
-            ~{not_chrs_prefix} ~{sep=', ' not_chrs} \
+            ~{if allow_extra_chr then '--allow-extra-chr' else ''} \
+            ~{if autosome then '--autosome' else ''} \
+            ~{if autosome_xy then '--autosome-par' else ''} \
+            ~{chrs_prefix} ~{if defined(chrs) then sep(', ', chrs) else ""} \
+            ~{not_chrs_prefix} ~{if defined(not_chrs) then sep(', ', not_chrs) else ""} \
             ~{'--keep ' + keep_samples} \
             ~{'--remove ' + remove_samples} \
             ~{'--keep-fam ' + keep_fam} \
             ~{'--remove-fam ' + remove_fam} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
-            ~{keep_cluster_names_prefix} ~{sep=' ' keep_cluster_names} \
-            ~{remove_cluster_names_prefix} ~{sep=' ' remove_cluster_names} \
+            ~{keep_cluster_names_prefix} ~{if defined(keep_cluster_names) then sep(' ', keep_cluster_names) else ""} \
+            ~{remove_cluster_names_prefix} ~{if defined(remove_cluster_names) then sep(' ', remove_cluster_names) else ""} \
             ~{'--extract ' + extract} \
             ~{'--exclude ' + exclude} \
-            ~{extract_intersect_prefix} ~{sep=' ' extract_intersect} \
-            ~{true='--snps-only' false='' snps_only} ~{snps_only_type} \
+            ~{extract_intersect_prefix} ~{if defined(extract_intersect) then sep(' ', extract_intersect) else ""} \
+            ~{if snps_only then '--snps-only' else ''} ~{snps_only_type} \
             ~{'--from ' + from_id} \
             ~{'--to ' + to_id} \
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{snps_prefix} ~{sep=', ' snps} \
-            ~{exclude_snps_prefix} ~{sep=', ' exclude_snps} \
+            ~{snps_prefix} ~{if defined(snps) then sep(', ', snps) else ""} \
+            ~{exclude_snps_prefix} ~{if defined(exclude_snps) then sep(', ', exclude_snps) else ""} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
             ~{'--to-kb ' + to_kb} \
             ~{'--from-mb ' + from_mb} \
             ~{'--to-mb ' + to_mb} \
-            ~{true='--rm-dup' false='' rm_dup} ~{rm_dup_mode} \
+            ~{if rm_dup then '--rm-dup' else ''} ~{rm_dup_mode} \
             ~{'--thin ' + thin} \
             ~{'--thin-count ' + thin_count} \
             ~{'--thin-indiv ' + thin_indiv} \
             ~{'--thin-indiv-count ' + thin_indiv_count} \
             ~{'--bp-space ' + bp_space} \
-            ~{'--filter' + filter} ~{sep=' ' filter_values} \
+            ~{'--filter' + filter} ~{if defined(filter_values) then sep(' ', filter_values) else ""} \
             ~{'--min-alleles ' + min_alleles} \
             ~{'--max-alleles ' + max_alleles} \
             ~{'--maf ' + min_maf} ~{maf_mode} \
             ~{'--max-maf ' + max_maf} ~{maf_mode} \
             ~{'--mac ' + min_mac} ~{mac_mode} \
             ~{'--max-mac ' + max_mac} ~{mac_mode} \
-            ~{true='--maf-succ' false='' maf_succ} \
+            ~{if maf_succ then '--maf-succ' else ''} \
             ~{'--hwe ' + hwe_pvalue} ~{hwe_mode} \
-            ~{true='--allow-no-sex' false='' allow_no_sex} \
-            ~{true='--keep-females' false='' filter_females} \
-            ~{true='--keep-males' false='' filter_males} \
-            ~{true='--keep-nosex' false='' filter_nosex} \
-            ~{true='--remove-females' false='' remove_females} \
-            ~{true='--remove-males' false='' remove_males} \
-            ~{true='--remove-nosex' false='' remove_nosex} \
-            ~{true='--keep-founders' false='' filter_founders} \
-            ~{true='--keep-nonfounders' false='' filter_nonfounders} \
-            ~{true='--nonfounders' false='' nonfounders} \
-            ~{true='--sort-vars' false='' sort_vars} ~{sort_vars_mode} \
-            ~{true='--set-hh-missing' false='' set_hh_missing} ~{true='keep-dosage' false='' hh_missing_keep_dosage} \
+            ~{if allow_no_sex then '--allow-no-sex' else ''} \
+            ~{if filter_females then '--keep-females' else ''} \
+            ~{if filter_males then '--keep-males' else ''} \
+            ~{if filter_nosex then '--keep-nosex' else ''} \
+            ~{if remove_females then '--remove-females' else ''} \
+            ~{if remove_males then '--remove-males' else ''} \
+            ~{if remove_nosex then '--remove-nosex' else ''} \
+            ~{if filter_founders then '--keep-founders' else ''} \
+            ~{if filter_nonfounders then '--keep-nonfounders' else ''} \
+            ~{if nonfounders then '--nonfounders' else ''} \
+            ~{if sort_vars then '--sort-vars' else ''} ~{sort_vars_mode} \
+            ~{if set_hh_missing then '--set-hh-missing' else ''} ~{if hh_missing_keep_dosage then 'keep-dosage' else ''} \
             ~{'--flip ' + flip} \
             ~{'--geno ' + geno} \
             ~{'--mind ' + mind} \
-            ~{true='--split-par' false='' split_x} ~{build_code} \
-            ~{true='--merge-par' false='' merge_x} \
+            ~{if split_x then '--split-par' else ''} ~{build_code} \
+            ~{if merge_x then '--merge-par' else ''} \
             ~{'--update-ids ' + update_ids} \
             ~{'--update-parents ' + update_parents} \
             ~{'--update-sex ' + update_sex} ~{'col-num=' + update_sex_n} \
@@ -333,7 +333,7 @@ task make_bed_plink1{
         # Set gene set membership
         Array[String]? gene
         String gene_prefix = if(defined(gene)) then "--gene" else ""
-        Boolean? gene_all
+        Boolean gene_all = false
 
         # Filter by attributes files
         File? attrib
@@ -344,17 +344,17 @@ task make_bed_plink1{
         # Filtering options by chr
         String? chr
         String? not_chr
-        Boolean? allow_extra_chr
-        Boolean? autosome
-        Boolean? autosome_xy
-        Boolean? prune
+        Boolean allow_extra_chr = false
+        Boolean autosome = false
+        Boolean autosome_xy = false
+        Boolean prune = false
         Array[String]? chrs
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
         Array[String]? not_chrs
         String not_chrs_prefix = if(defined(not_chrs)) then "--not-chr" else ""
 
         # Site type filtering
-        Boolean? snps_only
+        Boolean snps_only = false
         String? snps_only_type
         String? from_id
         String? to_id
@@ -375,7 +375,7 @@ task make_bed_plink1{
         String exclude_snps_prefix = if(defined(exclude_snps)) then "--exclude-snps" else ""
 
         # Remove duplicates
-        Boolean? rm_dup
+        Boolean rm_dup = false
         String? rm_dup_mode # error (default), retain-mismatch, exclude-mismatch, exclude-all, force-first
 
         # Arbitrary thinning
@@ -403,36 +403,36 @@ task make_bed_plink1{
         Int? min_mac
         Int? max_mac
         String? mac_mode
-        Boolean? nonfounders
-        Boolean? maf_succ
+        Boolean nonfounders = false
+        Boolean maf_succ = false
 
         # HWE filtering
         Float? hwe_pvalue
         String? hwe_mode
 
         # Sex filters
-        Boolean? allow_no_sex
-        Boolean? must_have_sex
-        Boolean? filter_females
-        Boolean? filter_males
-        Boolean? filter_controls
-        Boolean? filter_cases
+        Boolean allow_no_sex = false
+        Boolean must_have_sex = false
+        Boolean filter_females = false
+        Boolean filter_males = false
+        Boolean filter_controls = false
+        Boolean filter_cases = false
 
         # Founder status
-        Boolean? filter_founders
-        Boolean? filter_nonfounders
+        Boolean filter_founders = false
+        Boolean filter_nonfounders = false
 
         # Other data management options
-        Boolean? sort_vars
+        Boolean sort_vars = false
         String? sort_vars_mode
 
         # Re-coding heterozygous haploids
-        Boolean? set_hh_missing
-        Boolean? split_x
+        Boolean set_hh_missing = false
+        Boolean split_x = false
         String? build_code
-        Boolean? merge_x
-        Boolean? split_no_fail
-        Boolean? merge_no_fail
+        Boolean merge_x = false
+        Boolean split_no_fail = false
+        Boolean merge_no_fail = false
 
 
         # Updating files
@@ -495,64 +495,64 @@ task make_bed_plink1{
             ~{'--remove-fam ' + remove_fam} \
             ~{'--keep-clusters ' + keep_clusters} \
             ~{'--remove-clusters ' + remove_clusters} \
-            ~{keep_cluster_names_prefix} ~{sep=' ' keep_cluster_names} \
-            ~{remove_cluster_names_prefix} ~{sep=' ' remove_cluster_names} \
-            ~{gene_prefix} ~{sep=' ' gene} \
-            ~{true='--gene-all' false='' gene_all} \
+            ~{keep_cluster_names_prefix} ~{if defined(keep_cluster_names) then sep(' ', keep_cluster_names) else ""} \
+            ~{remove_cluster_names_prefix} ~{if defined(remove_cluster_names) then sep(' ', remove_cluster_names) else ""} \
+            ~{gene_prefix} ~{if defined(gene) then sep(' ', gene) else ""} \
+            ~{if gene_all then '--gene-all' else ''} \
             ~{'--attrib' + attrib} ~{attrib_filter} \
             ~{'--attrib-indiv' + attrib_indiv} ~{attrib_indiv_filter} \
             ~{'--chr ' + chr} \
             ~{'--not-chr ' + not_chr} \
-            ~{chrs_prefix} ~{sep=', ' chrs} \
-            ~{not_chrs_prefix} ~{sep=', ' not_chrs} \
-            ~{true='--allow-extra-chr' false='' allow_extra_chr}\
-            ~{true='--autosome' false='' autosome} \
-            ~{true='--autosome-xy' false='' autosome_xy} \
-            ~{true='--snps-only' false='' snps_only} ~{snps_only_type} \
+            ~{chrs_prefix} ~{if defined(chrs) then sep(', ', chrs) else ""} \
+            ~{not_chrs_prefix} ~{if defined(not_chrs) then sep(', ', not_chrs) else ""} \
+            ~{if allow_extra_chr then '--allow-extra-chr' else ''}\
+            ~{if autosome then '--autosome' else ''} \
+            ~{if autosome_xy then '--autosome-xy' else ''} \
+            ~{if snps_only then '--snps-only' else ''} ~{snps_only_type} \
             ~{'--from ' + from_id} \
             ~{'--to ' + to_id} \
             ~{'--snp ' + snp} \
             ~{'--window ' +  window} \
             ~{'--exclude-snp ' + exclude_snp} \
-            ~{snps_prefix} ~{sep=', ' snps} \
-            ~{exclude_snps_prefix} ~{sep=', ' exclude_snps} \
+            ~{snps_prefix} ~{if defined(snps) then sep(', ', snps) else ""} \
+            ~{exclude_snps_prefix} ~{if defined(exclude_snps) then sep(', ', exclude_snps) else ""} \
             ~{'--from-bp ' + from_bp} \
             ~{'--to-bp ' + to_bp} \
             ~{'--from-kb ' + from_kb} \
             ~{'--to-kb ' + to_kb} \
             ~{'--from-mb ' + from_mb} \
             ~{'--to-mb ' + to_mb} \
-            ~{true='--rm-dup' false='' rm_dup} ~{rm_dup_mode} \
+            ~{if rm_dup then '--rm-dup' else ''} ~{rm_dup_mode} \
             ~{'--thin ' + thin} \
             ~{'--thin-count ' + thin_count} \
             ~{'--thin-indiv ' + thin_indiv} \
             ~{'--thin-indiv-count ' + thin_indiv_count} \
             ~{'--bp-space ' + bp_space} \
-            ~{'--filter' + filter} ~{sep=' ' filter_values} \
+            ~{'--filter' + filter} ~{if defined(filter_values) then sep(' ', filter_values) else ""} \
             ~{'--mfilter' + mfilter} \
             ~{'--geno ' + max_missing_geno_rate} \
             ~{'--mind ' + max_missing_ind_rate} \
-            ~{true='--prune' false='' prune} \
+            ~{if prune then '--prune' else ''} \
             ~{'--min-alleles ' + min_alleles} \
             ~{'--max-alleles ' + max_alleles} \
             ~{'--maf ' + min_maf} ~{maf_mode} \
             ~{'--max-maf ' + max_maf} ~{maf_mode} \
             ~{'--mac ' + min_mac} ~{mac_mode} \
             ~{'--max-mac ' + max_mac} ~{mac_mode} \
-            ~{true='--maf-succ' false='' maf_succ} \
+            ~{if maf_succ then '--maf-succ' else ''} \
             ~{'--hwe ' + hwe_pvalue} ~{hwe_mode} \
-            ~{true='--allow-no-sex' false='' allow_no_sex} \
-            ~{true='--filter-females' false='' filter_females} \
-            ~{true='--filter-males' false='' filter_males} \
-            ~{true='--filter-cases' false='' filter_cases} \
-            ~{true='--filter-controls' false='' filter_controls} \
-            ~{true='--filter-founders' false='' filter_founders} \
-            ~{true='--filter-nonfounders' false='' filter_nonfounders} \
-            ~{true='--nonfounders' false='' nonfounders} \
-            ~{true='--sort-vars' false='' sort_vars} ~{sort_vars_mode} \
-            ~{true='--set-hh-missing' false='' set_hh_missing} \
-            ~{true='--split-x' false='' split_x} ~{build_code} ~{true='no-fail' false='' split_no_fail} \
-            ~{true='--merge-x' false='' merge_x} ~{true='no-fail' false='' merge_no_fail} \
+            ~{if allow_no_sex then '--allow-no-sex' else ''} \
+            ~{if filter_females then '--filter-females' else ''} \
+            ~{if filter_males then '--filter-males' else ''} \
+            ~{if filter_cases then '--filter-cases' else ''} \
+            ~{if filter_controls then '--filter-controls' else ''} \
+            ~{if filter_founders then '--filter-founders' else ''} \
+            ~{if filter_nonfounders then '--filter-nonfounders' else ''} \
+            ~{if nonfounders then '--nonfounders' else ''} \
+            ~{if sort_vars then '--sort-vars' else ''} ~{sort_vars_mode} \
+            ~{if set_hh_missing then '--set-hh-missing' else ''} \
+            ~{if split_x then '--split-x' else ''} ~{build_code} ~{if split_no_fail then 'no-fail' else ''} \
+            ~{if merge_x then '--merge-x' else ''} ~{if merge_no_fail then 'no-fail' else ''} \
             ~{'--update-ids ' + update_ids} \
             ~{'--update-parents ' + update_parents} \
             ~{'--update-sex ' + update_sex} ~{update_sex_n} \
@@ -584,7 +584,7 @@ task merge_beds{
         Array[File] bim_in
         Array[File] fam_in
         String output_basename
-        Boolean? allow_no_sex
+        Boolean allow_no_sex = false
 
         String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
         String ecr_image = "rtibiocloud/plink:v1.9-77ee25f"
@@ -599,17 +599,17 @@ task merge_beds{
 
     command <<<
         # Write bed files to file
-        for file in ~{sep=' ' bed_in}; do
+        for file in ~{sep(' ', bed_in)}; do
             echo "$file" >> bed_files.txt
         done
 
         # Write bim files to file
-        for file in ~{sep=' ' bim_in}; do
+        for file in ~{sep(' ', bim_in)}; do
             echo "$file" >> bim_files.txt
         done
 
         # Write fam files to file
-        for file in ~{sep=' ' fam_in}; do
+        for file in ~{sep(' ', fam_in)}; do
             echo "$file" >> fam_files.txt
         done
 
@@ -620,7 +620,7 @@ task merge_beds{
         plink --make-bed \
             --threads ~{cpu} \
             --merge-list merge_list.txt \
-            ~{true='--allow-no-sex' false='' allow_no_sex} \
+            ~{if allow_no_sex then '--allow-no-sex' else ''} \
             --out ~{output_basename}
     >>>
 
@@ -653,7 +653,7 @@ task merge_two_beds{
         String input_prefix_b = basename(sub(bed_in_b, "\\.gz$", ""), ".bed")
         Int? merge_mode
         Boolean ignore_errors = false
-        Boolean? allow_no_sex
+        Boolean allow_no_sex = false
         String output_basename
 
         String docker_image = "rtibiocloud/plink:v1.9-77ee25f"
@@ -687,7 +687,7 @@ task merge_two_beds{
             --bfile plink_input/~{input_prefix_a} \
             --bmerge plink_input/~{input_prefix_b} \
             ~{'--merge-mode ' + merge_mode} \
-            ~{true='--allow-no-sex' false='' allow_no_sex} \
+            ~{if allow_no_sex then '--allow-no-sex' else ''} \
             --out ~{output_basename} \
             --threads ~{cpu}
 
@@ -827,7 +827,7 @@ task prune_ld_markers{
         Float? r2_threshold
         Float? vif_threshold
         Int? x_chr_mode
-        Boolean? bad_ld
+        Boolean bad_ld = false
 
         # Runtime environment
         String docker_image = "rtibiocloud/plink:v2.0_888cf13"
@@ -875,7 +875,7 @@ task prune_ld_markers{
             ~{'--exclude range ' + exclude_regions} \
             --out ~{output_basename} \
             --threads ~{cpu} \
-            ~{true='--bad-ld' false='' bad_ld} \
+            ~{if bad_ld then '--bad-ld' else ''} \
             --output-chr ~{output_chr}
     >>>
 
@@ -1000,9 +1000,9 @@ task contains_chr{
         fi
 
         if [ -s results.txt ]; then
-            echo "true"
+            echo "true" > contains.txt
         else
-            echo "false"
+            echo "false" > contains.txt
         fi
     >>>
 
@@ -1013,8 +1013,9 @@ task contains_chr{
     }
 
     output {
-        Boolean contains = read_boolean(stdout())
+        Boolean contains = read_boolean("contains.txt")
     }
+    
 }
 
 task get_excess_homo_samples{
@@ -1188,11 +1189,11 @@ task get_bim_chrs{
 
     command <<<
         # Can't just use cut/sort/uniq bc we need chrs in order and strings like MT would efff that up by forcing alphabetical sorting
-        # Solution here is just to scan the file with awk and print every time it sees a new chr
+        # Solution here is just to scan the file with perl and print every time it sees a new chr
         if [[ ~{bim_in} =~ \.gz$ ]]; then
-            gunzip -c ~{bim_in} | awk '{if(!($1 in arr)){print $1};arr[$1]++}'
+            gunzip -c ~{bim_in} | perl -lane 'BEGIN{ %chrs = (); } if (!exists($chrs{$F[0]})) { print $F[0]; $chrs{$F[0]} = 1}' > "chrs.txt"
         else
-           cat ~{bim_in} | awk '{if(!($1 in arr)){print $1};arr[$1]++}'
+           perl -lane 'BEGIN{ %chrs = (); } if (!exists($chrs{$F[0]})) { print $F[0]; $chrs{$F[0]} = 1}' > "chrs.txt"
         fi
     >>>
 
@@ -1203,7 +1204,7 @@ task get_bim_chrs{
     }
 
     output {
-        Array[String] chrs = read_lines(stdout())
+        Array[String] chrs = read_lines("chrs.txt")
     }
 }
 
@@ -1222,8 +1223,8 @@ task hardy{
 
         Float hwe_pvalue = 0.0
         String? hwe_mode
-        Boolean? filter_females
-        Boolean? nonfounders
+        Boolean filter_females = false
+        Boolean nonfounders = false
         Array[String]? chrs
         String chrs_prefix = if(defined(chrs)) then "--chr" else ""
 
@@ -1273,9 +1274,9 @@ task hardy{
             --hardy \
             --threads ~{cpu} \
             --out ~{output_basename} \
-            ~{true='--keep-females' false='' filter_females} \
-            ~{true='--nonfounders' false='' nonfounders} \
-            ~{chrs_prefix} ~{sep=', ' chrs} \
+            ~{if filter_females then '--keep-females' else ''} \
+            ~{if nonfounders then '--nonfounders' else ''} \
+            ~{chrs_prefix} ~{if defined(chrs) then sep(', ', chrs) else ""} \
             ~{'--keep ' + keep_samples} \
             ~{'--remove ' + remove_samples} \
             --output-chr ~{output_chr}
@@ -1434,7 +1435,7 @@ task convert_bgen_to_vcf {
             ~{'--remove ' + remove} \
             ~{'--extract ' + extract} \
             ~{'--exclude ' + exclude} \
-            ~{true='--rm-dup ' false='' rm_dup} ~{rm_dup_mode} \
+            ~{if rm_dup then '--rm-dup ' else ''} ~{rm_dup_mode} \
             --export vcf bgz vcf-dosage=~{vcf_dosage} \
             --out ~{output_basename}
     >>>
@@ -1487,7 +1488,7 @@ task make_founders{
         # Get expected heterozygosity for each sample
         plink --fam plink_input/~{input_prefix}.fam \
             --make-just-fam \
-            --make-founders ~{true='require-2-missing' false='' require_2_missing} ~{true='first' false='' first} \
+            --make-founders ~{if require_2_missing then 'require-2-missing' else ''} ~{if first then 'first' else ''} \
             --out ~{output_basename}
     >>>
 
@@ -1604,7 +1605,7 @@ task convert_bed_to_vcf{
 
         # Get expected heterozygosity for each sample
         plink --bfile plink_input/~{input_prefix} \
-            --recode vcf ~{true='bgz' false='' bgzip_output} \
+            --recode vcf ~{if bgzip_output then 'bgz' else ''} \
             ~{'--chr ' + chr} \
             --out ~{output_basename}
     >>>
@@ -1634,13 +1635,13 @@ task calculate_ld {
         File? vcf
         File? bgen
         File? sample
-        Boolean? allow_extra_chr
+        Boolean allow_extra_chr = false
 
         # Output file parameters
         String output_basename
         String? output_format   # square, square0 triangle inter-chr
-        Boolean? with_freqs
-        Boolean? yes_really
+        Boolean with_freqs = false
+        Boolean yes_really = false
 
         # Stat
         String? correlation_stat = "r2"
@@ -1690,7 +1691,7 @@ task calculate_ld {
             $parameter_vcf \
             $parameter_bgen \
             $parameter_sample \
-            ~{true='--allow-extra-chr' false='' allow_extra_chr} \
+            ~{if allow_extra_chr then '--allow-extra-chr' else ''} \
             ~{'--keep ' + keep} \
             ~{'--remove ' + remove} \
             --out ~{output_basename} \
@@ -1698,8 +1699,8 @@ task calculate_ld {
                 ~{output_format} \
                 gz \
                 ~{dprime} \
-                ~{true='with-freqs' false='' with_freqs} \
-                ~{true='yes-really' false='' yes_really} \
+                ~{if with_freqs then 'with-freqs' else ''} \
+                ~{if yes_really then 'yes-really' else ''} \
             ~{'--ld-window ' + ld_window} \
             ~{'--ld-window-kb ' + ld_window_kb} \
             ~{'--ld-window-r2 ' + ld_window_r2} \
@@ -1754,7 +1755,7 @@ task convert_bgen_v1_2_to_v1_1 {
             --sample ~{sample_in} \
             ~{'--keep ' + keep} \
             ~{'--remove ' + remove} \
-            ~{true='--rm-dup ' false='' rm_dup} ~{rm_dup_mode} \
+            ~{if rm_dup then '--rm-dup ' else ''} ~{rm_dup_mode} \
             --export bgen-1.1 \
             --out ~{output_basename}
     >>>
