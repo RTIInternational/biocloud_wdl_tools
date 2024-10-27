@@ -51,9 +51,9 @@ task cov_ldsc {
     }
 
     output {
-        File m_file = "~{output_basename}.M"
-        File m_5_50_file = "~{output_basename}.M_5_50"
-        File ldscore_out = "~{output_basename}.ldscore.gz"
+        File m_file = "~{output_basename}.l2.M"
+        File m_5_50_file = "~{output_basename}.l2.M_5_50"
+        File ldscore_out = "~{output_basename}.l2.ldscore.gz"
         File log = "~{output_basename}.log"
     }
 
