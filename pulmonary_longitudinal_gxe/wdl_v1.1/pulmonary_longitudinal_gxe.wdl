@@ -12,10 +12,11 @@ task run_gxe {
         String pheno
         String omega3
         String file_out_prefix
+        Int nchunks = 100
 
         # Runtime environment
-        String docker_image = "rtibiocloud/pulmonary_longitudinal_gxe:v1_200e543"
-        String ecr_image = "rtibiocloud/pulmonary_longitudinal_gxe:v1_200e543"
+        String docker_image = "rtibiocloud/pulmonary_longitudinal_gxe:v1_9c94ff2"
+        String ecr_image = "rtibiocloud/pulmonary_longitudinal_gxe:v1_9c94ff2"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -27,6 +28,7 @@ task run_gxe {
     command <<<
         set -e pipefail
         Rscript /opt/run_gxe.R \
+            --working_dir "/data" \
             --file-bgen "~{file_bgen}" \
             --file-bgi "~{file_bgi}" \
             --file-sample "~{file_sample}" \
@@ -36,6 +38,7 @@ task run_gxe {
             --omega3 "~{omega3}" \
             --file-out-prefix "~{file_out_prefix}" \
             --ncores ~{cpu} > \
+            --nchunks ~{nchunks}
             "~{file_out_prefix}.log" 2>&1
     >>>
 
