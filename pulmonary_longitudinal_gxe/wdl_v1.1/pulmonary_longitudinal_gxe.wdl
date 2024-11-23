@@ -37,8 +37,8 @@ task run_gxe {
             --pheno "~{pheno}" \
             --omega3 "~{omega3}" \
             --file-out-prefix "~{file_out_prefix}" \
-            --ncores ~{cpu} > \
-            --nchunks ~{nchunks}
+            --ncores ~{cpu} \
+            --nchunks ~{nchunks} > \
             "~{file_out_prefix}.log" 2>&1
     >>>
 
