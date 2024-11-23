@@ -28,7 +28,7 @@ task run_gxe {
     command <<<
         set -e pipefail
         Rscript /opt/run_gxe.R \
-            --working_dir "/data" \
+            --working-dir "/data" \
             --file-bgen "~{file_bgen}" \
             --file-bgi "~{file_bgi}" \
             --file-sample "~{file_sample}" \
