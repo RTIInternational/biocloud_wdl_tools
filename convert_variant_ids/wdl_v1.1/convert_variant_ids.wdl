@@ -29,8 +29,8 @@ task convert_variant_ids {
         String log_filename = "~{output_filename}.log"
 
         # Runtime environment
-        String docker_image = "rtibiocloud/convert_variant_ids:v1_c6b8fc1"
-        String ecr_image = "rtibiocloud/convert_variant_ids:v1_c6b8fc1"
+        String docker_image = "rtibiocloud/convert_variant_ids:v1_fb59a34"
+        String ecr_image = "rtibiocloud/convert_variant_ids:v1_fb59a34"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
