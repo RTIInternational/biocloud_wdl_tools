@@ -36,16 +36,16 @@ task convert_variant_ids {
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = 4
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
         python /opt/convert_variant_ids.py \
             --chr ~{chr} \
             --in_file ~{in_file} \
             --in_header ~{in_header} \
-            ~{true="--in_header_as_text" false="" in_header_as_text} \
+            ~{if in_header_as_text then "--in_header_as_text" else ""} \
             --in_sep ~{in_sep} \
             --in_id_col ~{in_id_col} \
             --in_chr_col ~{in_chr_col} \
@@ -59,7 +59,7 @@ task convert_variant_ids {
             --ref_deletion_allele "~{ref_deletion_allele}" \
             --ref_chunk_size ~{ref_chunk_size} \
             ~{'--out_compression ' + output_compression} \
-            ~{true="--rescue_rsids" false="" rescue_rsids} \
+            ~{if rescue_rsids then "--rescue_rsids" else ""} \
             --out_file ~{output_filename} \
             --log_file ~{log_filename}
     >>>
@@ -68,7 +68,6 @@ task convert_variant_ids {
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output {

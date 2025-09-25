@@ -22,11 +22,12 @@ task tsv_append{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = 4
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
+
         # Unzip/decompress files to working directory
         tar -xvzf ~{tsv_inputs_tarball} -C ./
 
@@ -40,8 +41,8 @@ task tsv_append{
         # Concat all files together
         tsv-append \
             ~{"--source-header " + source_header} \
-            ~{true="--header" false="" header} \
-            ~{true="--track-source" false="" track_source} \
+            ~{if header then "--header" else ""} \
+            ~{if track_source then "--track-source" else ""} \
             ~{"--delimiter '" + delimiter + "'"} \
             ~{tsv_dir}/* > ~{output_filename}
     >>>
@@ -50,7 +51,6 @@ task tsv_append{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -82,11 +82,11 @@ task tsv_filter{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = 4
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
 
         input_file=~{tsv_input}
 
@@ -98,9 +98,9 @@ task tsv_filter{
         fi
 
         tsv-filter \
-            ~{true="--header" false="" header} \
-            ~{true="--or" false="" or_filter} \
-            ~{true="--invert" false="" invert} \
+            ~{if header then "--header" else ""} \
+            ~{if or_filter then "--or" else ""} \
+            ~{if invert then "--invert" else ""} \
             ~{"--delimiter '" + delimiter + "'"} \
             ~{filter_string} \
             $input_file > ~{output_filename}
@@ -110,7 +110,6 @@ task tsv_filter{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -138,11 +137,11 @@ task tsv_select{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = 4
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
 
         input_file=~{tsv_input}
 
@@ -153,9 +152,9 @@ task tsv_select{
             input_file=input.txt
         fi
         tsv-select \
-            ~{true="--header" false="" header} \
+            ~{if header then "--header" else ""} \
             ~{"--delimiter '" + delimiter + "'"} \
-            --fields ~{sep="," fields} \
+            --fields ~{sep(",", fields)} \
             --rest ~{rest} \
             $input_file > ~{output_filename}
     >>>
@@ -164,7 +163,6 @@ task tsv_select{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -199,12 +197,12 @@ task tsv_join{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 2
         Int mem_gb = ceil(size(tsv_filter_file, "GiB") * 2) + 2
-        Int max_retries = 3
 
     }
 
     command <<<
-
+        set -e
+        
         input_file=~{tsv_input}
         filter_file=~{tsv_filter_file}
 
@@ -228,12 +226,12 @@ task tsv_join{
             ~{"--key-fields " + key_fields} \
             ~{"--data-fields " + data_fields} \
             ~{"--append-fields " + append_fields} \
-            ~{true="--header" false="" header} \
+            ~{if header then "--header" else ""} \
             ~{"--prefix " + prefix} \
             ~{"--delimiter '" + delimiter + "'"} \
-            ~{true="--write-all " false="" write_unmatched}~{write_unmatched_str} \
-            ~{true="--exclude" false="" exclude} \
-            ~{true="--allow-duplicate-keys" false="" allow_duplicate_keys} \
+            ~{if write_unmatched then "--write-all " + write_unmatched_str else ""} \
+            ~{if exclude then "--exclude" else ""} \
+            ~{if allow_duplicate_keys then "--allow-duplicate-keys" else ""} \
             $input_file > ~{output_filename}
     >>>
 
@@ -241,7 +239,6 @@ task tsv_join{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{

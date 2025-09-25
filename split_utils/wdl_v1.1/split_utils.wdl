@@ -19,11 +19,11 @@ task split_vcf{
         Int cpu = 8
         Int unzip_cpu = cpu - 1
         Int mem_gb = 8
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
         if [[ ~{input_vcf} =~ \.gz$ ]]
         then
             # CASE: File is gzipped and needs to be decompressed on the fly (pigz for multithreaded)
@@ -59,7 +59,6 @@ task split_vcf{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -86,11 +85,11 @@ task split_vcf_info{
         Int cpu = 8
         Int unzip_cpu = cpu - 1
         Int mem_gb = 8
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
         if [[ ~{input_vcf_info} =~ \.gz$ ]]
         then
             # CASE: File is gzipped and needs to be decompressed on the fly (pigz for multithreaded)
@@ -126,7 +125,6 @@ task split_vcf_info{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -160,7 +158,6 @@ task split_file{
         Int cpu = 2
         Int unzip_cpu = cpu - 1
         Int mem_gb = 2
-        Int max_retries = 3
 
     }
 
@@ -214,7 +211,6 @@ task split_file{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{

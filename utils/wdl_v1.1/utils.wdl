@@ -19,6 +19,7 @@ task append {
     }
 
     command <<<
+        set -e
         cat ~{write_lines(a)} > "array.txt"
         ~{'echo ' + b} >> "array.txt"
     >>>
@@ -49,7 +50,6 @@ task collect_files{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
-        Int max_retries = 3
 
     }
 
@@ -72,7 +72,7 @@ task collect_files{
         mkdir -p ~{output_dir_name}
 
         # Loop through files in input file and copy/decompress them to output dir
-        for input_file in ~{sep=" " input_files}; do
+        for input_file in ~{sep(" ", input_files)}; do
 
             if [[ $input_file == *.tar.gz ]]; then
                 # Untar directory into output directory
@@ -96,7 +96,6 @@ task collect_files{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -131,6 +130,7 @@ task slice{
     }
 
     command <<<
+        set -e
         tail -n +~{actual_start_pos} ~{write_lines(inputs)} | head -~{slice_size} > "slice.txt"
     >>>
 
@@ -163,8 +163,9 @@ task remove_empty_files{
     }
 
     command <<<
+        set -e
         mkdir non_empty_files
-        for file in ~{sep=' ' input_files}; do
+        for file in ~{sep(" ", input_files)}; do
             if [ -s $file ];then
                 cp $file non_empty_files
             fi
@@ -200,6 +201,7 @@ task wc{
     }
 
     command <<<
+        set -e
         if [[ ~{input_file} =~ \.gz$ ]]
         then
             gunzip -c ~{input_file} | wc -l | perl -ne '/^\s*(\d+)/; print $1;' > "wc.txt"
@@ -239,6 +241,7 @@ task cut{
     }
 
     command <<<
+        set -e
         cut ~{args} ~{input_file} > ~{output_filename}
     >>>
 
@@ -268,13 +271,12 @@ task get_file_union{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
-        Int max_retries = 3
 
     }
 
     command <<<
         set -e
-        for file in ~{sep=" " input_files}
+        for file in ~{sep(" ", input_files)}
         do
             cat $file >> all_files.txt
         done
@@ -287,7 +289,6 @@ task get_file_union{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -312,11 +313,11 @@ task replace_chr{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
         sed 's/~{char}/~{new_char}/g' ~{input_file} > ~{output_filename}
     >>>
 
@@ -324,7 +325,6 @@ task replace_chr{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -347,6 +347,7 @@ task raise_error{
     }
 
     command <<<
+        set -e
         echo '~{msg}' > err_msg.txt
         exit 1
     >>>
@@ -355,7 +356,6 @@ task raise_error{
         docker: container_image
         cpu: 1
         memory: "500 MB"
-        maxRetries: 1
     }
 
     output{
@@ -379,15 +379,15 @@ task cat{
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 2
-        Int max_retries = 3
 
     }
 
     command <<<
+        set -e
         if [[ '~{input_gzipped}' == 'true' ]]; then
-            zcat ~{sep=" " input_files} > ~{output_filename}
+            zcat ~{sep(" ", input_files)} > ~{output_filename}
         else
-            cat ~{sep=" " input_files} > ~{output_filename}
+            cat ~{sep(" ", input_files)} > ~{output_filename}
         fi
     >>>
 
@@ -395,7 +395,6 @@ task cat{
         docker: container_image
         cpu: cpu
         memory: "~{mem_gb} GB"
-        maxRetries: max_retries
     }
 
     output{
@@ -420,6 +419,7 @@ task get_file_extension{
     }
 
     command <<<
+        set -e
         echo ~{input_file} | awk -F '\.' \
             '{
                 extension = ""
@@ -461,7 +461,7 @@ task array_contains{
     command <<<
         set -e
         contains=0
-        for i in ~{sep=" " input_array};do
+        for i in ~{sep(" ", input_array)};do
             if [[ "~{query}" == "$i" ]];then
                 echo "true" > contains.txt
                 contains=1
@@ -507,6 +507,7 @@ task append_column{
     }
 
     command <<<
+        set -e
         awk ~{f_arg} ~{ofs_arg} '{ $(NF+1) = "~{value}"; print }' ~{input_file} > ~{output_filename}
     >>>
 
@@ -542,9 +543,10 @@ task paste{
     }
 
     command <<<
+        set -e
         paste ~{'-d ' + delim} \
-            ~{true='-s' false='' s} \
-            ~{sep=" " input_files} > ~{output_filename}
+            ~{if s then '-s' else ''} \
+            ~{sep(" ", input_files)} > ~{output_filename}
     >>>
 
     runtime {
@@ -574,6 +576,7 @@ task array_equals{
     }
 
     command <<<
+        set -e
         diff ~{write_lines(array_a)} ~{write_lines(array_b)} > compare.txt
         if [ -s compare.txt ];then
             echo "false" > is_equal.txt
@@ -614,6 +617,7 @@ task shuf{
     }
 
     command <<<
+        set -e
         shuf ~{"-n " + n} ~{input_file}  > ~{output_filename}
     >>>
 
@@ -647,7 +651,8 @@ task sum_ints {
     }
 
     command <<<
-        echo $((~{sep="+" ints})) > "sum.txt"
+        set -e
+        echo $((~{sep("+", ints)})) > "sum.txt"
     >>>
     
     runtime {
@@ -680,6 +685,7 @@ task comm{
     }
 
     command <<<
+        set -e
         sort ~{file1} > "file1_sorted.txt"
         sort ~{file2} > "file2_sorted.txt"
         comm ~{option} "file1_sorted.txt" "file2_sorted.txt" > ~{output_filename}
@@ -714,6 +720,7 @@ task rename_file{
     }
 
     command <<<
+        set -e
         cp ~{input_file} ~{output_filename}
     >>>
 
@@ -721,4 +728,71 @@ task rename_file{
         File output_file = "~{output_filename}"
     }
 
+}
+
+task gzip{
+
+    input{
+        File input_file
+        String? user_filename
+        String default_filename = basename(input_file) + ".gz"
+        String output_filename = select_first([user_filename, default_filename])
+
+        String docker_image = "rtibiocloud/pigz:v2.4_b243f9"
+        String ecr_image = "rtibiocloud/pigz:v2.4_b243f9"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+    }
+
+
+    command <<<
+        set -e
+        pigz -ck -p${cpu} ${input_file} > ${output_filename}
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output{
+        File output_file = "${output_filename}"
+    }
+}
+
+task gunzip{
+
+    input{
+        File input_file
+        String? user_filename
+        String default_filename = basename(input_file, ".gz")
+        String output_filename = select_first([user_filename, default_filename])
+
+        String docker_image = "rtibiocloud/pigz:v2.4_b243f9"
+        String ecr_image = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4_b243f9"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+    }
+
+    command <<<
+        set -e
+        unpigz -ck -p${cpu} ${input_file} > ${output_filename}
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "${mem_gb} GB"
+    }
+
+    output{
+        File output_file = "${output_filename}"
+    }
 }
