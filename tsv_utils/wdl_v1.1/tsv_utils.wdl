@@ -66,9 +66,9 @@ task tsv_filter{
         File tsv_input
         String output_filename
         Boolean header = true
-        Boolean? invert
+        Boolean invert = false
         String? delimiter
-        Boolean? or_filter  # Evaluate tests as an OR rather than an AND clause.
+        Boolean or_filter = false  # Evaluate tests as an OR rather than an AND clause.
 
         # Filtering criteria (see tsv-filter options for more details
         # There are too many options here to parameterize so just pass as a string
@@ -183,10 +183,10 @@ task tsv_join{
         Boolean header = true
         String? delimiter
         String prefix = "none"
-        Boolean? write_unmatched
+        Boolean write_unmatched = false
         String? write_unmatched_str
-        Boolean? exclude
-        Boolean? allow_duplicate_keys
+        Boolean exclude = false
+        Boolean allow_duplicate_keys = false
         String output_filename
 
         # Runtime environment

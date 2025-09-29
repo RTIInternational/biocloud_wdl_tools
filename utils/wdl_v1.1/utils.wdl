@@ -528,7 +528,7 @@ task paste{
 
         Array[File] input_files
         String? delim
-        Boolean? s
+        Boolean s = false
         String output_filename
 
         # Runtime environment

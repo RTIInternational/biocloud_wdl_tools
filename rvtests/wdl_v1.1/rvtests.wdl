@@ -7,13 +7,13 @@ task rvtests {
         File phenoFile
         String output_basename
         File? covarFile
-        Boolean? inverseNormal
-        Boolean? useResidualAsPhenotype
-        Boolean? outputRaw
-        Boolean? sex
-        Boolean? qtl
-        Boolean? multipleAllele
-        Boolean? xHemi
+        Boolean inverseNormal = false
+        Boolean useResidualAsPhenotype = false
+        Boolean outputRaw = false
+        Boolean sex = false
+        Boolean qtl = false
+        Boolean multipleAllele = false
+        Boolean xHemi = false
         String? xLabel
         String? xParRegion
         String? dosage
@@ -45,7 +45,7 @@ task rvtests {
         Int ?siteDepthMax
         String? annoType
         String? impute
-        Boolean? imputePheno
+        Boolean imputePheno = false
         File? geneFile
         Array[String]? genes
         String genesPrefix = if defined(genes) then "--genes " else ""
@@ -57,8 +57,8 @@ task rvtests {
         File? xHemiKinship
         File? kinshipEigen
         File? xHemiKinshipEigen
-        Boolean? hideCovar
-        Boolean? outputID
+        Boolean hideCovar = false
+        Boolean outputID = false
 
         # Runtime attributes
         String docker_image = "rtibiocloud/rvtests:v2.1.0-8d966cb"
@@ -138,15 +138,15 @@ task vcf2kinship  {
         File? inputVcf
         File? pedfile
         String? dosage
-        Boolean? xHemi
+        Boolean xHemi = false
         String? xLabel
         Float? maxMiss
         Float? minMAF
         Float? minSiteQual
 
         String output_basename
-        Boolean useBaldingNicols
-        Boolean useIBS
+        Boolean useBaldingNicols = false
+        Boolean useIBS = false
 
         # Runtime attributes
         String docker_image = "rtibiocloud/rvtests:v2.1.0-8d966cb"

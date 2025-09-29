@@ -12,23 +12,23 @@ task generate_gwas_plots{
         String output_basename
 
         Boolean in_header = true
-        Boolean? in_csv
+        Boolean in_csv = false
         File? highlight_list
 
         Boolean generate_manhattan_plot = true
         Boolean generate_qq_plot = true
-        Boolean? generate_snp_manhattan_plot
-        Boolean? generate_indel_manhattan_plot
-        Boolean? generate_snp_indel_manhattan_plot
-        Boolean? generate_snp_qq_plot
-        Boolean? generate_indel_qq_plot
-        Boolean? generate_snp_indel_qq_plot
+        Boolean generate_snp_manhattan_plot = false
+        Boolean generate_indel_manhattan_plot = false
+        Boolean generate_snp_indel_manhattan_plot = false
+        Boolean generate_snp_qq_plot = false
+        Boolean generate_indel_qq_plot = false
+        Boolean generate_snp_indel_qq_plot = false
 
         Boolean qq_lambda = true
         Boolean qq_lines = true
-        Boolean? qq_significance_line
+        Boolean qq_significance_line = false
         Int? manhattan_ylim
-        Boolean? manhattan_no_line
+        Boolean manhattan_no_line = false
         String? manhattan_odd_chr_color
         String? manhattan_even_chr_color
         String? manhattan_highlight_chr_color
@@ -39,9 +39,9 @@ task generate_gwas_plots{
         # Runtime options
         String docker_image = "rtibiocloud/generate_gwas_plots:v1_781a9d2"
         String ecr_image = "rtibiocloud/generate_gwas_plots:v1_781a9d2"
-        String container_source = "docker"
+        String image_source = "docker"
         String? ecr_repo
-        String container_image = if(container_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
         Int cpu = 1
         Int mem_gb = 16
     }

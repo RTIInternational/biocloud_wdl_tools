@@ -23,8 +23,8 @@ task convert_variant_ids {
         String ref_deletion_allele = "."
         Int in_chunk_size = 50000
         Int ref_chunk_size = 1000000
-        Boolean? in_header_as_text = false
-        Boolean? rescue_rsids
+        Boolean in_header_as_text = false
+        Boolean rescue_rsids = false
         String? output_compression
         String log_filename = "~{output_filename}.log"
 
