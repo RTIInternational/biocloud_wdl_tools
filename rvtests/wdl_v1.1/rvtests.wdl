@@ -89,12 +89,12 @@ task rvtests {
             ~{if inverseNormal then '--inverseNormal' else ''}
             ~{if useResidualAsPhenotype then '--useResidualAsPhenotype' else ''} \
             ~{if xHemi then '--xHemi' else ''} \
-            ~{covarsPrefix} ~{sep(",", covarsMaybe)} \
-            ~{singlePrefix} ~{sep(",", singleTestsMaybe)} \
-            ~{burdenPrefix} ~{sep(",", burdenTestsMaybe)} \
-            ~{vtPrefix} ~{sep(",", vtTestsMaybe)} \
-            ~{kernelPrefix} ~{sep(",", kernelTestsMaybe)} \
-            ~{metaPrefix} ~{sep(",", metaTestsMaybe)} \
+            ~{covarsPrefix} ~{sep(",", select_all(covarsMaybe))} \
+            ~{singlePrefix} ~{sep(",", select_all(singleTestsMaybe))} \
+            ~{burdenPrefix} ~{sep(",", select_all(burdenTestsMaybe))} \
+            ~{vtPrefix} ~{sep(",", select_all(vtTestsMaybe))} \
+            ~{kernelPrefix} ~{sep(",", select_all(kernelTestsMaybe))} \
+            ~{metaPrefix} ~{sep(",", select_all(metaTestsMaybe))} \
             ~{ "--peopleIncludeFile " + peopleIncludeFile } \
             ~{ "--freqUpper " + freqUpper} \
             ~{ "--freqLower " + freqLower} \
