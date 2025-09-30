@@ -107,9 +107,9 @@ task rvtests {
             ~{ "--impute " +  impute } \
             ~{if imputePheno then '--imputePheno' else ''} \
             ~{ "--geneFile " +  geneFile } \
-            ~{genesPrefix} ~{sep(",", genes)} \
+            ~{genesPrefix} ~{sep(",", select_first([genes, []]))} \
             ~{ "--setFile " +  setFile } \
-            ~{setPrefix} ~{sep(",", set)} \
+            ~{setPrefix} ~{sep(",", select_first([set, []]))} \
             ~{ "--kinship " +  kinship } \
             ~{ "--xHemiKinship " +  xHemiKinship } \
             ~{ "--kinshipEigen " +  kinshipEigen } \
