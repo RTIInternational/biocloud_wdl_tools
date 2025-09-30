@@ -73,7 +73,9 @@ task rvtests {
     command <<<
         set -e
         
-        rvtest --inVcf ~{inVCF} \
+        rvtest \
+            --noweb \
+            --inVcf ~{inVCF} \
 	        --out ~{output_basename} \
 	        --pheno ~{phenoFile} \
 		    ~{"--pheno-name " + phenoName} \
