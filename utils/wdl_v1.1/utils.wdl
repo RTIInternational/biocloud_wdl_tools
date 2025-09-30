@@ -773,7 +773,7 @@ task gunzip{
         String output_filename = select_first([user_filename, default_filename])
 
         String docker_image = "rtibiocloud/pigz:v2.4_b243f9"
-        String ecr_image = "404545384114.dkr.ecr.us-east-1.amazonaws.com/rtibiocloud/pigz:v2.4_b243f9"
+        String ecr_image = "rtibiocloud/pigz:v2.4_b243f9"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"

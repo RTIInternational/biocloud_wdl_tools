@@ -16,7 +16,7 @@ task make_gwas_summary_stats {
 
         # Runtime options
         String docker_image = "rtibiocloud/make_gwas_summary_stats:v2.1.1_b267615"
-        String ecr_image = "rtibiocloud/make_gwas_summary_stats:v2.1_aa06202"
+        String ecr_image = "rtibiocloud/make_gwas_summary_stats:v2.1.1_b267615"
         String image_source = "docker"
         String? ecr_repo
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
