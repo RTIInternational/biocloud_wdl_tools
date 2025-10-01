@@ -84,11 +84,11 @@ task rvtests {
 		    ~{"--xLabel " + xLabel } \
 		    ~{"--xParRegion " + xParRegion } \
 		    ~{"--dosage " + dosage } \
-            ~{if outputRaw then '--outputRaw' else ''}
-            ~{if sex then '--sex' else ''}
-            ~{if qtl then '--qtl' else ''}
-            ~{if multipleAllele then '--multipleAllele' else ''}
-            ~{if inverseNormal then '--inverseNormal' else ''}
+            ~{if outputRaw then '--outputRaw' else ''} \
+            ~{if sex then '--sex' else ''} \
+            ~{if qtl then '--qtl' else ''} \
+            ~{if multipleAllele then '--multipleAllele' else ''} \
+            ~{if inverseNormal then '--inverseNormal' else ''} \
             ~{if useResidualAsPhenotype then '--useResidualAsPhenotype' else ''} \
             ~{if xHemi then '--xHemi' else ''} \
             ~{covarsPrefix} ~{sep(",", select_first([covarsMaybe, []]))} \
