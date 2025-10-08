@@ -92,7 +92,7 @@ task tsv_filter{
 
         # Unzip tsv input file if necessary
         if [[ ~{tsv_input} =~ \.gz$ ]]; then
-            log_info "~{tsv_input} is gzipped. Unzipping..."
+            echo "~{tsv_input} is gzipped. Unzipping..."
             gunzip -c ~{tsv_input} > input.txt
             input_file=input.txt
         fi
@@ -147,7 +147,7 @@ task tsv_select{
 
         # Unzip tsv input file if necessary
         if [[ ~{tsv_input} =~ \.gz$ ]]; then
-            log_info "~{tsv_input} is gzipped. Unzipping..."
+            echo "~{tsv_input} is gzipped. Unzipping..."
             gunzip -c ~{tsv_input} > input.txt
             input_file=input.txt
         fi
@@ -208,14 +208,14 @@ task tsv_join{
 
         # Unzip tsv input file if necessary
         if [[ ~{tsv_input} =~ \.gz$ ]]; then
-            log_info "~{tsv_input} is gzipped. Unzipping..."
+            echo "~{tsv_input} is gzipped. Unzipping..."
             gunzip -c ~{tsv_input} > input.txt
             input_file=input.txt
         fi
 
         # Unzip filter file if necessary
         if [[ ~{tsv_filter_file} =~ \.gz$ ]]; then
-            log_info "~{tsv_filter_file} is gzipped. Unzipping..."
+            echo "~{tsv_filter_file} is gzipped. Unzipping..."
             gunzip -c ~{tsv_filter_file} > filter_input.txt
             filter_file=filter_input.txt
         fi

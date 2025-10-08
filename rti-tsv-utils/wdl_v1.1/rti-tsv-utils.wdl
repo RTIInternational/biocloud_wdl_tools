@@ -136,9 +136,15 @@ task tsv_append{
     }
 
     command <<<
+        set -e
+        touch ~{output_prefix}.tsv
 
         # Write header
-        head -n ~{header_row_count} ~{input_files[0]} > ~{output_prefix}.tsv
+        if [[ ~{input_files[0]} =~ \.gz$ ]]; then
+            gunzip -c ~{input_files[0]} | head -n ~{header_row_count} > ~{output_prefix}.tsv
+        else
+            head -n ~{header_row_count} ~{input_files[0]} > ~{output_prefix}.tsv
+        fi
 
         # Append data rows
         first_data_row=$((~{header_row_count} + 1))
@@ -149,10 +155,6 @@ task tsv_append{
                 tail -n +$first_data_row $file >> ~{output_prefix}.tsv
             fi
         done
-
-        # Zip output file
-        gzip ~{output_prefix}.tsv
-
     >>>
 
     runtime {
@@ -163,6 +165,6 @@ task tsv_append{
     }
 
     output{
-        File out_tsv = "~{output_prefix}.tsv.gz"
+        File out_tsv = select_first(["~{output_prefix}.tsv"])
     }
 }

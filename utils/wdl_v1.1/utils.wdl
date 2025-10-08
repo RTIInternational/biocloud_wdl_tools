@@ -734,9 +734,7 @@ task gzip{
 
     input{
         File input_file
-        String? user_filename
-        String default_filename = basename(input_file) + ".gz"
-        String output_filename = select_first([user_filename, default_filename])
+        String output_filename = basename(input_file) + ".gz"
 
         String docker_image = "rtibiocloud/pigz:v2.4_b243f9"
         String ecr_image = "rtibiocloud/pigz:v2.4_b243f9"
@@ -750,17 +748,17 @@ task gzip{
 
     command <<<
         set -e
-        pigz -ck -p${cpu} ${input_file} > ${output_filename}
+        pigz -ck -p~{cpu} "~{input_file}" > "~{output_filename}"
     >>>
 
     runtime {
         docker: container_image
         cpu: cpu
-        memory: "${mem_gb} GB"
+        memory: "~{mem_gb} GB"
     }
 
     output{
-        File output_file = "${output_filename}"
+        File output_file = "~{output_filename}"
     }
 }
 
@@ -768,9 +766,7 @@ task gunzip{
 
     input{
         File input_file
-        String? user_filename
-        String default_filename = basename(input_file, ".gz")
-        String output_filename = select_first([user_filename, default_filename])
+        String output_filename = basename(input_file, ".gz")
 
         String docker_image = "rtibiocloud/pigz:v2.4_b243f9"
         String ecr_image = "rtibiocloud/pigz:v2.4_b243f9"
@@ -783,16 +779,48 @@ task gunzip{
 
     command <<<
         set -e
-        unpigz -ck -p${cpu} ${input_file} > ${output_filename}
+        unpigz -ck -p~{cpu} "~{input_file}" > "~{output_filename}"
     >>>
 
     runtime {
         docker: container_image
         cpu: cpu
-        memory: "${mem_gb} GB"
+        memory: "~{mem_gb} GB"
     }
 
     output{
-        File output_file = "${output_filename}"
+        File output_file = "~{output_filename}"
+    }
+}
+
+task format_float_sig_digits{
+    # Format a float to a specific number of significant digits
+
+    input{
+        Float input_float
+        Int significant_digits = 3
+
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+    }
+
+    command <<<
+        set -e
+        printf "%.*g\n" ~{significant_digits} ~{input_float} > formatted_float.txt
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+    }
+
+    output{
+        String formatted_float = read_string("formatted_float.txt")
     }
 }
