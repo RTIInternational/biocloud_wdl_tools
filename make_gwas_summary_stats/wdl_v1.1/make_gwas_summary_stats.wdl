@@ -12,11 +12,10 @@ task make_gwas_summary_stats {
 
         # Optional pop maf files to add pop MAFs from
         File? file_in_pop_mafs
-        String? population
 
         # Runtime options
-        String docker_image = "rtibiocloud/make_gwas_summary_stats:v2.1.2_c80fced"
-        String ecr_image = "rtibiocloud/make_gwas_summary_stats:v2.1.2_c80fced"
+        String docker_image = "rtibiocloud/make_gwas_summary_stats:v2.1.2_936755e"
+        String ecr_image = "rtibiocloud/make_gwas_summary_stats:v2.1.2_936755e"
         String image_source = "docker"
         String? ecr_repo
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -32,7 +31,6 @@ task make_gwas_summary_stats {
             --file_in_summary_stats_format ~{file_in_summary_stats_format} \
             --file_in_info_format ~{file_in_info_format} \
             ~{"--file_in_pop_mafs " + file_in_pop_mafs} \
-            ~{"--population " + population} \
             --file_out_prefix ~{file_out_prefix} \
             --chunk_size ~{chunk_size}
     >>>
