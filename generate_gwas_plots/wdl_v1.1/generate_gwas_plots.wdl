@@ -113,7 +113,7 @@ task generate_gwas_plots{
             ~{if qq_lines then '--qq_lines ' else ''} \
             ~{if qq_significance_line then '--qq_significance_line ' else ''} \
             ~{'--manhattan_ylim ' + manhattan_ylim} \
-            ~{'--manhattan_no_line ' + manhattan_no_line} \
+            ~{if manhattan_no_line then '--manhattan_no_line ' else ''} \
             ~{'--manhattan_odd_chr_color ' + manhattan_odd_chr_color} \
             ~{'--manhattan_even_chr_color ' + manhattan_even_chr_color} \
             ~{'--manhattan_highlight_chr_color ' + manhattan_highlight_chr_color} \
