@@ -1,0 +1,10 @@
+{
+  "test_metal_i.metal_command_file": "s3://rti-cromwell-output/cromwell-execution/test_make_metal_command_file/e7af0cf0-039b-4d25-9722-9a8635790d3d/call-make_metal_commmand_file/metal.cmd",
+  "test_metal_i.sum_stats_files": [
+    "s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/afr/ukb_fev1_vitd_2df_afr_rsq_0.3_sampleMAF_0.01.tsv.gz",
+    "s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/eas/ukb_fev1_vitd_2df_eas_rsq_0.3_sampleMAF_0.01.tsv.gz",
+    "s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/eur/ukb_fev1_vitd_2df_eur_rsq_0.3_sampleMAF_0.01.tsv.gz",
+    "s3://rti-pulmonary/gwas/ukbiobank/results/fev1/0005/sas/ukb_fev1_vitd_2df_sas_rsq_0.3_sampleMAF_0.01.tsv.gz"
+  ],
+  "test_metal_i.output_file": "metal.tsv"
+}
