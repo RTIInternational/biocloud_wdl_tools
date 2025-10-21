@@ -8,21 +8,23 @@ task tsv_join{
         File left_file
         String left_on
         String? left_sep
-        String? left_cols
+        String? left_keep_cols
+        String? left_remove_cols
         String? left_suffix
         Array[File] right_files
-        String right_ons
-        String? right_seps
-        String? right_cols
-        String? right_suffixes
-        String? hows
+        Array[String] right_ons
+        Array[String] right_suffixes
+        Array[String] right_seps = []
+        Array[String] right_keep_cols = []
+        Array[String] right_remove_cols = []
+        Array[String] hows = []
         String out_prefix
-        Boolean? sort
+        Boolean sort = false
         Int? chunk_size
 
         # Runtime environment
-        String docker_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
-        String ecr_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+        String docker_image = "rtibiocloud/rti-tsv-utils:v1_b26e19a"
+        String ecr_image = "rtibiocloud/rti-tsv-utils:v1_b26e19a"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -35,19 +37,21 @@ task tsv_join{
     command <<<
 
         python /opt/rti-tsv-utils-join.py \
-            --in-file-left ~{left_file} \
-            ~{"--in-file-left-sep " + left_sep} \
-            ~{"--in-file-left-cols " + left_cols} \
+            --left-file ~{left_file} \
             --left-on ~{left_on} \
+            ~{"--left-sep " + left_sep} \
+            ~{"--left-keep-cols " + left_keep_cols} \
+            ~{"--left-remove-cols " + left_remove_cols} \
             ~{"--left-suffix " + left_suffix} \
-            --in-file-right ~{sep=" " right_files} \
-            ~{"--in-file-right-sep " + right_seps} \
-            ~{"--in-file-right-cols " + right_cols} \
-            --right-on ~{right_ons} \
-            ~{"--right-suffix " + right_suffixes} \
-            ~{"--how " + hows} \
-            --out-file-prefix ~{out_prefix} \
-            ~{true="--sort" false="--no-sort" sort} \
+            --right-files ~{sep(" ", right_files)} \
+            --right-ons ~{sep(" ", right_ons)} \
+            --right-suffixes ~{sep(" ", right_suffixes)} \
+            ~{if (length(right_seps) > 0) then ("--right-seps " + sep(" ", right_seps)) else ""} \
+            ~{if (length(right_keep_cols) > 0) then ("--right-keep-cols " + sep(" ", right_keep_cols)) else ""} \
+            ~{if (length(right_remove_cols) > 0) then ("--right-remove-cols " + sep(" ", right_remove_cols)) else ""} \
+            ~{if (length(hows) > 0) then ("--hows " + sep(" ", hows)) else ""} \
+            --out-prefix ~{out_prefix} \
+            ~{if (sort) then "--sort" else "--no-sort"} \
             ~{"--chunk-size " + chunk_size}
 
     >>>
@@ -77,8 +81,8 @@ task tsv_sort{
         Boolean ascending = true
 
         # Runtime environment
-        String docker_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
-        String ecr_image = "rtibiocloud/rti-tsv-utils:v1_fcb9291"
+        String docker_image = "rtibiocloud/rti-tsv-utils:v1_b26e19a"
+        String ecr_image = "rtibiocloud/rti-tsv-utils:v1_b26e19a"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -95,7 +99,7 @@ task tsv_sort{
             ~{"--cols " + cols} \
             --out-prefix ~{out_prefix} \
             ~{"--in-file-sep " + in_file_sep} \
-            ~{true="--ascending" false="--descending" ascending} \
+            ~{if (ascending) then "--ascending" else "--descending"} \
             --out-file-compression gzip
 
     >>>
