@@ -12,7 +12,7 @@ task metal {
     Array[String] ref_allele_col_names
     Array[String] alt_allele_col_names
     Array[String] effect_col_names
-    Array[String] freq_col_names
+    Array[String] freq_col_names = []
 
     # METAL input file sample size weighted meta parameters
     Array[String] pvalue_col_names = []
@@ -61,7 +61,7 @@ task metal {
       --ref_allele_col_names ~{sep(",", ref_allele_col_names)} \
       --alt_allele_col_names ~{sep(",", alt_allele_col_names)} \
       --effect_col_names ~{sep(",", effect_col_names)} \
-      --freq_col_names ~{sep(",", freq_col_names)} \
+      ~{if (length(freq_col_names) > 0) then ("--freq_col_names " + sep(",", freq_col_names)) else ""} \
       ~{if (length(pvalue_col_names) > 0) then ("--pvalue_col_names " + sep(",", pvalue_col_names)) else ""} \
       ~{if (length(weight_col_names) > 0) then ("--weight_col_names " + sep(",", weight_col_names)) else ""} \
       ~{if (length(std_err_col_names) > 0) then ("--std_err_col_names " + sep(",", std_err_col_names)) else ""} \
