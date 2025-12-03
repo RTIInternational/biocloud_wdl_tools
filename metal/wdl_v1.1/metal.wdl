@@ -38,8 +38,8 @@ task metal {
     String metal_command_file = "metal.cmd"
 
     # Runtime options
-    String docker_image = "rtibiocloud/metal:v2020.05.05_14c2505"
-    String ecr_image = "rtibiocloud/metal:v2020.05.05_14c2505"
+    String docker_image = "rtibiocloud/metal:v2020.05.05_7d56ba4"
+    String ecr_image = "rtibiocloud/metal:v2020.05.05_7d56ba4"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
