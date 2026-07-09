@@ -13,7 +13,7 @@ task assign_ancestry_mahalanobis {
         Int use_pcs_count = 10
         String midpoint_formula = "median"
         Int? std_dev_cutoff
-        Boolean? scale_to_ref = false
+        Boolean scale_to_ref = false
 
         # Runtime environment
         String docker_image = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
