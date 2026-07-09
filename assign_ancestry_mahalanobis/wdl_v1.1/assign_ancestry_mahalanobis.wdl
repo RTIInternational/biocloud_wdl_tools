@@ -13,6 +13,7 @@ task assign_ancestry_mahalanobis {
         Int use_pcs_count = 10
         String midpoint_formula = "median"
         Int? std_dev_cutoff
+        Boolean? scale_to_ref = false
 
         # Runtime environment
         String docker_image = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
@@ -37,7 +38,8 @@ task assign_ancestry_mahalanobis {
             --out-dir "" \
             --use-pcs-count ~{use_pcs_count} \
             --midpoint-formula "~{midpoint_formula}" \
-            ~{'--std-dev-cutoff ' + std_dev_cutoff}
+            ~{'--std-dev-cutoff ' + std_dev_cutoff} \
+            ~{if scale_to_ref then '--scale-to-ref' else ''}
     >>>
 
     runtime{
