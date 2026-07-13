@@ -12,12 +12,12 @@ task assign_ancestry_mahalanobis {
         Array[String] ref_pops_legend_labels
         Int use_pcs_count = 10
         String midpoint_formula = "median"
-        Int? std_dev_cutoff
+        Array[Int] std_dev_cutoffs = [2,3,4]
         Boolean scale_to_ref = false
 
         # Runtime environment
-        String docker_image = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
-        String ecr_image = "rtibiocloud/assign_ancestry_mahalanobis:v1_5a4fd59"
+        String docker_image = "rtibiocloud/assign_ancestry_mahalanobis:v1.1_1930ba9"
+        String ecr_image = "rtibiocloud/assign_ancestry_mahalanobis:v1.1_1930ba9"
         String? ecr_repo
         String image_source = "docker"
         String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -38,7 +38,7 @@ task assign_ancestry_mahalanobis {
             --out-dir "" \
             --use-pcs-count ~{use_pcs_count} \
             --midpoint-formula "~{midpoint_formula}" \
-            ~{'--std-dev-cutoff ' + std_dev_cutoff} \
+            --std-dev-cutoffs "~{sep=',' std_dev_cutoffs}" \
             ~{if scale_to_ref then '--scale-to-ref' else ''}
     >>>
 
@@ -50,12 +50,12 @@ task assign_ancestry_mahalanobis {
     }
 
     output {
-        Array[File] pre_processing_pc_plots  = glob("*_pc1_pc2_pc3.png")
-        File ref_dropped_samples  = "ref_dropped_samples.tsv"
-        File ref_raw_ancestry_assignments = "ref_raw_ancestry_assignments.tsv"
-        File ref_raw_ancestry_assignments_summary = "ref_raw_ancestry_assignments_summary.tsv"
-        File dataset_ancestry_assignments = "~{dataset}_raw_ancestry_assignments.tsv"
+        File dataset_ancestry_assignments = "~{dataset}_ancestry_assignments.tsv"
         File dataset_ancestry_assignments_summary = "~{dataset}_ancestry_assignments_summary.tsv"
+        File ref_ancestry_assignments = "ref_ancestry_assignments.tsv"
+        File ref_ancestry_assignments_summary = "ref_ancestry_assignments_summary.tsv"
+        File ref_dropped_samples  = "ref_dropped_samples.tsv"
+        Array[File] pre_processing_pc_plots  = glob("*_pc1_pc2_pc3.png")
         Array[File] dataset_ancestry_assignments_plots = glob("~{dataset}*ancestry_assignments.png")
         Array[File] dataset_ancestry_outliers_plots = glob("~{dataset}*outliers.png")
         Array[File] dataset_ancestry_keep_lists = glob("~{dataset}*_keep.tsv")
