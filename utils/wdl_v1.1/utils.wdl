@@ -222,7 +222,7 @@ task wc{
 }
 
 task get_file_size{
-    # Get file size in bytes
+    # Get file size in bytes, KB, MB, and GB
 
     input {
 
@@ -241,7 +241,12 @@ task get_file_size{
 
     command <<<
         set -e
-        stat -c%s ~{input_file} > file_size.txt
+        bytes=$(stat -c%s ~{input_file})
+        echo "$bytes" > file_size.txt
+
+        awk -v b="$bytes" 'BEGIN { printf "%.6f\n", b/1024 }' > file_size_kb.txt
+        awk -v b="$bytes" 'BEGIN { printf "%.6f\n", b/1048576 }' > file_size_mb.txt
+        awk -v b="$bytes" 'BEGIN { printf "%.6f\n", b/1073741824 }' > file_size_gb.txt
     >>>
 
     runtime {
@@ -252,11 +257,14 @@ task get_file_size{
 
     output {
         Int file_size_bytes = read_int("file_size.txt")
+        Float file_size_kb = read_float("file_size_kb.txt")
+        Float file_size_mb = read_float("file_size_mb.txt")
+        Float file_size_gb = read_float("file_size_gb.txt")
     }
 }
 
 task get_total_file_size{
-    # Get total size in bytes for an array of files
+    # Get total size in bytes, KB, MB, and GB for an array of files
 
     input {
 
@@ -281,6 +289,10 @@ task get_total_file_size{
             total=$((total + size))
         done
         echo "$total" > total_file_size.txt
+
+        awk -v b="$total" 'BEGIN { printf "%.6f\n", b/1024 }' > total_file_size_kb.txt
+        awk -v b="$total" 'BEGIN { printf "%.6f\n", b/1048576 }' > total_file_size_mb.txt
+        awk -v b="$total" 'BEGIN { printf "%.6f\n", b/1073741824 }' > total_file_size_gb.txt
     >>>
 
     runtime {
@@ -291,6 +303,9 @@ task get_total_file_size{
 
     output {
         Int total_file_size_bytes = read_int("total_file_size.txt")
+        Float total_file_size_kb = read_float("total_file_size_kb.txt")
+        Float total_file_size_mb = read_float("total_file_size_mb.txt")
+        Float total_file_size_gb = read_float("total_file_size_gb.txt")
     }
 }
 
