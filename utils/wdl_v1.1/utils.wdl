@@ -221,6 +221,79 @@ task wc{
     }
 }
 
+task get_file_size{
+    # Get file size in bytes
+
+    input {
+
+        File input_file
+
+        # Runtime environment
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+
+    }
+
+    command <<<
+        set -e
+        stat -c%s ~{input_file} > file_size.txt
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+    }
+
+    output {
+        Int file_size_bytes = read_int("file_size.txt")
+    }
+}
+
+task get_total_file_size{
+    # Get total size in bytes for an array of files
+
+    input {
+
+        Array[File] input_files
+
+        # Runtime environment
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+
+    }
+
+    command <<<
+        set -e
+        total=0
+        for file in ~{sep(" ", input_files)}; do
+            size=$(stat -c%s "$file")
+            total=$((total + size))
+        done
+        echo "$total" > total_file_size.txt
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+    }
+
+    output {
+        Int total_file_size_bytes = read_int("total_file_size.txt")
+    }
+}
+
 task cut{
 
     input {
