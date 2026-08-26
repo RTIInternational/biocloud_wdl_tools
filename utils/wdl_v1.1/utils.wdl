@@ -916,3 +916,36 @@ task format_float_sig_digits{
         String formatted_float = read_string("formatted_float.txt")
     }
 }
+
+task round_power_of_two_minus_one {
+  input {
+    Float input_value
+  }
+
+  command <<<
+    set -euo pipefail
+
+    awk -v x="~{input_value}" 'BEGIN {
+      if (x <= 1) {
+        print 1;
+        exit;
+      }
+
+      n = 1;
+      while ((n - 1) < x) {
+        n *= 2;
+      }
+      print n - 1;
+    }' > rounded_value.txt
+  >>>
+
+  output {
+    Int rounded_value = read_int("rounded_value.txt")
+  }
+
+  runtime {
+    docker: "ubuntu:22.04"
+    cpu: 1
+    memory: "1G"
+  }
+}
