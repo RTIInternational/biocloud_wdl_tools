@@ -18,7 +18,7 @@ task gsem_munge {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -38,7 +38,7 @@ task gsem_munge {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -64,7 +64,7 @@ task gsem_munge {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -83,7 +83,7 @@ task gsem_ldsc {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -100,7 +100,7 @@ task gsem_ldsc {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -124,7 +124,7 @@ task gsem_ldsc {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -146,7 +146,7 @@ task gsem_s_ldsc {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -166,7 +166,7 @@ task gsem_s_ldsc {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -193,7 +193,7 @@ task gsem_s_ldsc {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: mem_gb
   }
 }
 
@@ -219,7 +219,7 @@ task gsem_sumstats {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -243,7 +243,7 @@ task gsem_sumstats {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -273,7 +273,7 @@ task gsem_sumstats {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -288,7 +288,7 @@ task gsem_commonfactor {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -320,7 +320,7 @@ task gsem_commonfactor {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -344,7 +344,7 @@ task gsem_commonfactorgwas {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -366,7 +366,7 @@ task gsem_commonfactorgwas {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -394,7 +394,7 @@ task gsem_commonfactorgwas {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -424,7 +424,7 @@ task gsem_usergwas {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -452,7 +452,7 @@ task gsem_usergwas {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -486,7 +486,7 @@ task gsem_usergwas {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -508,7 +508,7 @@ task gsem_usermodel {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -554,7 +554,7 @@ task gsem_usermodel {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -577,7 +577,7 @@ task gsem_enrich {
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
     Int cpu = 1
-    String memory = "8G"
+    Int mem_gb = 8
   }
 
   parameter_meta {
@@ -625,6 +625,6 @@ task gsem_enrich {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: memory
+    memory: "~{mem_gb}G"
   }
 }
