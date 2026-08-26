@@ -193,7 +193,7 @@ task gsem_s_ldsc {
   runtime {
     docker: container_image
     cpu: cpu
-    memory: mem_gb
+    memory: "~{mem_gb}G"
   }
 }
 
@@ -301,7 +301,7 @@ task gsem_commonfactor {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -528,7 +528,7 @@ task gsem_usermodel {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
@@ -598,7 +598,7 @@ task gsem_enrich {
     image_source: "Container source selector: docker or ecr."
     container_image: "Resolved container image string used at runtime."
     cpu: "Requested CPU cores for the task runtime."
-    memory: "Requested memory for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
   }
 
   command <<<
