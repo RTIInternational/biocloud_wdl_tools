@@ -309,6 +309,48 @@ task get_total_file_size{
     }
 }
 
+task get_directory_size{
+    # Get directory size in bytes, KB, MB, and GB
+
+    input {
+
+        String input_dir
+
+        # Runtime environment
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 1
+
+    }
+
+    command <<<
+        set -e
+        bytes=$(du -sb "~{input_dir}" | awk '{print $1}')
+        echo "$bytes" > directory_size.txt
+
+        awk -v b="$bytes" 'BEGIN { printf "%.6f\n", b/1024 }' > directory_size_kb.txt
+        awk -v b="$bytes" 'BEGIN { printf "%.6f\n", b/1048576 }' > directory_size_mb.txt
+        awk -v b="$bytes" 'BEGIN { printf "%.6f\n", b/1073741824 }' > directory_size_gb.txt
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+    }
+
+    output {
+        Int directory_size_bytes = read_int("directory_size.txt")
+        Float directory_size_kb = read_float("directory_size_kb.txt")
+        Float directory_size_mb = read_float("directory_size_mb.txt")
+        Float directory_size_gb = read_float("directory_size_gb.txt")
+    }
+}
+
 task cut{
 
     input {
