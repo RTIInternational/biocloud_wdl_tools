@@ -710,7 +710,7 @@ task shuf{
 
     command <<<
         set -e
-        shuf ~{"-n " + n} ~{input_file}  > ~{output_filename}
+        shuf ~{if defined(n) then "-n ~{n}" else ""} ~{input_file}  > ~{output_filename}
     >>>
 
     runtime {
@@ -744,7 +744,7 @@ task sum_ints {
 
     command <<<
         set -e
-        echo $((~{sep("+", ints)})) > "sum.txt"
+        echo $((~{sep("+", prefix("", ints))})) > "sum.txt"
     >>>
     
     runtime {
@@ -815,6 +815,12 @@ task rename_file{
         set -e
         cp ~{input_file} ~{output_filename}
     >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+    }
 
     output {
         File output_file = "~{output_filename}"
