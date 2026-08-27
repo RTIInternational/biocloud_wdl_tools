@@ -45,9 +45,9 @@ task gsem_munge {
     set -euo pipefail
 
     Rscript /opt/gsem_munge.R \
-      --sumstats_files "~{sep="," sumstats_files}" \
-      --trait_names "~{sep="," trait_names}" \
-      --sample_sizes "~{sep="," sample_sizes}" \
+      --sumstats_files "~{sep(",", sumstats_files)}" \
+      --trait_names "~{sep(",", trait_names)}" \
+      --sample_sizes "~{sep(",", prefix("", sample_sizes))}" \
       --ref_snp_list "~{ref_snp_list}" \
       --out_dir "~{out_dir}" \
       --info_filter ~{info_filter} \
@@ -107,10 +107,10 @@ task gsem_ldsc {
     set -euo pipefail
 
     Rscript /opt/gsem_ldsc.R \
-      --sumstats_files "~{sep="," sumstats_files}" \
-      --trait_names "~{sep="," trait_names}" \
-      --sample_prevs "~{sep="," sample_prevs}" \
-      --population_prevs "~{sep="," population_prevs}" \
+      --sumstats_files "~{sep(",", sumstats_files)}" \
+      --trait_names "~{sep(",", trait_names)}" \
+      --sample_prevs "~{sep(",", prefix("", sample_prevs))}" \
+      --population_prevs "~{sep(",", prefix("", population_prevs))}" \
       --ld_dir "~{ld_dir}" \
       --wld_dir "~{wld_dir}" \
       --output_prefix "~{output_prefix}"
@@ -173,10 +173,10 @@ task gsem_s_ldsc {
     set -euo pipefail
 
     Rscript /opt/gsem_s_ldsc.R \
-      --sumstats_files "~{sep="," sumstats_files}" \
-      --trait_names "~{sep="," trait_names}" \
-      --sample_prevs "~{sep="," sample_prevs}" \
-      --population_prevs "~{sep="," population_prevs}" \
+      --sumstats_files "~{sep(",", sumstats_files)}" \
+      --trait_names "~{sep(",", trait_names)}" \
+      --sample_prevs "~{sep(",", prefix("", sample_prevs))}" \
+      --population_prevs "~{sep(",", prefix("", population_prevs))}" \
       --ld_dir "~{ld_dir}" \
       --wld_dir "~{wld_dir}" \
       --frq_dir "~{frq_dir}" \
@@ -250,17 +250,17 @@ task gsem_sumstats {
     set -euo pipefail
 
     Rscript /opt/gsem_sumstats.R \
-      --sumstats_files "~{sep="," sumstats_files}" \
-      --trait_names "~{sep="," trait_names}" \
-      --sample_sizes "~{sep="," sample_sizes}" \
-      --se_logit "~{sep="," se_logit}" \
+      --sumstats_files "~{sep(",", sumstats_files)}" \
+      --trait_names "~{sep(",", trait_names)}" \
+      --sample_sizes "~{sep(",", prefix("", sample_sizes))}" \
+      --se_logit "~{sep(",", prefix("", se_logit))}" \
       --ref_snp_list "~{ref_snp_list}" \
       --output_prefix "~{output_prefix}" \
       --info_filter ~{info_filter} \
       --maf_filter ~{maf_filter} \
-      ~{if defined(ols) then "--ols \"~{sep="," ols}\"" else ""} \
-      ~{if defined(linprob) then "--linprob \"~{sep="," linprob}\"" else ""} \
-      ~{if defined(betas) then "--betas \"~{sep="," betas}\"" else ""} \
+      ~{if defined(ols) then "--ols \"~{sep(",", select_first([ols]))}\"" else ""} \
+      ~{if defined(linprob) then "--linprob \"~{sep(",", select_first([linprob]))}\"" else ""} \
+      ~{if defined(betas) then "--betas \"~{sep(",", select_first([betas]))}\"" else ""} \
       ~{if keep_indel then "--keep_indel" else ""} \
       ~{if parallel then "--parallel" else ""} \
       --cores ~{cores}
@@ -378,8 +378,8 @@ task gsem_commonfactorgwas {
       --estimation_method "~{estimation_method}" \
       --output_prefix "~{output_prefix}" \
       --gc "~{gc}" \
-      ~{if defined(toler) then "--toler " + select_first([toler]) else ""} \
-      ~{if defined(snpse) then "--snpse " + select_first([snpse]) else ""} \
+      ~{if defined(toler) then "--toler ~{select_first([toler])}" else ""} \
+      ~{if defined(snpse) then "--snpse ~{select_first([snpse])}" else ""} \
       ~{if mpi then "--mpi" else ""} \
       ~{if smooth_check then "--smooth_check" else ""} \
       ~{if twas then "--twas" else ""} \
@@ -466,9 +466,9 @@ task gsem_usergwas {
       --output_prefix "~{output_prefix}" \
       --gc "~{gc}" \
       ~{if not_printwarn then "--not_printwarn" else ""} \
-      ~{if defined(sub) then "--sub \"~{sep="," sub}\"" else ""} \
-      ~{if defined(toler) then "--toler " + select_first([toler]) else ""} \
-      ~{if defined(snpse) then "--snpse " + select_first([snpse]) else ""} \
+      ~{if defined(sub) then "--sub \"~{sep(",", select_first([sub]))}\"" else ""} \
+      ~{if defined(toler) then "--toler ~{select_first([toler])}" else ""} \
+      ~{if defined(snpse) then "--snpse ~{select_first([snpse])}" else ""} \
       ~{if mpi then "--mpi" else ""} \
       ~{if smooth_check then "--smooth_check" else ""} \
       ~{if twas then "--twas" else ""} \
@@ -543,7 +543,7 @@ task gsem_usermodel {
       ~{if std_lv then "--std_lv" else ""} \
       ~{if imp_cov then "--imp_cov" else ""} \
       ~{if fix_resid then "--fix_resid" else ""} \
-      ~{if defined(toler) then "--toler " + select_first([toler]) else ""} \
+      ~{if defined(toler) then "--toler ~{select_first([toler])}" else ""} \
       ~{if q_factor then "--q_factor" else ""}
   >>>
 
@@ -614,8 +614,8 @@ task gsem_enrich {
       ~{if not_rm_flank then "--not_rm_flank" else ""} \
       ~{if tau then "--tau" else ""} \
       ~{if not_base then "--not_base" else ""} \
-      ~{if defined(toler) then "--toler " + select_first([toler]) else ""} \
-      ~{if defined(fixparam) then "--fixparam \"" + select_first([fixparam]) + "\"" else ""}
+      ~{if defined(toler) then "--toler ~{select_first([toler])}" else ""} \
+      ~{if defined(fixparam) then "--fixparam \"~{select_first([fixparam])}\"" else ""}
   >>>
 
   output {
