@@ -12,8 +12,8 @@ task gsem_munge {
     Boolean parallel = false
     Int cores = 1
     Boolean no_overwrite = false
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -77,8 +77,8 @@ task gsem_ldsc {
     String ld_dir
     String wld_dir
     String output_prefix = "ldsc/gsem_ldsc_output"
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -140,8 +140,8 @@ task gsem_s_ldsc {
     String output_prefix = "s_ldsc/gsem_s_ldsc_output"
     Int n_blocks = 200
     Boolean include_cont = false
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -213,8 +213,8 @@ task gsem_sumstats {
     Boolean keep_indel = false
     Boolean parallel = false
     Int cores = 1
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -282,8 +282,8 @@ task gsem_commonfactor {
     File ldsc_rds
     String estimation_method = "DWLS"
     String output_prefix = "commonfactor/gsem_commonfactor_output"
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -338,8 +338,8 @@ task gsem_commonfactorgwas {
     Boolean twas = false
     Boolean parallel = false
     Int cores = 1
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -418,8 +418,8 @@ task gsem_usergwas {
     Boolean q_snp = false
     Boolean parallel = false
     Int cores = 1
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -502,8 +502,8 @@ task gsem_usermodel {
     Boolean fix_resid = false
     Float? toler
     Boolean q_factor = false
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -571,8 +571,8 @@ task gsem_enrich {
     Boolean not_base = false
     Float? toler
     File? fixparam
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_cd5b84f"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -620,6 +620,50 @@ task gsem_enrich {
 
   output {
     File enrich_rds = output_prefix + ".rds"
+  }
+
+  runtime {
+    docker: container_image
+    cpu: cpu
+    memory: "~{mem_gb}G"
+  }
+}
+
+task gsem_merge_rds {
+  input {
+    Array[File] rds_files
+    String output_prefix = "merged/gsem_merged_output"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String? ecr_repo
+    String image_source = "docker"
+    String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+    Int cpu = 1
+    Int mem_gb = 8
+  }
+
+  parameter_meta {
+    rds_files: "Input RDS files to merge into a single RDS."
+    output_prefix: "Output prefix used for merged .rds and optional .txt files."
+    docker_image: "Docker image name/tag used when image_source is docker."
+    ecr_image: "ECR image name/tag used when image_source is ecr."
+    ecr_repo: "Optional ECR repository URI prefix used with ecr_image."
+    image_source: "Container source selector: docker or ecr."
+    container_image: "Resolved container image string used at runtime."
+    cpu: "Requested CPU cores for the task runtime."
+    mem_gb: "Requested memory for the task runtime in GB."
+  }
+
+  command <<<
+    set -euo pipefail
+
+    Rscript /opt/gsem_merge_rds.R \
+      --rds_files "~{sep(",", rds_files)}" \
+      --output_prefix "~{output_prefix}"
+  >>>
+
+  output {
+    File merged_rds = output_prefix + ".rds"
   }
 
   runtime {
