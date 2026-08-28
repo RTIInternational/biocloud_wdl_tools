@@ -1,4 +1,4 @@
-version 1.1
+version development
 
 task gsem_munge {
   input {
@@ -74,8 +74,8 @@ task gsem_ldsc {
     Array[String] trait_names
     Array[Float] sample_prevs
     Array[Float] population_prevs
-    String ld_dir
-    String wld_dir
+    Directory ld_dir
+    Directory wld_dir
     String output_prefix = "ldsc/gsem_ldsc_output"
     String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
     String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
@@ -111,8 +111,8 @@ task gsem_ldsc {
       --trait_names "~{sep(",", trait_names)}" \
       --sample_prevs "~{sep(",", prefix("", sample_prevs))}" \
       --population_prevs "~{sep(",", prefix("", population_prevs))}" \
-      --ld_dir "~{ld_dir}" \
-      --wld_dir "~{wld_dir}" \
+      --ld_dir "~{to_string(ld_dir)}" \
+      --wld_dir "~{to_string(wld_dir)}" \
       --output_prefix "~{output_prefix}"
   >>>
 
@@ -134,9 +134,9 @@ task gsem_s_ldsc {
     Array[String] trait_names
     Array[Float] sample_prevs
     Array[Float] population_prevs
-    String ld_dir
-    String wld_dir
-    String frq_dir
+    Directory ld_dir
+    Directory wld_dir
+    Directory frq_dir
     String output_prefix = "s_ldsc/gsem_s_ldsc_output"
     Int n_blocks = 200
     Boolean include_cont = false
@@ -177,9 +177,9 @@ task gsem_s_ldsc {
       --trait_names "~{sep(",", trait_names)}" \
       --sample_prevs "~{sep(",", prefix("", sample_prevs))}" \
       --population_prevs "~{sep(",", prefix("", population_prevs))}" \
-      --ld_dir "~{ld_dir}" \
-      --wld_dir "~{wld_dir}" \
-      --frq_dir "~{frq_dir}" \
+      --ld_dir "~{to_string(ld_dir)}" \
+      --wld_dir "~{to_string(wld_dir)}" \
+      --frq_dir "~{to_string(frq_dir)}" \
       --output_prefix "~{output_prefix}" \
       --n_blocks ~{n_blocks} \
       ~{if include_cont then "--include_cont" else ""}
