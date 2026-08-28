@@ -268,6 +268,7 @@ task gsem_sumstats {
 
   output {
     File sumstats_rds = output_prefix + ".rds"
+    File sumstats_tsv = output_prefix + ".txt"
   }
 
   runtime {
@@ -327,7 +328,7 @@ task gsem_commonfactor {
 task gsem_commonfactorgwas {
   input {
     File ldsc_rds
-    File sumstats_rds
+    File sumstats
     String estimation_method = "DWLS"
     String output_prefix = "commonfactorgwas/gsem_commonfactorgwas_output"
     Float? toler
@@ -349,7 +350,7 @@ task gsem_commonfactorgwas {
 
   parameter_meta {
     ldsc_rds: "RDS containing LDSC covariance structure output."
-    sumstats_rds: "Summary statistics table file consumed by userGWAS()."
+    sumstats: "Summary statistics file (RDS or table format) consumed by userGWAS()."
     estimation_method: "Estimation method for common-factor GWAS (for example, DWLS)."
     output_prefix: "Output prefix for common-factor GWAS .rds result."
     toler: "Optional matrix inversion tolerance passed to userGWAS()."
@@ -374,7 +375,7 @@ task gsem_commonfactorgwas {
 
     Rscript /opt/gsem_commonfactorgwas.R \
       --ldsc_rds "~{ldsc_rds}" \
-      --sumstats_rds "~{sumstats_rds}" \
+      --sumstats "~{sumstats}" \
       --estimation_method "~{estimation_method}" \
       --output_prefix "~{output_prefix}" \
       --gc "~{gc}" \
@@ -401,7 +402,7 @@ task gsem_commonfactorgwas {
 task gsem_usergwas {
   input {
     File ldsc_rds
-    File sumstats_rds
+    File sumstats
     File model_lavaan
     String estimation_method = "DWLS"
     String output_prefix = "usergwas/gsem_usergwas_output"
@@ -429,7 +430,7 @@ task gsem_usergwas {
 
   parameter_meta {
     ldsc_rds: "RDS containing LDSC covariance structure output."
-    sumstats_rds: "Summary statistics table file consumed by userGWAS()."
+    sumstats: "Summary statistics file (RDS or table format) consumed by userGWAS()."
     model_lavaan: "Lavaan model file defining the user GWAS model."
     estimation_method: "Estimation method for userGWAS (for example, DWLS)."
     output_prefix: "Output prefix for user-model GWAS .rds result."
@@ -460,7 +461,7 @@ task gsem_usergwas {
 
     Rscript /opt/gsem_usergwas.R \
       --ldsc_rds "~{ldsc_rds}" \
-      --sumstats_rds "~{sumstats_rds}" \
+      --sumstats "~{sumstats}" \
       --model_lavaan "~{model_lavaan}" \
       --estimation_method "~{estimation_method}" \
       --output_prefix "~{output_prefix}" \
