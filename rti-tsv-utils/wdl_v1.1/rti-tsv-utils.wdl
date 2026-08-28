@@ -172,3 +172,70 @@ task tsv_append{
         File out_tsv = select_first(["~{output_prefix}.tsv"])
     }
 }
+
+task tsv_split{
+    # TSV utility for splitting a TSV file into chunks while preserving the header row
+
+    input {
+
+        File input_file
+        Int lines_per_split
+        String output_prefix
+        Int header_row_count = 1
+        Boolean compress_outputs = false
+
+        # Runtime environment
+        String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+        String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+        String? ecr_repo
+        String image_source = "docker"
+        String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+        Int cpu = 1
+        Int mem_gb = 2
+        Int max_retries = 3
+
+    }
+
+    command <<<
+        set -euo pipefail
+
+        # Extract header
+        if [[ ~{input_file} =~ \.gz$ ]]; then
+            gunzip -c ~{input_file} | head -n ~{header_row_count} > header.tsv
+        else
+            head -n ~{header_row_count} ~{input_file} > header.tsv
+        fi
+
+        # Split data rows (skipping header)
+        first_data_row=$((~{header_row_count} + 1))
+        if [[ ~{input_file} =~ \.gz$ ]]; then
+            gunzip -c ~{input_file} | tail -n +$first_data_row | split -l ~{lines_per_split} -d -a 5 - raw_split_
+        else
+            tail -n +$first_data_row ~{input_file} | split -l ~{lines_per_split} -d -a 5 - raw_split_
+        fi
+
+        # Prepend header to each split file and output
+        for split_chunk in raw_split_*; do
+            if [ -f "$split_chunk" ]; then
+                suffix="${split_chunk#raw_split_}"
+                out_chunk="~{output_prefix}.${suffix}.tsv"
+                cat header.tsv "$split_chunk" > "$out_chunk"
+                if [[ '~{compress_outputs}' == 'true' ]]; then
+                    gzip "$out_chunk"
+                fi
+                rm -f "$split_chunk"
+            fi
+        done
+    >>>
+
+    runtime {
+        docker: container_image
+        cpu: cpu
+        memory: "~{mem_gb} GB"
+        maxRetries: max_retries
+    }
+
+    output{
+        Array[File] split_files = glob("~{output_prefix}.*.tsv*")
+    }
+}
