@@ -926,6 +926,13 @@ task format_float_sig_digits{
 task round_power_of_two_minus_one {
   input {
     Float input_value
+    String docker_image = "ubuntu:22.04@sha256:19478ce7fc2ffbce89df29fea5725a8d12e57de52eb9ea570890dc5852aac1ac"
+    String ecr_image = "rtibiocloud/ubuntu:22.04_19478ce7fc2ff"
+    String? ecr_repo
+    String image_source = "docker"
+    String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
+    Int cpu = 1
+    Int mem_gb = 1
   }
 
   command <<<
@@ -950,8 +957,8 @@ task round_power_of_two_minus_one {
   }
 
   runtime {
-    docker: "ubuntu:22.04"
-    cpu: 1
-    memory: "1G"
+    docker: container_image
+    cpu: cpu
+    memory: "~{mem_gb} GB"
   }
 }
