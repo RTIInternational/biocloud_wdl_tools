@@ -196,8 +196,8 @@ task gsem_ldsc {
       --trait_names "~{sep(",", trait_names)}" \
       --sample_prevs "~{sep(",", prefix("", sample_prevs))}" \
       --population_prevs "~{sep(",", prefix("", population_prevs))}" \
-      --ld_dir "~{to_string(ld_dir)}" \
-      --wld_dir "~{to_string(wld_dir)}" \
+      --ld_dir "~{ld_dir}" \
+      --wld_dir "~{wld_dir}" \
       --output_prefix "~{output_prefix}"
   >>>
 
@@ -262,9 +262,9 @@ task gsem_s_ldsc {
       --trait_names "~{sep(",", trait_names)}" \
       --sample_prevs "~{sep(",", prefix("", sample_prevs))}" \
       --population_prevs "~{sep(",", prefix("", population_prevs))}" \
-      --ld_dir "~{to_string(ld_dir)}" \
-      --wld_dir "~{to_string(wld_dir)}" \
-      --frq_dir "~{to_string(frq_dir)}" \
+      --ld_dir "~{ld_dir}" \
+      --wld_dir "~{wld_dir}" \
+      --frq_dir "~{frq_dir}" \
       --output_prefix "~{output_prefix}" \
       --n_blocks ~{n_blocks} \
       ~{if include_cont then "--include_cont" else ""}
