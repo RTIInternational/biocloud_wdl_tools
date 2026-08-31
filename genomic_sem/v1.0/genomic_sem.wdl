@@ -20,8 +20,8 @@ task gsem_preprocessing {
     String sumstats_sep = "\t"
     
     # Runtime parameters
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -97,8 +97,8 @@ task gsem_munge {
     Boolean parallel = false
     Int cores = 1
     Boolean no_overwrite = false
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -162,8 +162,8 @@ task gsem_ldsc {
     Directory ld_dir
     Directory wld_dir
     String output_prefix = "ldsc/gsem_ldsc_output"
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -225,8 +225,8 @@ task gsem_s_ldsc {
     String output_prefix = "s_ldsc/gsem_s_ldsc_output"
     Int n_blocks = 200
     Boolean include_cont = false
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -298,8 +298,8 @@ task gsem_sumstats {
     Boolean keep_indel = false
     Boolean parallel = false
     Int cores = 1
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -368,8 +368,8 @@ task gsem_commonfactor {
     File ldsc_rds
     String estimation_method = "DWLS"
     String output_prefix = "commonfactor/gsem_commonfactor_output"
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -424,8 +424,8 @@ task gsem_commonfactorgwas {
     Boolean twas = false
     Boolean parallel = false
     Int cores = 1
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -506,8 +506,8 @@ task gsem_usergwas {
     Boolean q_snp = false
     Boolean parallel = false
     Int cores = 1
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -592,8 +592,8 @@ task gsem_usermodel {
     Boolean fix_resid = false
     Float? toler
     Boolean q_factor = false
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -661,8 +661,8 @@ task gsem_enrich {
     Boolean not_base = false
     Float? toler
     File? fixparam
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
@@ -724,8 +724,8 @@ task gsem_merge_rds {
     Array[File]? rds_files
     File? rds_file_list
     String output_prefix = "merged/gsem_merged_output"
-    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
-    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_1b51f08"
+    String docker_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
+    String ecr_image = "rtibiocloud/genomic_sem:v0.0.5c_f487973"
     String? ecr_repo
     String image_source = "docker"
     String container_image = if(image_source == "docker") then docker_image else "~{ecr_repo}/~{ecr_image}"
